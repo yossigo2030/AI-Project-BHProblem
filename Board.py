@@ -5,5 +5,3 @@ class Board:
         # domain: size of the blocks in each axis
         self.x_domain = 100
         self.y_domain = 100
-        self.enemies = list()
-        self.projectiles = list()
