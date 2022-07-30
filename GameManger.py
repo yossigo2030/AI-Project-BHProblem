@@ -11,4 +11,21 @@
 # move around and shoot
 
 # board has an array of enemies projectiles a player object and the limits
-#, in its update function we will track score and update the units locations
+# , in its update function we will track score and update the units locations
+import pygame
+
+# TODO: figure out the ratio with board
+running = True
+pygame.init()
+
+
+def game_loop():
+    color = (255,255,255)
+    pygame.draw.rect(screen, color, pygame.Rect(100, 100, 10, 10))
+    while running:
+        # Drawing Rectangle
+        pygame.display.flip()
+        pass
+
+if __name__ == '__main__':
+    game_loop()

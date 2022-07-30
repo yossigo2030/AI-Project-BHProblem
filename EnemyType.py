@@ -1,5 +1,5 @@
 
-class EnemyType:
+class EnemyType(Spritables):
 
     def __init__(self, location, health = 1):
         self.location = location
@@ -7,6 +7,6 @@ class EnemyType:
 
 
     # dir is a tuple that dictates the direction of enemy movment
-    @abstractmethod
-    def EnemyBehaivour(self):
+    @override
+    def update(self):
         return

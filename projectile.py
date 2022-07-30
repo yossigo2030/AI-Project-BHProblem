@@ -1,5 +1,5 @@
 
-class Projectile:
+class Projectile(Spritables):
 
     def __init__(self, location, direction = (0, -1), speed = 5):
         self.location = location
@@ -8,7 +8,8 @@ class Projectile:
 
 
     # dir is a tuple that dictates the direction of enemy movment
-    def ProjectileBehaivour(self):
+    @override
+    def update(self):
         oldloc = self.location
         self.location = self.location + self.dir
         return oldloc, self.location
