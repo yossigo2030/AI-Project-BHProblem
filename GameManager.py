@@ -15,7 +15,7 @@
 import pygame
 import Draw
 import Spriteables
-from Projectile import Projectile
+import Projectile
 
 import keybinds
 import Player
@@ -26,21 +26,20 @@ clock = pygame.time.Clock()
 # TODO: figure out the ratio with board
 running = True
 pygame.init()
-player = Player.Player((10, 10), r"resources\ship.png")
-EnemyType.EnemyShooter([100, 100],
-                       r"resources\en.png",
-                       MovementPatterns.StraightPattern((0, 1)),
-                       [MovementPatterns.StraightPattern((-1, 0))])
+player = Player.Player((0, 0), r"resources\ship.png")
+# EnemyType.EnemyShooter([100, 100],
+#                        r"resources\en.png",
+#                        MovementPatterns.StraightPattern((0, 1)),
+#                        [MovementPatterns.StraightPattern((-1, 0))])
 
 
 def game_loop():
     while running:
         # player input and actions
-        dir, shoot = keybinds.get_input()
-        player.action(dir, shoot)
+        player.update()
         # enemy moves and actions
-        EnemyType.EnemyType.update_all()
         Projectile.update_all()
+        EnemyType.update_all()
 
         # Discard objects that are out of bounds
         Spriteables.sprite_culling()
@@ -49,8 +48,8 @@ def game_loop():
 
         # screen visual updates
         Draw.redrawGameWindow()
-        EnemyType.EnemyType.draw_all()
         Projectile.draw_all()
+        EnemyType.draw_all()
         player.draw()
 
         pygame.display.flip()
