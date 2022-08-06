@@ -25,5 +25,5 @@ class Player(BulletHellSprite):
         self.curr_cd += 1
         if shoot and self.curr_cd > self.shot_cd:
             print("powpow")
-            Projectile(self.location, "resources\ship.png")
+            Projectile(self.location, "resources\\ball.png")
             self.curr_cd = 0
