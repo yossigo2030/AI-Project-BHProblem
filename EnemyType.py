@@ -30,7 +30,7 @@ class EnemyShooter(EnemyType):
         if self.cd.is_ready():
             self.cd.use()
             for pattern in self.projPatterns:
-                Projectile(self.location, "resources\\ball.png", pattern)
+                Projectile(self.location, "resources\\ball.png", movement_pattern=pattern)
 
 
 def update_all():
