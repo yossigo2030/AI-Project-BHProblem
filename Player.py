@@ -23,4 +23,4 @@ class Player(BulletHellSprite):
         self.cd.update()
         if shoot and self.cd.is_ready():
             self.cd.use()
-            Projectile(self.location, "resources\\ball.png", StraightPattern(Directions.Up(10)))
+            Projectile(self.location, "resources\\ball.png", StraightPattern(Directions.Up(10)), playerProjectile= True)
