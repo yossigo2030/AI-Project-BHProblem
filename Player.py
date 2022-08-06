@@ -29,7 +29,7 @@ class Player(BulletHellSprite):
 
     def update(self):
         super().update()
-        shoot = keybinds.get_shot()
+        shoot = InputHandler.get_shot()
 
         # Handle iFrames by removing the hitbox
         self.iframe.update()

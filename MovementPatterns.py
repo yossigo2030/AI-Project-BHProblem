@@ -61,7 +61,7 @@ class PlayerMovementPattern(MovePattern):
         self.imsize = image_size
 
     def get_next_position(self, current_position: Position):
-        direction = keybinds.get_input()
+        direction = InputHandler.get_input()
         new_loc = current_position + direction * self.speed
         final_loc = list(current_position)
         if not out_of_bounds_player((new_loc[0], current_position[1]), (self.imsize[0] / 2, self.imsize[1] / 2)):
