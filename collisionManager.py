@@ -9,8 +9,9 @@ def collision_check_enemies():
         for projectile in DataStructures.ProjectilePlayerGroup:
             if pygame.Rect.colliderect(enemy.get_hitbox(), projectile.get_hitbox()):
                 # kill proj, hit enemy, delete enemy if dead and add score
-                if(enemy.damage()):
+                if(enemy.hit(1)):
                     enemy.kill()
+                projectile.kill()
     return score
 
 def collision_check_player():

@@ -13,9 +13,14 @@ class Player(BulletHellSprite):
         PlayerSpriteGroup.add(self)
         self.cd = cooldown.cooldown(shoot_cd)
         self.speed = speed
+        self.health = 3
 
     def get_location(self):
         return self.location
+
+    def hit(self, dmg):
+        self.health -= dmg
+        return max(dmg, self.health)
 
     def update(self):  # TODO: change the direction implementation to return the dict, and pass that to PlayerMovementPattern via varargs, which will handle the bound checks. this function should probably be update instead of action.
         super().update()
