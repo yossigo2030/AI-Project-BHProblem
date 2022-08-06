@@ -22,7 +22,3 @@ class Player(BulletHellSprite):
         self.location += direction 
         if shoot:
             print("powpow")
-
-    def draw(self):
-        Draw.draw_sprite(self.image, self.location)
-        # Draw.draw_blank_square_at_loc(self.location)
