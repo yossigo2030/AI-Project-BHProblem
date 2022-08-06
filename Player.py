@@ -4,7 +4,7 @@ import cooldown
 from DataStructures import PlayerSpriteGroup, Directions
 from MovementPatterns import PlayerMovementPattern, StraightPattern
 from Projectile import Projectile
-from Spriteables import BulletHellSprite, out_of_bounds, out_of_bounds_player
+from Spriteables import BulletHellSprite
 
 
 class Player(BulletHellSprite):
@@ -13,19 +13,19 @@ class Player(BulletHellSprite):
         PlayerSpriteGroup.add(self)
         self.cd = cooldown.cooldown(shoot_cd)
         self.speed = speed
-        self.health = 3
+        self.lives = 3
 
     def get_location(self):
         return self.location
 
-    def hit(self, dmg):
-        self.health -= dmg
-        return max(dmg, self.health)
+    def on_hit(self):
+        self.lives -= 1
+        return self.lives > 0
 
     def update(self):  # TODO: change the direction implementation to return the dict, and pass that to PlayerMovementPattern via varargs, which will handle the bound checks. this function should probably be update instead of action.
         super().update()
-        _, shoot = keybinds.get_input()
+        _, shoot, _ = keybinds.get_input()
         self.cd.update()
         if shoot and self.cd.is_ready():
             self.cd.use()
-            Projectile(self.location, "resources\\ball.png", StraightPattern(Directions.Up(10)), playerProjectile= True)
+            Projectile(self.location, "resources\\ball.png", movement_pattern=StraightPattern(Directions.Up(10)))

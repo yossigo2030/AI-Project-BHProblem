@@ -7,6 +7,7 @@ dct = {pygame.K_LEFT: False,
        pygame.K_DOWN: False,
        pygame.K_SPACE: False}
 
+
 def get_input():
     dir = np.array([0, 0])
     events = pygame.event.get()
@@ -44,4 +45,4 @@ def get_input():
             dct[pygame.K_DOWN] = False
         if event.key == pygame.K_SPACE:
             dct[pygame.K_SPACE] = False
-    return dir, dct[pygame.K_SPACE]
+    return dir, dct[pygame.K_SPACE], dct
