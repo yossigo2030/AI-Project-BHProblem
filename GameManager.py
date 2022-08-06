@@ -36,8 +36,7 @@ player = Player.Player((0, 0), r"resources\ship.png")
 def game_loop():
     while running:
         # player input and actions
-        dir, shoot = keybinds.get_input()
-        player.action(dir, shoot)
+        player.update()
         # enemy moves and actions
         Projectile.update_all()
         EnemyType.update_all()

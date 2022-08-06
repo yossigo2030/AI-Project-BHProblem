@@ -31,11 +31,6 @@ class BulletHellSprite(pygame.sprite.Sprite):
 def out_of_bounds(location, sprite_size):
     return location[0] < -sprite_size[0] or location[0] > Draw.WIDTH or location[1] < -sprite_size[1] or location[1] > Draw.LENGTH
 
-
-def out_of_bounds_player(location, sprite_size):
-    return location[0] < 0 or location[0] > Draw.WIDTH or location[1] < 0 or location[1] > Draw.LENGTH
-
-
 def sprite_culling():
     for sprite in AllSpritesGroup.sprites():
         if out_of_bounds(sprite.location, sprite.imsize):
