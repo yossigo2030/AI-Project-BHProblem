@@ -19,13 +19,18 @@ from Projectile import Projectile
 
 import keybinds
 import Player
+import EnemyType
+import MovementPatterns
 
 clock = pygame.time.Clock()
 # TODO: figure out the ratio with board
 running = True
 pygame.init()
 player = Player.Player((10, 10), "resources\ship.png")
-
+enemy = EnemyType.EnemyShooter([100, 100],
+                               "resources\en.png",
+                               MovementPatterns.StraightPattern,
+                               [MovementPatterns.StraightPattern])
 
 def game_loop():
     while running:
@@ -50,7 +55,6 @@ def game_loop():
 
         pygame.display.flip()
         clock.tick(60)
-
 
 if __name__ == '__main__':
     game_loop()
