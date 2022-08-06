@@ -14,11 +14,13 @@
 # , in its update function we will track score and update the units locations
 import pygame
 import Draw
+import Spriteables
 from Projectile import Projectile
 
 import keybinds
 import Player
 
+clock = pygame.time.Clock()
 # TODO: figure out the ratio with board
 running = True
 pygame.init()
@@ -31,7 +33,15 @@ def game_loop():
         dir, shoot = keybinds.get_input()
         player.action(dir, shoot)
         # enemy moves and actions
+
+        # Discard objects that are out of bounds
+        Spriteables.sprite_culling()
+
+
         # check collisions
+
+
+
         # screen visual updates
         Draw.redrawGameWindow()
 
@@ -39,7 +49,7 @@ def game_loop():
         player.draw()
 
         pygame.display.flip()
-        pass
+        clock.tick(60)
 
 
 if __name__ == '__main__':
