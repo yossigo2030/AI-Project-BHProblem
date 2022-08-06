@@ -13,13 +13,16 @@
 # board has an array of enemies projectiles a player object and the limits
 # , in its update function we will track score and update the units locations
 import pygame
-import draw
+import Draw
+
 import keybinds
 import Player
+
 # TODO: figure out the ratio with board
 running = True
 pygame.init()
-player = Player.Player((10,10))
+player = Player.Player((10, 10), "idk")
+
 
 def game_loop():
     while running:
@@ -29,10 +32,11 @@ def game_loop():
         # enemy moves and actions
         # check collisions
         # screen visual updates
-        draw.redrawGameWindow()
-        draw.screen_update(player.location)
+        Draw.redrawGameWindow()
+        player.draw()
         pygame.display.flip()
         pass
+
 
 if __name__ == '__main__':
     game_loop()
