@@ -16,7 +16,7 @@ import pygame
 import Draw
 import Spriteables
 import Projectile
-
+import collisionManager
 import keybinds
 import Player
 import EnemyType
@@ -27,10 +27,10 @@ clock = pygame.time.Clock()
 running = True
 pygame.init()
 player = Player.Player((0, 0), r"resources\ship.png")
-# EnemyType.EnemyShooter([100, 100],
-#                        r"resources\en.png",
-#                        MovementPatterns.StraightPattern((0, 1)),
-#                        [MovementPatterns.StraightPattern((-1, 0))])
+EnemyType.EnemyShooter([100, 100],
+                       r"resources\en.png",
+                       MovementPatterns.StraightPattern((0, 1)),
+                       [MovementPatterns.StraightPattern((-1, 0))])
 
 
 def game_loop():
@@ -45,6 +45,7 @@ def game_loop():
         Spriteables.sprite_culling()
 
         # check collisions
+        collisionManager.collision_check_enemies()
 
         # screen visual updates
         Draw.redrawGameWindow()
