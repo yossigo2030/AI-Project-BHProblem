@@ -14,19 +14,23 @@
 # , in its update function we will track score and update the units locations
 import pygame
 import draw
+import keybinds
+import Player
 # TODO: figure out the ratio with board
 running = True
 pygame.init()
-
+player = Player.Player((10,10))
 
 def game_loop():
     while running:
         # player input and actions
+        dir = keybinds.get_input()
+        player.action(dir, False)
         # enemy moves and actions
         # check collisions
         # screen visual updates
         draw.redrawGameWindow()
-        draw.screen_update()
+        draw.screen_update(player.location)
         pygame.display.flip()
         pass
 
