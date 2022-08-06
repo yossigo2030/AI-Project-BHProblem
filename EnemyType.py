@@ -12,9 +12,9 @@ class EnemyType(BulletHellSprite):
         EnemySpriteGroup.add(self)
         self.health = health
 
-    def hit(self, dmg):
+    def on_hit(self, dmg):
         self.health -= dmg
-        return max(0, self.health)
+        return self.health > 0
 
 
 class EnemyShooter(EnemyType):
