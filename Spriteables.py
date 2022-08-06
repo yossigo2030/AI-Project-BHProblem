@@ -16,6 +16,11 @@ class BulletHellSprite(pygame.sprite.Sprite):
         self.hitbox = hitbox_size
         self.move_pattern = movement_pattern
 
+    def get_hitbox(self):
+        return pygame.rect.Rect(self.location[0] - self.hitbox[0] / 2,
+                                self.location[1] - self.hitbox[1] / 2,
+                                self.hitbox[0], self.hitbox[1])
+
     def update(self):
         self.location = self.move_pattern.get_next_position(self.location)
 
@@ -28,7 +33,7 @@ def out_of_bounds(location, sprite_size):
 
 
 def out_of_bounds_player(location, sprite_size):
-    return location[0] < -sprite_size[0] or location[0] > Draw.WIDTH - sprite_size[0] or location[1] < -sprite_size[1] or location[1] > Draw.LENGTH - sprite_size[1]
+    return location[0] < 0 or location[0] > Draw.WIDTH or location[1] < 0 or location[1] > Draw.LENGTH
 
 
 def sprite_culling():

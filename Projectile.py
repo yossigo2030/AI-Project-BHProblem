@@ -15,12 +15,12 @@ class Projectile(BulletHellSprite):
             ProjectileEnemyGroup.add(self)
 
 
-    @staticmethod
-    def update_all():
-        for sprite in ProjectileSpriteGroup.sprites():
-            sprite.update()
 
-    @staticmethod
-    def draw_all():
-        for sprite in ProjectileSpriteGroup.sprites():
-            sprite.draw()
+def update_all():
+    for sprite in ProjectileSpriteGroup.sprites():
+        sprite.update()
+
+
+def draw_all():
+    for sprite in ProjectileSpriteGroup.sprites():
+        sprite.draw()

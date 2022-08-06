@@ -20,5 +20,6 @@ def redrawGameWindow():
     pygame.draw.rect(screen, BLACK, pygame.Rect(0, 0, WIDTH, LENGTH))
 
 
-def draw_sprite(sprite, location):
-    screen.blit(sprite, location)
+def draw_sprite(sprite: pygame.Surface, location):
+    size = sprite.get_size()
+    screen.blit(sprite, (location[0] - size[0] / 2, location[1] - size[1] / 2))
