@@ -1,3 +1,5 @@
+import pygame.sprite
+import draw
 
 class spritable:
 

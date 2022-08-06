@@ -13,17 +13,20 @@
 # board has an array of enemies projectiles a player object and the limits
 # , in its update function we will track score and update the units locations
 import pygame
-
+import draw
 # TODO: figure out the ratio with board
 running = True
 pygame.init()
 
 
 def game_loop():
-    color = (255,255,255)
-    pygame.draw.rect(screen, color, pygame.Rect(100, 100, 10, 10))
     while running:
-        # Drawing Rectangle
+        # player input and actions
+        # enemy moves and actions
+        # check collisions
+        # screen visual updates
+        draw.redrawGameWindow()
+        draw.screen_update()
         pygame.display.flip()
         pass
 
