@@ -21,7 +21,7 @@ import Player
 # TODO: figure out the ratio with board
 running = True
 pygame.init()
-player = Player.Player((10, 10), "idk")
+player = Player.Player((10, 10), "resources\ship.png")
 
 
 def game_loop():

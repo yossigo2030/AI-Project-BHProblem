@@ -8,6 +8,8 @@ from MovementDir import MovePattern, PlayerMovementPattern
 from Spriteables import BulletHellSprite
 
 
+
+
 class Player(BulletHellSprite):
     def __init__(self, location, sprite):
         super().__init__(location, sprite, PlayerMovementPattern((1)))
@@ -22,4 +24,5 @@ class Player(BulletHellSprite):
             print("powpow")
 
     def draw(self):
-        Draw.draw_blank_square_at_loc(self.location)
+        Draw.draw_sprite(self.image, self.location)
+        # Draw.draw_blank_square_at_loc(self.location)
