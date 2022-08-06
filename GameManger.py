@@ -38,6 +38,7 @@ def game_loop():
         dir, shoot = keybinds.get_input()
         player.action(dir, shoot)
         # enemy moves and actions
+        enemy.behaivour()
 
         # Discard objects that are out of bounds
         Spriteables.sprite_culling()
