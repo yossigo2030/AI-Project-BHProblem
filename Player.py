@@ -1,13 +1,8 @@
-from abc import abstractmethod
-from typing import List, Tuple
-import numpy as np
-import pygame.sprite
-import Draw
-from DataStructures import PlayerSpriteGroup, Directions
-from MovementPatterns import MovePattern, PlayerMovementPattern, StraightPattern
-from Projectile import Projectile
-from Spriteables import BulletHellSprite
+from DataStructures import PlayerSpriteGroup
 import cooldown
+from DataStructures import PlayerSpriteGroup, Directions
+from MovementPatterns import PlayerMovementPattern, StraightPattern
+from Projectile import Projectile
 from Spriteables import BulletHellSprite, out_of_bounds
 
 

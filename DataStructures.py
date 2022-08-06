@@ -2,6 +2,7 @@ from enum import Enum
 
 import numpy as np
 import pygame.sprite
+import numpy as np
 
 thingy = [(0, -1), (0, 1), (-1, 0), (1, 0)]
 class Directions(Enum):
