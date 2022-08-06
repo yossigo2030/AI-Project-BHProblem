@@ -1,6 +1,7 @@
 from enum import Enum
 
 import pygame.sprite
+import numpy as np
 
 
 class Directions(Enum):

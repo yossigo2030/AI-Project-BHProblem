@@ -1,13 +1,8 @@
-from abc import abstractmethod
-from typing import List, Tuple
-import numpy as np
-import pygame.sprite
-import Draw
 from DataStructures import PlayerSpriteGroup
-from MovementPatterns import MovePattern, PlayerMovementPattern
-from Projectile import Projectile
-from Spriteables import BulletHellSprite
 import cooldown
+from DataStructures import PlayerSpriteGroup
+from MovementPatterns import PlayerMovementPattern
+from Projectile import Projectile
 from Spriteables import BulletHellSprite, out_of_bounds
 
 
@@ -23,7 +18,8 @@ class Player(BulletHellSprite):
     def get_location(self):
         return self.location
 
-    def action(self, direction, shoot):  # TODO: change the direction implementation to return the dict, and pass that to PlayerMovementPattern via varargs, which will handle the bound checks. this function should probably be update instead of action.
+    def action(self, direction,
+               shoot):  # TODO: change the direction implementation to return the dict, and pass that to PlayerMovementPattern via varargs, which will handle the bound checks. this function should probably be update instead of action.
         newloc = self.location + direction * self.speed
         if not out_of_bounds(newloc, self.imsize):
             self.location = newloc
