@@ -12,6 +12,10 @@ class EnemyType(BulletHellSprite):
         EnemySpriteGroup.add(self)
         self.health = health
 
+    def damage(self, dmg):
+        self.health -= dmg
+        return max(dmg, self.health)
+
 
 class EnemyShooter(EnemyType):
     # shoot pattern is a list of directions

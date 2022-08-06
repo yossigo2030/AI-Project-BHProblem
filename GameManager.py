@@ -46,6 +46,7 @@ def game_loop():
 
         # check collisions
         collisionManager.collision_check_enemies()
+        collisionManager.collision_check_player()
 
         # screen visual updates
         Draw.redrawGameWindow()
