@@ -6,8 +6,8 @@ from Spriteables import BulletHellSprite
 
 
 class Projectile(BulletHellSprite):
-    def __init__(self, location, sprite, movement_pattern: MovePattern):
-        super().__init__(location, sprite, movement_pattern=StraightPattern(Directions.Up(10)))
+    def __init__(self, location, sprite, movement_pattern: MovePattern = StraightPattern(Directions.Up(10))):
+        super().__init__(location, sprite, movement_pattern=movement_pattern)
         ProjectileSpriteGroup.add(self)
 
 
