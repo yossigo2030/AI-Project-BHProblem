@@ -3,8 +3,8 @@ from typing import List, Tuple
 import numpy as np
 import pygame.sprite
 import Draw
-from DataStructures import PlayerSpriteGroup
-from MovementPatterns import MovePattern, PlayerMovementPattern
+from DataStructures import PlayerSpriteGroup, Directions
+from MovementPatterns import MovePattern, PlayerMovementPattern, StraightPattern
 from Projectile import Projectile
 from Spriteables import BulletHellSprite
 import cooldown
@@ -28,5 +28,5 @@ class Player(BulletHellSprite):
         self.cd.update()
         if shoot and self.cd.is_ready():
             self.cd.use()
+            Projectile(self.location, "resources\\ball.png", StraightPattern(Directions.Up(10)))
             print("powpow")
-            Projectile(self.location, "resources\\ball.png")

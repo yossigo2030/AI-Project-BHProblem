@@ -3,15 +3,15 @@ from enum import Enum
 import numpy as np
 import pygame.sprite
 
-
+thingy = [(0, -1), (0, 1), (-1, 0), (1, 0)]
 class Directions(Enum):
-    Up = np.array([0, -1])
-    Down = np.array([0, 1])
-    Left = np.array([-1, 0])
-    Right = np.array([1, 0])
+    Up = 0
+    Down = 1
+    Left = 2
+    Right = 3
 
     def __call__(self, multiplier: float):
-        return tuple(x * i for i, x in enumerate(self.value))
+        return tuple(thingy[self.value][i] * multiplier for i in range(2))
 
 
 AllSpritesGroup = pygame.sprite.Group()
