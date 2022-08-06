@@ -19,7 +19,7 @@ class Player(BulletHellSprite):
     def action(self, direction, shoot):
         self.location += direction 
         if shoot:
-            pass
+            print("powpow")
 
     def draw(self):
         Draw.draw_blank_square_at_loc(self.location)

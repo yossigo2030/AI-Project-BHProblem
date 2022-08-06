@@ -27,8 +27,8 @@ player = Player.Player((10, 10), "idk")
 def game_loop():
     while running:
         # player input and actions
-        dir = keybinds.get_input()
-        player.action(dir, False)
+        dir, shoot = keybinds.get_input()
+        player.action(dir, shoot)
         # enemy moves and actions
         # check collisions
         # screen visual updates
