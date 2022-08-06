@@ -3,10 +3,14 @@ from typing import List, Tuple
 
 import numpy as np
 
-class Player:
+import Draw
+from MovementDir import MovePattern, PlayerMovementPattern
+from Spriteables import BulletHellSprite
 
-    def __init__(self, location):
-        self.location = location
+
+class Player(BulletHellSprite):
+    def __init__(self, location, sprite):
+        super().__init__(location, sprite, PlayerMovementPattern((1)))
 
     def get_location(self):
         return self.location
@@ -16,3 +20,6 @@ class Player:
         self.location += direction * 10
         if shoot:
             pass
+
+    def draw(self):
+        Draw.draw_blank_square_at_loc(self.location)

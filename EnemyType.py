@@ -1,12 +1,9 @@
+from MovementDir import MovePattern
+from Spriteables import BulletHellSprite
 
-class EnemyType(Spritables):
 
-    def __init__(self, location, health = 1):
-        self.location = location
+class EnemyType(BulletHellSprite):
+
+    def __init__(self, location, sprite, velocity: MovePattern, health=1):
+        super().__init__(location, sprite, velocity)
         self.health = health
-
-
-    # dir is a tuple that dictates the direction of enemy movment
-    @override
-    def update(self):
-        return
