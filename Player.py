@@ -15,8 +15,6 @@ class Player(BulletHellSprite):
     def __init__(self, location, sprite, speed=10):
         super().__init__(location, sprite, PlayerMovementPattern((1, 1)))
         PlayerSpriteGroup.add(self)
-        self.shot_cd = 10
-        self.curr_cd = 0
         self.cd = cooldown.cooldown(10)
         self.speed = 10
 
@@ -32,4 +30,3 @@ class Player(BulletHellSprite):
             self.cd.use()
             print("powpow")
             Projectile(self.location, "resources\\ball.png")
-            self.curr_cd = 0

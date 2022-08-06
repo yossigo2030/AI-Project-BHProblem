@@ -11,7 +11,6 @@ class EnemyType(BulletHellSprite):
 
 
 class EnemyShooter(EnemyType):
-
     # shoot pattern is a list of diretions
     def __init__(self, location, sprite, velocity: MovePattern, projPatterns : MovePattern):
         super().__init__(location, sprite, velocity)

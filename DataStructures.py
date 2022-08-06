@@ -1,16 +1,17 @@
 from enum import Enum
 
+import numpy as np
 import pygame.sprite
 
 
 class Directions(Enum):
-    Up = (0, -1)
-    Down = (0, 1)
-    Left = (-1, 0)
-    Right = (1, 0)
+    Up = np.array([0, -1])
+    Down = np.array([0, 1])
+    Left = np.array([-1, 0])
+    Right = np.array([1, 0])
 
-    def dir_multiply(self, dir: Directions, multiplier: float):
-        return tuple()
+    def __call__(self, multiplier: float):
+        return tuple(x * i for i, x in enumerate(self.value))
 
 
 AllSpritesGroup = pygame.sprite.Group()
