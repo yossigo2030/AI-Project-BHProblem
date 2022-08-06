@@ -14,7 +14,7 @@ class EnemyType(BulletHellSprite):
 
     def hit(self, dmg):
         self.health -= dmg
-        return max(dmg, self.health)
+        return max(0, self.health)
 
 
 class EnemyShooter(EnemyType):
