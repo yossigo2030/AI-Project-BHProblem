@@ -45,4 +45,7 @@ def get_input():
             dct[pygame.K_DOWN] = False
         if event.key == pygame.K_SPACE:
             dct[pygame.K_SPACE] = False
-    return dir, dct[pygame.K_SPACE], dct
+    return dir
+
+def get_shot():
+    return dct[pygame.K_SPACE]

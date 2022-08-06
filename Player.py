@@ -1,4 +1,4 @@
-import keybinds
+import InputHandler
 from DataStructures import PlayerSpriteGroup
 import cooldown
 from DataStructures import PlayerSpriteGroup, Directions
@@ -12,24 +12,32 @@ class Player(BulletHellSprite):
         super().__init__(location, sprite, PlayerMovementPattern(speed, image_size), hitbox_size, image_size)
         PlayerSpriteGroup.add(self)
         self.cd = cooldown.cooldown(shoot_cd)
-        self.invframe = cooldown.cooldown(20)
+        self.iframe = cooldown.cooldown(20)
         self.speed = speed
+        self.hitbox_backup = self.hitbox
         self.lives = 3
 
     def get_location(self):
         return self.location
 
     def on_hit(self):
-        if self.invframe.is_ready():
-            self.invframe.use()
+        if self.iframe.is_ready():
+            self.iframe.use()
+            self.hitbox = (0, 0)
             self.lives -= 1
         return self.lives > 0
 
-    def update(self):  # TODO: change the direction implementation to return the dict, and pass that to PlayerMovementPattern via varargs, which will handle the bound checks. this function should probably be update instead of action.
+    def update(self):
         super().update()
-        _, shoot, _ = keybinds.get_input()
-        self.invframe.update()
+        shoot = keybinds.get_shot()
+
+        # Handle iFrames by removing the hitbox
+        self.iframe.update()
+        if self.iframe.is_ready():
+            self.hitbox = self.hitbox_backup
+
+        # Handle the shooting
         self.cd.update()
         if shoot and self.cd.is_ready():
             self.cd.use()
-            Projectile(self.location, "resources\\ball.png", movement_pattern=StraightPattern(Directions.Up(10)), player_projectile = True)
+            Projectile(self.location, "resources\\ball.png", movement_pattern=StraightPattern(Directions.Up(10)), player_projectile=True)

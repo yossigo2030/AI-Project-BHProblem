@@ -17,7 +17,7 @@ import Draw
 import Spriteables
 import Projectile
 import collisionManager
-import keybinds
+import InputHandler
 import Player
 import EnemyType
 import MovementPatterns
@@ -47,6 +47,7 @@ def game_loop():
         # check collisions
         collisionManager.collision_check_enemies()
         collisionManager.collision_check_player()
+        # check pickup collisions
 
         # screen visual updates
         Draw.redrawGameWindow()

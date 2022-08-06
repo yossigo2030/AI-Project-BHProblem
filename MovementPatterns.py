@@ -3,7 +3,7 @@ from enum import Enum
 from typing import List, Tuple
 
 import Draw
-import keybinds
+import InputHandler
 
 Position = Tuple[int or float]
 Velocity = Tuple[int or float]
@@ -61,12 +61,14 @@ class PlayerMovementPattern(MovePattern):
         self.imsize = image_size
 
     def get_next_position(self, current_position: Position):
-        direction, shoot, dictionary = keybinds.get_input()
+        direction = keybinds.get_input()
         new_loc = current_position + direction * self.speed
-
-        if not out_of_bounds_player(new_loc, (self.imsize[0] / 2, self.imsize[1] / 2)):
-            return new_loc
-        return current_position
+        final_loc = list(current_position)
+        if not out_of_bounds_player((new_loc[0], current_position[1]), (self.imsize[0] / 2, self.imsize[1] / 2)):
+            final_loc[0] = new_loc[0]
+        if not out_of_bounds_player((current_position[0], new_loc[1]), (self.imsize[0] / 2, self.imsize[1] / 2)):
+            final_loc[1] = new_loc[1]
+        return final_loc
 
 
 def out_of_bounds_player(location, sprite_size):
