@@ -21,7 +21,7 @@ class StraightPattern(MovePattern):
         self.counter = 0
 
     def get_next_position(self, current_position: Position):
-        return tuple(x + self.velocity[0] for x in current_position)
+        return tuple(x + self.velocity[i] for i, x in enumerate(current_position))
 
 
 class CurvedPattern(MovePattern):

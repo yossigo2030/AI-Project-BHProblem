@@ -4,7 +4,7 @@ from MovementDir import *
 
 
 class BulletHellSprite(pygame.sprite.Sprite):
-    def __init__(self, location, sprite, velocity: MovePattern = StraightPattern((.001, -0.01)), hitbox_size=(25, 25), image_size=(40, 40)):
+    def __init__(self, location, sprite, velocity: MovePattern = StraightPattern((0, 1)), hitbox_size=(25, 25), image_size=(40, 40)):
         super().__init__()
         self.location = location
         self.image = pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), image_size)
@@ -13,7 +13,7 @@ class BulletHellSprite(pygame.sprite.Sprite):
         self.vel = velocity
 
     def update(self):
-        self.location = self.location + self.vel.get_next_position(self.location)
+        self.location = self.vel.get_next_position(self.location)
 
     def draw(self):
         Draw.draw_sprite(self.image, self.location)
