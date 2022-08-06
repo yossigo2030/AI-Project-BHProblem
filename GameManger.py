@@ -14,6 +14,7 @@
 # , in its update function we will track score and update the units locations
 import pygame
 import Draw
+from Projectile import Projectile
 
 import keybinds
 import Player
@@ -33,7 +34,10 @@ def game_loop():
         # check collisions
         # screen visual updates
         Draw.redrawGameWindow()
+
+        Projectile.draw_all()
         player.draw()
+
         pygame.display.flip()
         pass
 

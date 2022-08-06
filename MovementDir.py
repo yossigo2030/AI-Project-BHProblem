@@ -2,8 +2,8 @@ from abc import abstractmethod
 from enum import Enum
 from typing import List, Tuple
 
-Position = Tuple[float]
-Velocity = Tuple[float]
+Position = Tuple[int or float]
+Velocity = Tuple[int or float]
 
 
 class MovePattern:
