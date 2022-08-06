@@ -5,7 +5,7 @@ from MovementDir import *
 
 
 class BulletHellSprite(pygame.sprite.Sprite):
-    def __init__(self, location, sprite, velocity: MovePattern = StraightPattern((0, 1)), hitbox_size=(25, 25), image_size=(40, 40)):
+    def __init__(self, location, sprite, velocity: MovePattern = StraightPattern((0, 10)), hitbox_size=(25, 25), image_size=(40, 40)):
         super().__init__()
         AllSpritesGroup.add(self)
         self.location = location
@@ -21,11 +21,11 @@ class BulletHellSprite(pygame.sprite.Sprite):
         Draw.draw_sprite(self.image, self.location)
 
 
-def out_of_bounds(location):
-    return location[0] < 0 or location[0] > Draw.WIDTH or location[1] < 0 or location[1] > Draw.LENGTH
+def out_of_bounds(location, sprite_size):
+    return location[0] < 0 or location[0] > Draw.WIDTH - sprite_size[0] or location[1] < 0 or location[1] > Draw.LENGTH - sprite_size[1]
 
 
 def sprite_culling():
     for sprite in AllSpritesGroup.sprites():
-        if out_of_bounds(sprite.location):
+        if out_of_bounds(sprite.location, sprite.imsize):
             sprite.kill()
