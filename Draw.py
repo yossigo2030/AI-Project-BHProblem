@@ -19,5 +19,6 @@ def draw_blank_square_at_loc(loc):
 def redrawGameWindow():
     pygame.draw.rect(screen, BLACK, pygame.Rect(0, 0, WIDTH, LENGTH))
 
+
 def draw_sprite(sprite, location):
     screen.blit(sprite, location)

@@ -10,9 +10,12 @@ class Projectile(BulletHellSprite):
         super().__init__(location, sprite, movement_pattern=movement_pattern)
         ProjectileSpriteGroup.add(self)
 
+    @staticmethod
+    def update_all():
+        for sprite in ProjectileSpriteGroup.sprites():
+            sprite.update()
 
     @staticmethod
     def draw_all():
         for sprite in ProjectileSpriteGroup.sprites():
-            sprite.update()
             sprite.draw()

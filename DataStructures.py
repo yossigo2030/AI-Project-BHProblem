@@ -1,15 +1,15 @@
 from enum import Enum
-
-import numpy as np
 import pygame.sprite
-import numpy as np
 
-thingy = [(0, -1), (0, 1), (-1, 0), (1, 0)]
+thingy = [(0, -1), (0, 1), (-1, 0), (1, 0), (0, 0)]
+
+
 class Directions(Enum):
     Up = 0
     Down = 1
     Left = 2
     Right = 3
+    Static = 4
 
     def __call__(self, multiplier: float):
         return tuple(thingy[self.value][i] * multiplier for i in range(2))

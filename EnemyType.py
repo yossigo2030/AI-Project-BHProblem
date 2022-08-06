@@ -1,3 +1,4 @@
+from typing import List
 from DataStructures import EnemySpriteGroup
 from MovementPatterns import MovePattern
 from Spriteables import BulletHellSprite
@@ -10,8 +11,19 @@ class EnemyType(BulletHellSprite):
         EnemySpriteGroup.add(self)
         self.health = health
 
+    @staticmethod
+    def update_all():
+        for sprite in EnemySpriteGroup.sprites():
+            sprite.update()
+
+    @staticmethod
+    def draw_all():
+        for sprite in EnemySpriteGroup.sprites():
+            sprite.draw()
+
+
 class EnemyShooter(EnemyType):
-    # shoot pattern is a list of diretions
+    # shoot pattern is a list of directions
     def __init__(self, location, sprite, movement_pattern: MovePattern, projPatterns : [MovePattern]):
         super().__init__(location, sprite, movement_pattern)
         self.projPatterns = projPatterns
