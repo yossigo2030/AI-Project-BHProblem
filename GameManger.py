@@ -32,7 +32,7 @@ def game_loop():
         # enemy moves and actions
         # check collisions
         # screen visual updates
-        draw.redrawGameWindow()
+        Draw.redrawGameWindow()
         player.draw()
         pygame.display.flip()
         pass
