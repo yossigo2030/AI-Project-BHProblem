@@ -1,6 +1,8 @@
 import pygame
 import numpy as np
 
+dct = {pygame.K_LEFT: False, pygame.K_RIGHT: False, pygame.K_UP: False, pygame.K_DOWN: False}
+
 def get_input():
     dir = np.array([0, 0])
     events = pygame.event.get()
@@ -8,12 +10,30 @@ def get_input():
         if event.type != pygame.KEYDOWN:
             continue
         if event.key == pygame.K_LEFT:
-            dir -= [1, 0]
+            dct[pygame.K_LEFT] = True
         if event.key == pygame.K_RIGHT:
-            dir += [1, 0]
+            dct[pygame.K_RIGHT] = True
         if event.key == pygame.K_UP:
-            dir -= [0, 1]
+            dct[pygame.K_UP] = True
         if event.key == pygame.K_DOWN:
-            dir += [0, 1]
-    print(dir)
+            dct[pygame.K_DOWN] = True
+    if dct[pygame.K_LEFT]:
+        dir -= [1, 0]
+    if dct[pygame.K_RIGHT]:
+        dir += [1, 0]
+    if dct[pygame.K_UP]:
+        dir -= [0, 1]
+    if dct[pygame.K_DOWN]:
+        dir += [0, 1]
+    for event in events:
+        if event.type != pygame.KEYUP:
+            continue
+        if event.key == pygame.K_LEFT:
+            dct[pygame.K_LEFT] = False
+        if event.key == pygame.K_RIGHT:
+            dct[pygame.K_RIGHT] = False
+        if event.key == pygame.K_UP:
+            dct[pygame.K_UP] = False
+        if event.key == pygame.K_DOWN:
+            dct[pygame.K_DOWN] = False
     return dir

@@ -13,6 +13,6 @@ class Player:
 
     # not sure if it is wise to do accelerated movement
     def action(self, direction, shoot):
-        self.location += direction * 10
+        self.location += direction 
         if shoot:
             pass
