@@ -5,6 +5,11 @@ import numpy as np
 
 Action = List[bool, bool, bool, bool, bool]  # representing left, right, up, down (arrows), and shoot.
 
+#TODO: make an object that has the contents of the gameplay loop, and then
+# copy it for Ai use. simulate it playing theoretical scenerios
+# to choose the correct move for this frame, this object will be named
+# gameState
+
 
 class AIInteractions:
     @abstractmethod
