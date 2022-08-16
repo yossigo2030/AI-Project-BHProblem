@@ -16,9 +16,13 @@ class Player(BulletHellSprite):
         self.speed = speed
         self.hitbox_backup = self.hitbox
         self.lives = 3
+        self.score = 0
 
     def get_location(self):
         return self.location
+
+    def set_score(self, add):
+        self.score += add
 
     def on_hit(self):
         if self.iframe.is_ready():

@@ -50,7 +50,7 @@ def game_loop():
         Spriteables.sprite_culling()
 
         # check collisions
-        collisionManager.collision_check_enemies()
+        player.set_score(collisionManager.collision_check_enemies())
         collisionManager.collision_check_player()
         # check pickup collisions
 
@@ -64,6 +64,7 @@ def game_loop():
         if wave.Update() == 1:
             wave = Wave.Wave(wave.number_of_wave+1, board_ratio)
 
+        print(player.score)
         pygame.display.flip()
         clock.tick(60)
 

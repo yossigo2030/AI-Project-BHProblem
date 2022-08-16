@@ -17,6 +17,7 @@ class Directions(Enum):
 
 AllSpritesGroup = pygame.sprite.Group()
 EnemySpriteGroup = pygame.sprite.Group()
+EnemyBossSpriteGroup = pygame.sprite.Group()
 ProjectileSpriteGroup = pygame.sprite.Group()
 ProjectileEnemyGroup = pygame.sprite.Group()
 ProjectilePlayerGroup = pygame.sprite.Group()
