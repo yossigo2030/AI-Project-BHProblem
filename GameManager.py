@@ -22,16 +22,16 @@ import Player
 import EnemyType
 import MovementPatterns
 
+running = True
+board_ratio = pygame.display.get_window_size()
+player = Player.Player((board_ratio[1]/2, board_ratio[1]), r"resources\ship.png")
 clock = pygame.time.Clock()
 # TODO: figure out the ratio with board
-running = True
 pygame.init()
-player = Player.Player((0, 0), r"resources\ship.png")
 EnemyType.EnemyShooter([100, 100],
-                       r"resources\en.png",
-                       MovementPatterns.StraightPattern((0, 1)),
-                       [MovementPatterns.StraightPattern((-1, 0))])
-
+                           r"resources\en.png",
+                           MovementPatterns.StraightPattern((0, 1)),
+                           [MovementPatterns.StraightPattern((-1, 0))])
 
 def game_loop():
     while running:

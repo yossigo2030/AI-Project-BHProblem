@@ -41,3 +41,4 @@ def update_all():
 def draw_all():
     for sprite in EnemySpriteGroup.sprites():
         sprite.draw()
+

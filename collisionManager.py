@@ -2,6 +2,7 @@ import pygame
 import DataStructures
 import EnemyType
 import Projectile
+import MovementPatterns
 
 def collision_check_enemies():
     score = 0
@@ -11,6 +12,10 @@ def collision_check_enemies():
                 # kill proj, hit enemy, delete enemy if dead and add score
                 if not enemy.on_hit(1):
                     enemy.kill()
+                    EnemyType.EnemyShooter([100, 100],
+                                           r"resources\en.png",
+                                           MovementPatterns.StraightPattern((0, 1)),
+                                           [MovementPatterns.StraightPattern((-1, 0))])
                 projectile.kill()
     return score
 
