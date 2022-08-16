@@ -1,33 +1,46 @@
-from abc import abstractmethod
-
-
 class AIBase:
     pass
 
-    def a_star_search(self, board_instance, goal, targs):
-        """
-        Search the node that has the lowest combined cost and heuristic first.
-        """
-        queue = [(x, y, z, self.get_mask(x, targs)) for x, y, z in
-                 self.get_successors(board_instance)]
-        visited = set(x for (x, y, z, w) in queue)
-        father = {}
-        while len(queue):
-            queue.sort(key=lambda x: x[2] + x[3])
-            curr_state, curr_move, curr_price, mask = queue.pop(0)
-            if curr_state.state[goal[0]][goal[1]] == 0:
-                path = []
-                while (curr_state, curr_move) in father.keys():
-                    path.insert(0, curr_move)
-                    curr_state, curr_move = father[(curr_state, curr_move)]
+
+def null_heuristic(state, problem=None):
+    """
+    A heuristic function estimates the cost from the current state to the nearest
+    goal in the provided SearchProblem.  This heuristic is trivial.
+    """
+    return 0
+
+# reverse from min to max (score), make
+def a_star_search(problem, node_search_quota = 10000, heuristic=null_heuristic):
+    """
+   Search the node that has the lowest combined cost and heuristic first.
+   """
+    # get starting point
+    board_instance: board.Board = problem.get_start_state()
+    queue = problem.get_successors(board_instance)
+    # make a visited list, paternity list
+    visited = set(x for (x, y, z) in queue)
+    father = {}
+    g = lambda x: x[2] + heuristic(x[0], problem)
+    i = 0
+    while len(queue):
+        # queue.sort(key=lambda x: x[2] + heuristic(x[0], problem))
+        curr_state, curr_move, score = queue.pop(0)
+        if node_search_quota == i:
+            path = []
+            while (curr_state, curr_move) in father.keys():
                 path.insert(0, curr_move)
-                return path
-            for (bstate, bmove, cost) in self.get_successors(curr_state):
-                if bstate not in visited:
-                    queue.append((bstate, bmove, cost + curr_price,
-                                  self.get_mask(bstate, targs)))
-                    # queue.insert(self.find_loc(g, queue, (bstate, bmove, cost + curr_price)), (bstate, bmove, cost + curr_price))
-                    visited.add(bstate)
-                    if (bstate, bmove) not in father:
-                        father[(bstate, bmove)] = (curr_state, curr_move)
-        return []
+                curr_state, curr_move = father[(curr_state, curr_move)]
+            path.insert(0, curr_move)
+            return path
+        for (bstate, bmove, reward) in problem.get_successors(curr_state):
+            if bstate not in visited:
+                queue.insert(
+                    find_loc(g, queue, (bstate, bmove, reward + score)),
+                    (bstate, bmove, reward + score))
+                visited.add(bstate)
+                if (bstate, bmove) not in father:
+                    father[(bstate, bmove)] = (curr_state, curr_move)
+        i += 1
+    return []
+
+
