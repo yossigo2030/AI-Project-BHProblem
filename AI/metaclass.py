@@ -9,6 +9,21 @@ def null_heuristic(state, problem=None):
     """
     return 0
 
+
+def find_loc(func, arr, element):
+    l = 0
+    h = len(arr)
+    element_val = func(element)
+    while h > l:
+        m = (h + l) // 2
+        mval = func(arr[m])
+        if mval < element_val:
+            l = m + 1
+        else:
+            h = m
+    return l
+
+
 # reverse from min to max (score), make
 def a_star_search(problem, node_search_quota = 10000, heuristic=null_heuristic):
     """
@@ -23,7 +38,6 @@ def a_star_search(problem, node_search_quota = 10000, heuristic=null_heuristic):
     g = lambda x: x[2] + heuristic(x[0], problem)
     i = 0
     while len(queue):
-        # queue.sort(key=lambda x: x[2] + heuristic(x[0], problem))
         curr_state, curr_move, score = queue.pop(0)
         if node_search_quota == i:
             path = []
