@@ -4,12 +4,16 @@ from typing import List, Tuple
 import numpy as np
 
 Action = List[bool, bool, bool, bool, bool]  # representing left, right, up, down (arrows), and shoot.
+State = object
 
-#TODO: make an object that has the contents of the gameplay loop, and then
-# copy it for Ai use. simulate it playing theoretical scenerios
-# to choose the correct move for this frame, this object will be named
-# gameState
 
+# TODO: make an object that has the contents of the gameplay loop, and then
+#  copy it for Ai use. simulate it playing theoretical scenerios
+#  to choose the correct move for this frame, this object will be named
+#  gameState
+
+# also TODO: change functions that take (state, movement) pairs to instead.. uhh, idk. do something else.
+# consider that we have another issue - we cannot determine inside A* whether or not a shoot action led to a hit immediately.
 
 class AIInteractions:
     @abstractmethod
@@ -20,10 +24,18 @@ class AIInteractions:
         """
         return
 
-    def get_actions(self, state) -> List[Action]:
+    @abstractmethod
+    def get_next_start_state(self) -> List[Action]:
+        """
+        :return: a list of moves possible from the current state of the game
+        """
+        return
+
+    @abstractmethod
+    def get_successors(self, state) -> List[Tuple[State, Action, int]]:
         """
         :param state: A Bullet Hell Game State
-        :return: a list of moves possible from the current state of the game
+        :return: a list of (curr_state, curr_move, score) resulting for all possible moves from the current state of the game
         """
         return
 
@@ -33,6 +45,14 @@ class AIInteractions:
         :param state: A Bullet Hell Game State
         :param move: the move to be taken at the current state of the game
         :return: the score obtained after 'move' is executed
+        """
+        return
+
+    @abstractmethod
+    def get_state_score(self, state) -> float:
+        """
+        :param state: A Bullet Hell Game State
+        :return: the score value of the state.
         """
         return
 
