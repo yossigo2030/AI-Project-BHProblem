@@ -12,6 +12,10 @@
 
 # board has an array of enemies projectiles a player object and the limits
 # , in its update function we will track score and update the units locations
+import math
+import time
+from queue import Queue
+
 import pygame
 import Draw
 import Spriteables
@@ -19,21 +23,22 @@ import Projectile
 import collisionManager
 import InputHandler
 import Player
+import Wave
 import EnemyType
 import MovementPatterns
 
+
+################################################ Start ################################################
+
 running = True
 board_ratio = pygame.display.get_window_size()
-player = Player.Player((board_ratio[1]/2, board_ratio[1]), r"resources\ship.png")
+player = Player.Player((board_ratio[0]/2, board_ratio[1]), r"resources\ship.png")
 clock = pygame.time.Clock()
 # TODO: figure out the ratio with board
 pygame.init()
-EnemyType.EnemyShooter([100, 100],
-                           r"resources\en.png",
-                           MovementPatterns.StraightPattern((0, 1)),
-                           [MovementPatterns.StraightPattern((-1, 0))])
 
 def game_loop():
+    wave = Wave.Wave(1, board_ratio)
     while running:
         # player input and actions
         player.update()
@@ -55,8 +60,15 @@ def game_loop():
         EnemyType.draw_all()
         player.draw()
 
+        #enemy spawning
+        if wave.Update() == 1:
+            wave = Wave.Wave(wave.number_of_wave+1, board_ratio)
+
         pygame.display.flip()
         clock.tick(60)
+
+
+
 
 
 if __name__ == '__main__':

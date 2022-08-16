@@ -22,7 +22,7 @@ class EnemyShooter(EnemyType):
     def __init__(self, location, sprite, movement_pattern: MovePattern, projPatterns: [MovePattern]):
         super().__init__(location, sprite, movement_pattern)
         self.projPatterns = projPatterns
-        self.cd = cooldown(10)
+        self.cd = cooldown(90)
 
     def update(self):
         super().update()
