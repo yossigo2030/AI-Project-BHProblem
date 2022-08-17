@@ -31,14 +31,11 @@ import MovementPatterns
 ################################################ Start ################################################
 
 running = True
-board_ratio = pygame.display.get_window_size()
-player = Player.Player((board_ratio[0]/2, board_ratio[1]), r"resources\ship.png")
 clock = pygame.time.Clock()
 # TODO: figure out the ratio with board
 pygame.init()
 
 def game_loop():
-    wave = Wave.Wave(1, board_ratio)
     while running:
         # player input and actions
         player.update()

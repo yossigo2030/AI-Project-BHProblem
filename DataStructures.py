@@ -15,10 +15,13 @@ class Directions(Enum):
         return tuple(thingy[self.value][i] * multiplier for i in range(2))
 
 
-AllSpritesGroup = pygame.sprite.Group()
-EnemySpriteGroup = pygame.sprite.Group()
-EnemyBossSpriteGroup = pygame.sprite.Group()
-ProjectileSpriteGroup = pygame.sprite.Group()
-ProjectileEnemyGroup = pygame.sprite.Group()
-ProjectilePlayerGroup = pygame.sprite.Group()
-PlayerSpriteGroup = pygame.sprite.Group()
+# todo make data bases singular instead of global
+class dataStructures:
+    def __init__(self):
+        self.AllSpritesGroup = pygame.sprite.Group()
+        self.EnemySpriteGroup = pygame.sprite.Group()
+        self.EnemyBossSpriteGroup = pygame.sprite.Group()
+        self.ProjectileSpriteGroup = pygame.sprite.Group()
+        self.ProjectileEnemyGroup = pygame.sprite.Group()
+        self.ProjectilePlayerGroup = pygame.sprite.Group()
+        self.PlayerSpriteGroup = pygame.sprite.Group()
