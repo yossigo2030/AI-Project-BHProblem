@@ -40,4 +40,15 @@ class Game:
         EnemyType.draw_all()
         self.player.draw()
 
-    def
+    def convert_to_array(self, dims: Tuple[int, int]):
+        array = [[[] for i in range(dims[0])] for j in range(dims[1])]
+        for enemy in self.EnemySpriteGroup:
+            location = self.location_convert(enemy.location, dims)
+            array[location[0]][location[1]].append(enemy)
+        for projectile in self.ProjectileSpriteGroup:
+            location = self.location_convert(projectile.location, dims)
+            array[location[0]][location[1]].append(projectile)
+        return array
+
+    def location_convert(self, coords, dims)-> Tuple[int, int]:
+        return [coords[0]//dims[0], coords[1]//dims[1]]
