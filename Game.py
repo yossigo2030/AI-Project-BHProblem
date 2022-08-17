@@ -25,7 +25,17 @@ class Game:
         self.player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1]), r"resources\ship.png", self.data)
         self.wave = Wave.Wave(1, self.board_ratio, self.data)
 
-    def update(self):
+    def __copy__(self:
+        self.data = data
+        self.frame = curr_frame
+        self.visual = False
+        self.board_ratio = game.pygame.display.get_window_size()
+        self.player = Player.Player(
+            (self.board_ratio[0] / 2, self.board_ratio[1]),
+            r"resources\ship.png", self.data)
+        self.wave = Wave.Wave(1, self.board_ratio, self.data)
+
+    def update(self, move):
         self.frame += 1
         # player input and actions
         self.player.update()
@@ -69,4 +79,23 @@ class Game:
         return array
 
     def location_convert(self, coords, dims) -> Tuple[int, int]:
-        return coords[0] // dims[0], coords[1] // dims[1]
+        return coords[0] // self.board_ratio[0] * dims[0], coords[1] // self.board_ratio[1] * dims[1]
+
+    def get_next_start_state(self):
+        """
+        :return: returns the current starting state.
+        On the first call, it's the default starting state. any successive calls are expected to be done with
+        a new position set.
+        """
+        return self
+
+
+    def get_successors(self, state) -> List[Tuple[State, Action, int]]:
+        """
+        :param state: A Bullet Hell Game State
+        :return: a list of (curr_state, move, score) resulting for all possible moves from the current state of the game
+        move is the move which takes state to curr_state
+        """
+        # get player moves
+        moves = []
+        games =[Game.__copy__(self)]
