@@ -1,16 +1,15 @@
 import InputHandler
-from DataStructures import PlayerSpriteGroup
 import cooldown
-from DataStructures import PlayerSpriteGroup, Directions
+from DataStructures import Directions, DataStructures
 from MovementPatterns import PlayerMovementPattern, StraightPattern
 from Projectile import Projectile
 from Spriteables import BulletHellSprite
 
 
 class Player(BulletHellSprite):
-    def __init__(self, location, sprite, speed=10, shoot_cd=10, hitbox_size=(25, 25), image_size=(40, 40)):
-        super().__init__(location, sprite, PlayerMovementPattern(speed, image_size), hitbox_size, image_size)
-        PlayerSpriteGroup.add(self)
+    def __init__(self, location, sprite, data, speed=10, shoot_cd=10, hitbox_size=(25, 25), image_size=(40, 40)):
+        super().__init__(location, sprite, data, PlayerMovementPattern(speed, image_size), hitbox_size, image_size)
+        self.data.PlayerSpriteGroup.add(self)
         self.cd = cooldown.cooldown(shoot_cd)
         self.iframe = cooldown.cooldown(20)
         self.speed = speed
@@ -44,4 +43,4 @@ class Player(BulletHellSprite):
         self.cd.update()
         if shoot and self.cd.is_ready():
             self.cd.use()
-            Projectile(self.location, "resources\\ball.png", movement_pattern=StraightPattern(Directions.Up(10)), player_projectile=True)
+            Projectile(self.location, "resources\\ball.png", self.data, movement_pattern=StraightPattern(Directions.Up(10)), player_projectile=True)

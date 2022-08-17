@@ -1,4 +1,4 @@
-from AI_Interactions import AIInteractions
+from BHProblem import BHProblem
 
 
 class AIBase:
@@ -13,7 +13,7 @@ def null_heuristic(state, problem=None):
     return 0
 
 
-def basic_heuristic(state, problem: AIInteractions = None):
+def basic_heuristic(state, problem: BHProblem = None):
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
@@ -21,7 +21,7 @@ def basic_heuristic(state, problem: AIInteractions = None):
     return problem.get_state_score(state)
 
 
-def basic_heuristic_2(state, problem: AIInteractions = None):
+def basic_heuristic_2(state, problem: BHProblem = None):
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
@@ -43,7 +43,7 @@ def find_loc(func, arr, element):
     return l
 
 
-def a_star_search(problem: AIInteractions, node_search_quota=10000, heuristic=null_heuristic):
+def a_star_search(problem: BHProblem, node_search_quota=10000, heuristic=null_heuristic):
     """
     Search the node that has the lowest combined cost and heuristic first.
     """

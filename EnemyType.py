@@ -1,5 +1,5 @@
 from typing import List
-from DataStructures import EnemySpriteGroup
+from DataStructures import DataStructures
 from MovementPatterns import MovePattern
 from Spriteables import BulletHellSprite
 from Projectile import Projectile
@@ -7,9 +7,9 @@ from cooldown import cooldown
 
 
 class EnemyType(BulletHellSprite):
-    def __init__(self, location, sprite, movement_pattern: MovePattern, health=1):
-        super().__init__(location, sprite, movement_pattern)
-        EnemySpriteGroup.add(self)
+    def __init__(self, location, sprite, data, movement_pattern: MovePattern, health=1):
+        super().__init__(location, sprite, data, movement_pattern)
+        self.data.EnemySpriteGroup.add(self)
         self.health = health
 
     def on_hit(self, dmg):
@@ -19,8 +19,8 @@ class EnemyType(BulletHellSprite):
 
 class EnemyShooter(EnemyType):
     # shoot pattern is a list of directions
-    def __init__(self, location, sprite, movement_pattern: MovePattern, projPatterns: [MovePattern]):
-        super().__init__(location, sprite, movement_pattern)
+    def __init__(self, location, sprite, data, movement_pattern: MovePattern, projPatterns: [MovePattern]):
+        super().__init__(location, sprite, data, movement_pattern)
         self.projPatterns = projPatterns
         self.cd = cooldown(90)
 
@@ -30,15 +30,15 @@ class EnemyShooter(EnemyType):
         if self.cd.is_ready():
             self.cd.use()
             for pattern in self.projPatterns:
-                Projectile(self.location, "resources\\ball.png", movement_pattern=pattern)
+                Projectile(self.location, "resources\\ball.png", self.data, movement_pattern=pattern)
 
 
-def update_all():
-    for sprite in EnemySpriteGroup.sprites():
+def update_all(data: DataStructures):
+    for sprite in data.EnemySpriteGroup.sprites():
         sprite.update()
 
 
-def draw_all():
-    for sprite in EnemySpriteGroup.sprites():
+def draw_all(data: DataStructures):
+    for sprite in data.EnemySpriteGroup.sprites():
         sprite.draw()
 

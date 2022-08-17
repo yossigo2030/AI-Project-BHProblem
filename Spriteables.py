@@ -1,15 +1,16 @@
 import pygame.sprite
 import Draw
-from DataStructures import AllSpritesGroup
+from DataStructures import DataStructures
 from MovementPatterns import *
 
 
 class BulletHellSprite(pygame.sprite.Sprite):
-    _sprite_group = AllSpritesGroup
+    # _sprite_group = AllSpritesGroup
 
-    def __init__(self, location, sprite, movement_pattern: MovePattern = StraightPattern((0, 10)), hitbox_size=(25, 25), image_size=(40, 40)):
+    def __init__(self, location, sprite, data: DataStructures, movement_pattern: MovePattern = StraightPattern((0, 10)), hitbox_size=(25, 25), image_size=(40, 40)):
         super().__init__()
-        AllSpritesGroup.add(self)
+        self.data = data
+        self.data.AllSpritesGroup.add(self)
         self.location = location
         self.image = pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), image_size)
         self.imsize = image_size
@@ -31,8 +32,9 @@ class BulletHellSprite(pygame.sprite.Sprite):
 def out_of_bounds(location, sprite_size):
     return location[0] < -sprite_size[0] or location[0] > Draw.WIDTH or location[1] < -sprite_size[1] or location[1] > Draw.LENGTH
 
-def sprite_culling():
-    for sprite in AllSpritesGroup.sprites():
+
+def sprite_culling(data: DataStructures):
+    for sprite in data.AllSpritesGroup.sprites():
         if out_of_bounds(sprite.location, sprite.imsize):
             sprite.kill()
             del sprite

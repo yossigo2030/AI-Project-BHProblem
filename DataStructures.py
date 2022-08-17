@@ -15,8 +15,7 @@ class Directions(Enum):
         return tuple(thingy[self.value][i] * multiplier for i in range(2))
 
 
-# todo make data bases singular instead of global
-class dataStructures:
+class DataStructures:
     def __init__(self):
         self.AllSpritesGroup = pygame.sprite.Group()
         self.EnemySpriteGroup = pygame.sprite.Group()
