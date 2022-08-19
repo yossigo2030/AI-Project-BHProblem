@@ -17,6 +17,9 @@ class BulletHellSprite(pygame.sprite.Sprite):
         self.hitbox = hitbox_size
         self.move_pattern = movement_pattern
 
+    def __copy__(self, data):
+        return BulletHellSprite(self.location, self.sprite, data, self.movement_pattern, self.hitbox_size, self.image_size)
+
     def get_hitbox(self):
         return pygame.rect.Rect(self.location[0] - self.hitbox[0] / 2,
                                 self.location[1] - self.hitbox[1] / 2,

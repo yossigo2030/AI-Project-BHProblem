@@ -39,7 +39,7 @@ pygame.display.init()
 def game_loop():
     while running:
         # TODO figure out what the situation with move is, we need it for successors
-        game.update()
+        game.update("Asdasd")
         clock.tick(60)
 
 
