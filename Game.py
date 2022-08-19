@@ -17,23 +17,29 @@ class Game:
     Documentation goes here
     """
 
-    def __init__(self, curr_frame=0, visual=True):
-        self.data = DataStructures()
+    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=None, wave=None, data = None):
+        if data is None:
+            self.data = DataStructures()
+        else:
+            self.data = data
         self.frame = curr_frame
         self.visual = visual
-        self.board_ratio = pygame.display.get_window_size()
-        self.player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1]), r"resources\ship.png", self.data)
-        self.wave = Wave.Wave(1, self.board_ratio, self.data)
+        if board_ratio is None:
+            self.board_ratio = pygame.display.get_window_size()
+        else:
+            self.board_ratio = board_ratio
+        if player is None:
+            self.player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1]), r"resources\ship.png", self.data)
+        else:
+            self.player = player
+        if wave is None:
+            self.wave = Wave.Wave(1, self.board_ratio, self.data)
+        else:
+            self.wave = wave
 
-    def __copy__(self:
-        self.data = data
-        self.frame = curr_frame
-        self.visual = False
-        self.board_ratio = game.pygame.display.get_window_size()
-        self.player = Player.Player(
-            (self.board_ratio[0] / 2, self.board_ratio[1]),
-            r"resources\ship.png", self.data)
-        self.wave = Wave.Wave(1, self.board_ratio, self.data)
+    def __copy__(self):
+        # todo other cop ctors?? maybe make new objects with already knwon data
+        return Game(self.frame, false, self.player, self.board_ratio, self.wave, self.data)
 
     def update(self, move):
         self.frame += 1
@@ -90,12 +96,12 @@ class Game:
         return self
 
 
-    def get_successors(self, state) -> List[Tuple[State, Action, int]]:
-        """
-        :param state: A Bullet Hell Game State
-        :return: a list of (curr_state, move, score) resulting for all possible moves from the current state of the game
-        move is the move which takes state to curr_state
-        """
-        # get player moves
-        moves = []
-        games =[Game.__copy__(self)]
+    # def get_successors(self, state) -> List[Tuple[State, Action, int]]:
+    #     """
+    #     :param state: A Bullet Hell Game State
+    #     :return: a list of (curr_state, move, score) resulting for all possible moves from the current state of the game
+    #     move is the move which takes state to curr_state
+    #     """
+    #     # get player moves
+    #     moves = []
+    #     games =[Game.__copy__(self)]
