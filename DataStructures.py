@@ -17,6 +17,9 @@ class Directions(Enum):
 
 class DataStructures:
     def __init__(self):
+        """
+        Okay okay new plan: move all the sprite groups into a dictionary, then dynamically create accessor methods with the correct name to access the groups. and then the copy can just use the dictionary to copy properly.
+        """
         self.AllSpritesGroup = pygame.sprite.Group()
         self.EnemySpriteGroup = pygame.sprite.Group()
         self.EnemyBossSpriteGroup = pygame.sprite.Group()
@@ -28,7 +31,7 @@ class DataStructures:
     def __copy__(self):
         data_structure = DataStructures()
         for sprite in self.AllSpritesGroup:
-            sprite_new = sprite.__copy__(data_structure.AllSpritesGroup)
+            sprite_new = sprite.__copy__(data_structure)
             if sprite in self.EnemySpriteGroup:
                 data_structure.EnemySpriteGroup.add(sprite_new)
             if sprite in self.EnemyBossSpriteGroup:

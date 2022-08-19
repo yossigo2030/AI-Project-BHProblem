@@ -25,6 +25,9 @@ class Player(BulletHellSprite):
     def set_score(self, add):
         self.score += add
 
+    def __copy__(self, data):
+        return Player(self.location, self.sprite, data, speed=self.speed, shoot_cd=self.cd.time, hitbox_size=self.hitbox_backup, image_size=self.imsize)
+
     def on_hit(self):
         if self.iframe.is_ready():
             self.iframe.use()

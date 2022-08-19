@@ -36,13 +36,14 @@ game = Game()
 pygame.display.init()
 
 game.update()
-gamecopy = game.__copy__()
 
 
 def game_loop():
+    gamecopy = game.__copy__(True)
     while running:
         # TODO figure out what the situation with move is, we need it for successors
         gamecopy.update()
+        gamecopy = gamecopy.__copy__(True)
         clock.tick(60)
 
 

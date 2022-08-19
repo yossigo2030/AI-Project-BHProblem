@@ -13,6 +13,7 @@ class Wave:
         self.EnemySpawnQueue = []
         self.number_of_wave = number_of_wave
         self.cooldownCounter = COOLDOWN
+        self.board_ratio = board_ratio
         for i in range(3):
             rnd = random.randint(0, 2)
             if rnd == 0:
