@@ -35,11 +35,14 @@ game = Game()
 # TODO: figure out the ratio with board
 pygame.display.init()
 
+game.update()
+gamecopy = game.__copy__()
+
 
 def game_loop():
     while running:
         # TODO figure out what the situation with move is, we need it for successors
-        game.update()
+        gamecopy.update()
         clock.tick(60)
 
 

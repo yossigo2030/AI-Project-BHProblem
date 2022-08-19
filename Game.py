@@ -17,25 +17,17 @@ class Game:
     Documentation goes here
     """
 
-    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=None, wave=None, data = None):
-        if data is None:
-            self.data = DataStructures()
-        else:
-            self.data = data
+    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=pygame.display.get_window_size(), wave=None, data=DataStructures()):
         self.frame = curr_frame
         self.visual = visual
-        if board_ratio is None:
-            self.board_ratio = pygame.display.get_window_size()
-        else:
-            self.board_ratio = board_ratio
+        self.board_ratio = board_ratio
+        self.data = data
         if player is None:
-            self.player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1]), r"resources\ship.png", self.data)
-        else:
-            self.player = player
+            player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1]), r"resources\ship.png", self.data)
+        self.player = player
         if wave is None:
-            self.wave = Wave.Wave(1, self.board_ratio, self.data)
-        else:
-            self.wave = wave
+            wave = Wave.Wave(1, self.board_ratio, self.data)
+        self.wave = wave
 
     def __copy__(self):
         # todo other cop ctors?? maybe make new objects with already knwon data
@@ -58,7 +50,6 @@ class Game:
         CollisionManager.collision_check_player(self.data)
 
         # check pickup collisions
-
 
         # screen visual updates
         if self.visual:
@@ -95,7 +86,6 @@ class Game:
         a new position set.
         """
         return self
-
 
     # def get_successors(self, state) -> List[Tuple[State, Action, int]]:
     #     """

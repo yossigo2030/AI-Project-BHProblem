@@ -27,15 +27,16 @@ class DataStructures:
 
     def __copy__(self):
         datastructures = DataStructures()
-        coself.AllSpritesGroup = pygame.sprite.Group()
-        DataStructures.copy_bullet_hell_sprite(self.EnemySpriteGroup, datastructures.EnemySpriteGroup)
-        DataStructures.copy_bullet_hell_sprite(self.EnemyBossSpriteGroup, datastructures.EnemyBossSpriteGroup)
-        DataStructures.copy_bullet_hell_sprite(self.ProjectileSpriteGroup, datastructures.ProjectileSpriteGroup)
-        DataStructures.copy_bullet_hell_sprite(self.ProjectileEnemyGroup, datastructures.ProjectileEnemyGroup)
-        DataStructures.copy_bullet_hell_sprite(self.ProjectilePlayerGroup, datastructures.ProjectilePlayerGroup)
-        DataStructures.copy_bullet_hell_sprite(self.PlayerSpriteGroup, datastructures.PlayerSpriteGroup)
+        DataStructures.copy_bullet_hell_sprite(self.AllSpritesGroup, datastructures)
+        DataStructures.copy_bullet_hell_sprite(self.EnemySpriteGroup, datastructures)
+        DataStructures.copy_bullet_hell_sprite(self.EnemyBossSpriteGroup, datastructures)
+        DataStructures.copy_bullet_hell_sprite(self.ProjectileSpriteGroup, datastructures)
+        DataStructures.copy_bullet_hell_sprite(self.ProjectileEnemyGroup, datastructures)
+        DataStructures.copy_bullet_hell_sprite(self.ProjectilePlayerGroup, datastructures)
+        DataStructures.copy_bullet_hell_sprite(self.PlayerSpriteGroup, datastructures)
         return datastructures
 
     @staticmethod
     def copy_bullet_hell_sprite(array1, array2):
-        for sprite in array1: sprite.__copy__(array2)
+        for sprite in array1:
+            sprite.__copy__(array2)
