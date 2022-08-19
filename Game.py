@@ -42,10 +42,10 @@ class Game:
         data = self.data.__copy__()
         return Game(self.frame, False, data.PlayerSpriteGroup[0], self.board_ratio, self.wave, data)
 
-    def update(self, move):
+    def update(self, move=None):
         self.frame += 1
         # player input and actions
-        self.player.update()
+        self.player.updateWrapper(move)
         # enemy moves and actions
         Projectile.update_all(self.data)
         EnemyType.update_all(self.data)

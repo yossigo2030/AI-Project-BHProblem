@@ -3,6 +3,8 @@ from typing import List, Tuple
 
 import numpy as np
 
+from Game import Game
+
 Action = List[bool, bool, bool, bool, bool]  # representing left, right, up, down (arrows), and shoot.
 State = object
 
@@ -21,7 +23,7 @@ class BHProblem:
     necessary for solving the problem.
     """
     @abstractmethod
-    def get_next_start_state(self) -> List[Action]:
+    def get_next_start_state(self) -> Game:
         """
         :return: returns the current starting state.
         On the first call, it's the default starting state. any successive calls are expected to be done with
@@ -30,7 +32,7 @@ class BHProblem:
         return
 
     @abstractmethod
-    def get_successors(self, state) -> List[Tuple[State, Action, int]]:
+    def get_successors(self, state: Game) -> List[Tuple[State, Action, int]]:
         """
         :param state: A Bullet Hell Game State
         :return: a list of (curr_state, move, score) resulting for all possible moves from the current state of the game
@@ -39,7 +41,7 @@ class BHProblem:
         return
 
     @abstractmethod
-    def get_state_score(self, state) -> float:
+    def get_state_score(self, state: Game) -> float:
         """
         :param state: A Bullet Hell Game State
         :return: the total score accrued over the course of the game.
@@ -47,7 +49,7 @@ class BHProblem:
         return
 
     @abstractmethod
-    def get_score(self, state, move: Action) -> float:
+    def get_score(self, state: Game, move: Action) -> float:
         """
         :param state: A Bullet Hell Game State
         :param move: the move to be taken at the current state of the game
@@ -57,7 +59,7 @@ class BHProblem:
         return
 
     @abstractmethod
-    def get_hit_score(self, state, move: Action) -> Tuple[float, float]:
+    def get_hit_score(self, state: Game, move: Action) -> Tuple[float, float]:
         """
         :param state: A Bullet Hell Game State
         :param move: the move to be taken at the current state of the game
@@ -66,7 +68,7 @@ class BHProblem:
         return
 
     @abstractmethod
-    def get_pickup_score(self, state, move: Action) -> float:
+    def get_pickup_score(self, state: Game, move: Action) -> float:
         """
         :param state: A Bullet Hell Game State
         :param move: the move to be taken at the current state of the game
@@ -75,7 +77,7 @@ class BHProblem:
         return
 
     @abstractmethod
-    def get_board_danger_state(self, state, n_turns: int) -> np.array:
+    def get_board_danger_state(self, state: Game, n_turns: int) -> np.array:
         """
         Returns the danger value of each tile on discretised version of the game board
         :param n_turns: The number of turns into the future over which the danger is calculated
@@ -85,7 +87,7 @@ class BHProblem:
         return
 
     @abstractmethod
-    def get_actions(self, state) -> List[Action]:
+    def get_actions(self, state: Game) -> List[Action]:
         """
         :param state: A Bullet Hell Game State
         :return: a list of moves possible from the current state of the game

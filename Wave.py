@@ -60,7 +60,7 @@ class Wave:
         else:
             while self.EnemySpawnQueue[0][1] <= 0:
                 head = self.EnemySpawnQueue.pop(0)
-                EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern((0, 2))])
+                EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((random.random(), 4 * random.random())))])
                 if len(self.EnemySpawnQueue) == 0:
                     break
             else:
