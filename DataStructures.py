@@ -26,17 +26,19 @@ class DataStructures:
         self.PlayerSpriteGroup = pygame.sprite.Group()
 
     def __copy__(self):
-        datastructures = DataStructures()
-        DataStructures.copy_bullet_hell_sprite(self.AllSpritesGroup, datastructures)
-        DataStructures.copy_bullet_hell_sprite(self.EnemySpriteGroup, datastructures)
-        DataStructures.copy_bullet_hell_sprite(self.EnemyBossSpriteGroup, datastructures)
-        DataStructures.copy_bullet_hell_sprite(self.ProjectileSpriteGroup, datastructures)
-        DataStructures.copy_bullet_hell_sprite(self.ProjectileEnemyGroup, datastructures)
-        DataStructures.copy_bullet_hell_sprite(self.ProjectilePlayerGroup, datastructures)
-        DataStructures.copy_bullet_hell_sprite(self.PlayerSpriteGroup, datastructures)
-        return datastructures
-
-    @staticmethod
-    def copy_bullet_hell_sprite(array1, array2):
-        for sprite in array1:
-            sprite.__copy__(array2)
+        data_structure = DataStructures()
+        for sprite in self.AllSpritesGroup:
+            sprite_new = sprite.__copy__(data_structure.AllSpritesGroup)
+            if sprite in self.EnemySpriteGroup:
+                data_structure.EnemySpriteGroup.add(sprite_new)
+            if sprite in self.EnemyBossSpriteGroup:
+                data_structure.EnemyBossSpriteGroup.add(sprite_new)
+            if sprite in self.ProjectileSpriteGroup:
+                data_structure.ProjectileSpriteGroup.add(sprite_new)
+            if sprite in self.ProjectileEnemyGroup:
+                data_structure.ProjectileEnemyGroup.add(sprite_new)
+            if sprite in self.ProjectilePlayerGroup:
+                data_structure.ProjectilePlayerGroup.add(sprite_new)
+            if sprite in self.PlayerSpriteGroup:
+                data_structure.PlayerSpriteGroup.add(sprite_new)
+        return data_structure
