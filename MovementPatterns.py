@@ -13,6 +13,9 @@ class MovePattern:
     def __init__(self, velocity: Velocity):
         self.velocity = velocity
 
+    def __copy__(self):
+        return self
+
     @abstractmethod
     def get_next_position(self, current_position: Position):
         pass

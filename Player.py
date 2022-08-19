@@ -9,10 +9,10 @@ from Spriteables import BulletHellSprite
 
 
 class Player(BulletHellSprite):
-    def __init__(self, location, sprite, data, speed=10, shoot_cd=10, hitbox_size=(25, 25), image_size=(40, 40)):
+    def __init__(self, location, sprite, data, speed=10, shoot_cd=10, hitbox_size=(25, 25), image_size=(40, 40), shoot_cc=None):
         super().__init__(location, sprite, data, PlayerMovementPattern(speed, image_size), hitbox_size, image_size)
         self.data.PlayerSpriteGroup.add(self)
-        self.cd = cooldown.cooldown(shoot_cd)
+        self.cd = cooldown.cooldown(shoot_cd, shoot_cc)
         self.iframe = cooldown.cooldown(20)
         self.speed = speed
         self.hitbox_backup = self.hitbox
@@ -26,7 +26,7 @@ class Player(BulletHellSprite):
         self.score += add
 
     def __copy__(self, data):
-        return Player(self.location, self.sprite, data, speed=self.speed, shoot_cd=self.cd.time, hitbox_size=self.hitbox_backup, image_size=self.imsize)
+        return Player(self.location, self.sprite, data, speed=self.speed, shoot_cd=self.cd.time, hitbox_size=self.hitbox_backup, image_size=self.imsize, shoot_cc=self.cd.counter)
 
     def on_hit(self):
         if self.iframe.is_ready():

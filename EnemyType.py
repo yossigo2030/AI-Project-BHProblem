@@ -27,7 +27,7 @@ class EnemyShooter(EnemyType):
 
 
     def __copy__(self, data):
-        return EnemyShooter(self.location, self.sprite, data, self.move_pattern, self.projPatterns)
+        return EnemyShooter(self.location, self.sprite, data, self.move_pattern.__copy__(), self.projPatterns)
 
     def update(self):
         super().update()

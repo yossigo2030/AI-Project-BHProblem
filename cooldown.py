@@ -1,8 +1,8 @@
 class cooldown:
 
-    def __init__(self, time):
+    def __init__(self, time, counter=None):
         self.time = time
-        self.counter = time
+        self.counter = time if counter is None else counter
 
     def is_ready(self):
         return self.counter == self.time
