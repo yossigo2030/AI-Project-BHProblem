@@ -39,7 +39,7 @@ class Game:
 
     def __copy__(self):
         # todo other cop ctors?? maybe make new objects with already knwon data
-        return Game(self.frame, false, self.player, self.board_ratio, self.wave, self.data)
+        return Game(self.frame, False, self.player, self.board_ratio, self.wave, self.data)
 
     def update(self, move):
         self.frame += 1
