@@ -30,9 +30,11 @@ class Wave:
                                       (board_ratio[0] / 12),
                                       30)
 
-    def __copy__(self):
-        # todo understand whats going on with the arrays, as we need to copy wave
-        return Wave(self.number_of_wave, self.board_ratio, self.data)
+    def __copy__(self, data):
+        # todo fix this! @JoJo
+        # test code, this obviously does not work properly on multiple separate instances
+        self.data = data
+        return self
 
     def number_getter(self):
         return self.number_of_wave

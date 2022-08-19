@@ -22,7 +22,7 @@ class Projectile(BulletHellSprite):
         return self.damage_value
 
     def __copy__(self, data):
-        return Projectile(self.location, self.sprite, data,
+        return Projectile(self.location, self.image, data,
                               damage_value=self.damage_value,
                               movement_pattern=self.move_pattern,
                               player_projectile=self.player_projectile)

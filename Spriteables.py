@@ -1,4 +1,6 @@
 import pygame.sprite
+from pygame import Surface
+
 import Draw
 from DataStructures import DataStructures
 from MovementPatterns import *
@@ -13,13 +15,13 @@ class BulletHellSprite(pygame.sprite.Sprite):
         self.data.AllSpritesGroup.add(self)
         self.location = location
         self.sprite = sprite
-        self.image = pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), image_size)
+        self.image = sprite if isinstance(sprite, pygame.Surface) else pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), image_size)
         self.imsize = image_size
         self.hitbox = hitbox_size
         self.move_pattern = movement_pattern
 
     def __copy__(self, data):
-        return BulletHellSprite(self.location, self.sprite, data, self.move_pattern, self.hitbox, self.imsize)
+        return BulletHellSprite(self.location, self.image, data, self.move_pattern, self.hitbox, self.imsize)
 
     def get_hitbox(self):
         return pygame.rect.Rect(self.location[0] - self.hitbox[0] / 2,
