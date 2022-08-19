@@ -12,6 +12,7 @@ class EnemyType(BulletHellSprite):
         self.data.EnemySpriteGroup.add(self)
         self.health = health
 
+
     def on_hit(self, dmg):
         self.health -= dmg
         return self.health > 0
@@ -23,6 +24,10 @@ class EnemyShooter(EnemyType):
         super().__init__(location, sprite, data, movement_pattern)
         self.projPatterns = projPatterns
         self.cd = cooldown(90)
+
+
+    def __copy__(self, data):
+        return EnemyShooter(self.location, self.sprite, data, self.move_pattern, self.projPatterns)
 
     def update(self):
         super().update()

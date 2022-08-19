@@ -21,11 +21,10 @@ class Projectile(BulletHellSprite):
         self.kill()
         return self.damage_value
 
-    @override
     def __copy__(self, data):
         return Projectile(self.location, self.sprite, data,
                               damage_value=self.damage_value,
-                              movement_pattern=self.movement_pattern,
+                              movement_pattern=self.move_pattern,
                               player_projectile=self.player_projectile)
 
 
