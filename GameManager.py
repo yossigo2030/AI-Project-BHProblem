@@ -40,7 +40,6 @@ game.update()
 
 def game_loop():
     gamecopy = game.__copy__(True)
-    EnemyType.EnemyShooter([100, 100], r"resources\en.png", gamecopy.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((1, 1)))])
     while running:
         # TODO figure out what the situation with move is, we need it for successors
         gamecopy.update()
