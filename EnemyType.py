@@ -36,6 +36,25 @@ class EnemyShooter(EnemyType):
                 Projectile(self.location, "resources\\ball.png", self.data, movement_pattern=pattern)
 
 
+class BossShooter(EnemyType):
+    # shoot pattern is a list of directions
+    def __init__(self, location, sprite, data, movement_pattern: MovePattern, projPatterns: [MovePattern], cooldown=cooldown(90)):
+        super().__init__(location, sprite, data, movement_pattern)
+        self.projPatterns = projPatterns
+        self.cd = cooldown
+
+    def __copy__(self, data):
+        return EnemyShooter(self.location, self.image, data, self.move_pattern.__copy__(), self.projPatterns, cooldown(self.cd.time, self.cd.counter))  # self.cd.counter
+
+    def update(self):
+        super().update()
+        self.cd.update()
+        if self.cd.is_ready():
+            self.cd.use()
+            for pattern in self.projPatterns:
+                Projectile(self.location, "resources\\ball.png", self.data, movement_pattern=pattern)
+
+
 def update_all(data: DataStructures):
     for sprite in data.EnemySpriteGroup.sprites():
         sprite.update()
