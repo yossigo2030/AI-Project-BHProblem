@@ -18,10 +18,10 @@ class Wave:
         shape = (number_of_wave * (1 + number_of_wave)) / 2
         shape %= 3
         for i in range(number_of_wave):
-            if shape == 1:
+            if shape == 0:
                 self.EnemySpawnQueue.append([board_ratio[0] / 2, 100, True])
 
-            if shape == 0:
+            if shape == 1:
                 self.enemy_DNA(self.EnemySpawnQueue,
                                2,
                                (board_ratio[0] / 2),
@@ -88,8 +88,7 @@ class Wave:
                                             MovementPatterns.StraightPattern((1, -1)),
                                             MovementPatterns.StraightPattern((-1, -1))])
                 else:
-                    pass
-                    # EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((random.random(), 4 * random.random())))])
+                    EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((random.random(), 4 * random.random())))])
                 if len(self.EnemySpawnQueue) == 0:
                     break
             else:
