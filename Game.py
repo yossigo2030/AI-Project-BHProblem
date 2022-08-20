@@ -76,6 +76,11 @@ class Game:
             array[location[0]][location[1]].append(projectile)
         return array
 
+
+    def get_player_loc(self, dims: Tuple[int, int]):
+        return self.location_convert(self.player.location, dims)
+
+
     def location_convert(self, coords, dims) -> Tuple[int, int]:
         return coords[0] // self.board_ratio[0] * dims[0], coords[1] // self.board_ratio[1] * dims[1]
 
