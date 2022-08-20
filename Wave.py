@@ -39,7 +39,6 @@ class Wave:
     def __copy__(self, data):
         # todo fix this! @JoJo
         # test code, this obviously does not work properly on multiple separate instances
-        self.data = data
         return self
 
     def number_getter(self):
