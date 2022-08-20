@@ -1,17 +1,38 @@
+from Game import Game
 class MarkovDecisionProcess:
+
+    actions = [[tuple([0,0]), False],
+                [tuple([1,0]), False],
+                [tuple([1,1]), False],
+                [tuple([0,1]), False],
+                [tuple([-1,0]), False],
+                [tuple([-1,-1]), False],
+                [tuple([0,-1]), False],
+                [tuple([1,-1]), False],
+                [tuple([-1,1]), False],
+                [tuple([0, 0]), True],
+                [tuple([1, 0]), True],
+                [tuple([1, 1]), True],
+                [tuple([0, 1]), True],
+                [tuple([-1, 0]), True],
+                [tuple([-1, -1]), True],
+                [tuple([0, -1]), True],
+                [tuple([1, -1]), True],
+                [tuple([-1, 1]), True]]
+
     def getStartState(self):
         """
         Return the start state of the MDP.
         """
-        abstract
+        return Game()
 
-    def getPossibleActions(self, state):
+    def getPossibleActions(self, state: Game):
         """
         Return list of possible actions from 'state'.
         """
-        abstract
+        return actions
 
-    def getTransitionStatesAndProbs(self, state, action):
+    def getTransitionStatesAndProbs(self, state: game, action):
         """
         Returns list of (nextState, prob) pairs
         representing the states reachable
@@ -22,17 +43,19 @@ class MarkovDecisionProcess:
         learning in general, we do not know these
         probabilities nor do we directly model them.
         """
-        abstract
+        # not as intended
+        return state.__copy__().update(action)
 
-    def getReward(self, state, action, nextState):
+    def getReward(self, state: Game , action, nextState: Game):
         """
         Get the reward for the state, action, nextState transition.
 
         Not available in reinforcement learning.
         """
-        abstract
+        return state.player.score - nextState.player.score
 
-    def isTerminal(self, state):
+
+    def isTerminal(self, state: Game):
         """
         Returns true if the current state is a terminal state.  By convention,
         a terminal state has zero future rewards.  Sometimes the terminal state(s)
@@ -40,4 +63,4 @@ class MarkovDecisionProcess:
         state as having a self-loop action 'pass' with zero reward; the formulations
         are equivalent.
         """
-        abstract
+        return state.player.lives == 0
