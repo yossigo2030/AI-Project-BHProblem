@@ -1,7 +1,16 @@
 from Game import Game
 class MarkovDecisionProcess:
 
-    actions = [[tuple([0,0]), False],
+    actions_no_shoot = [[tuple([0,0]), False],
+                [tuple([1,0]), False],
+                [tuple([1,1]), False],
+                [tuple([0,1]), False],
+                [tuple([-1,0]), False],
+                [tuple([-1,-1]), False],
+                [tuple([0,-1]), False],
+                [tuple([1,-1]), False],
+                [tuple([-1,1]), False]]
+    actions_shoot = [[tuple([0,0]), False],
                 [tuple([1,0]), False],
                 [tuple([1,1]), False],
                 [tuple([0,1]), False],
@@ -30,7 +39,9 @@ class MarkovDecisionProcess:
         """
         Return list of possible actions from 'state'.
         """
-        return actions
+        if state.player.cd.is_ready():
+            return actions_shoot
+        return actions_no_shoot
 
     def getTransitionStatesAndProbs(self, state: game, action):
         """
