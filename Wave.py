@@ -4,6 +4,7 @@ import random
 import EnemyType
 import MovementPatterns
 import pygame
+import copy
 
 COOLDOWN = 100
 
@@ -40,7 +41,7 @@ class Wave:
     def __copy__(self, data):
         wave = Wave(self.number_of_wave, self.board_ratio, data, True)
         wave.cooldownCounter = self.cooldownCounter
-        wave.EnemySpawnQueue = self.EnemySpawnQueue
+        wave.EnemySpawnQueue = copy.copy(self.EnemySpawnQueue)
         return wave
 
     def number_getter(self):

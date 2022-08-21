@@ -45,9 +45,9 @@ def game_loop():
         # TODO figure out what the situation with move is, we need it for successors
         gamecopy.update()
         gamecopy = gamecopy.__copy__(True)
-        # q.update_values(gamecopy)
-        # q.print_at_depth(1)
-        # q.print_at_depth(2)
+        q.update_values(gamecopy)
+        q.print_at_depth(1)
+        q.print_at_depth(2)
 
         clock.tick(60)
 

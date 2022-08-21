@@ -36,6 +36,7 @@ class Game:
 
     def update(self, move=None):
         self.frame += 1
+        self.player.set_score(1)
         # player input and actions
         self.player.updateWrapper(move)
         # enemy moves and actions
