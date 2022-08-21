@@ -1,15 +1,17 @@
+import copy
 import math
 import random
 
 import EnemyType
 import MovementPatterns
 import pygame
+import copy
 
 COOLDOWN = 100
 
 
 class Wave:
-    def __init__(self, number_of_wave, board_size, data, isCopy = False):
+    def __init__(self, number_of_wave, board_size, data, isCopy=False):
         self.data = data
         self.EnemySpawnQueue = []
         self.number_of_wave = number_of_wave
@@ -38,10 +40,9 @@ class Wave:
                 shape = (shape + 1) % 3
 
     def __copy__(self, data):
-        # todo fix this! @JoJo
-        # test code, this obviously does not work properly on multiple separate instances
-        wave = Wave(self.number_of_wave, self.board_size, data, True)
-        wave.EnemySpawnQueue = self.EnemySpawnQueue
+        wave = Wave(self.number_of_wave, self.board_ratio, data, True)
+        wave.cooldownCounter = self.cooldownCounter
+        wave.EnemySpawnQueue = copy.deepcopy(self.EnemySpawnQueue)
         return wave
 
     def number_getter(self):
@@ -82,22 +83,22 @@ class Wave:
                 head = self.EnemySpawnQueue.pop(0)
                 if head[2]:
                     gato = pygame.image.load(r"resources\en_boss.png")
-                    EnemyType.BossShooter([head[0], 0], pygame.transform.scale(gato,[75,75]),
-                                           self.data, MovementPatterns.StraightPattern((0, 2*0.25)),
-                                           [MovementPatterns.StraightPattern((0, 3)),
-                                            MovementPatterns.StraightPattern((-1, 3)),
-                                            MovementPatterns.StraightPattern((1, 3)),
-                                            MovementPatterns.StraightPattern((-2, 3)),
-                                            MovementPatterns.StraightPattern((2, 3)),
-                                            MovementPatterns.StraightPattern((-3, 3)),
-                                            MovementPatterns.StraightPattern((3, 3)),
-                                            MovementPatterns.StraightPattern((0, -1)),
-                                            MovementPatterns.StraightPattern((1, 0)),
-                                            MovementPatterns.StraightPattern((-1, 0)),
-                                            MovementPatterns.StraightPattern((1, 1)),
-                                            MovementPatterns.StraightPattern((-1, 1)),
-                                            MovementPatterns.StraightPattern((1, -1)),
-                                            MovementPatterns.StraightPattern((-1, -1))])
+                    EnemyType.BossShooter([head[0], 0], pygame.transform.scale(gato, [75, 75]),
+                                          self.data, MovementPatterns.StraightPattern((0, 2 * 0.25)),
+                                          [MovementPatterns.StraightPattern((0, 3)),
+                                           MovementPatterns.StraightPattern((-1, 3)),
+                                           MovementPatterns.StraightPattern((1, 3)),
+                                           MovementPatterns.StraightPattern((-2, 3)),
+                                           MovementPatterns.StraightPattern((2, 3)),
+                                           MovementPatterns.StraightPattern((-3, 3)),
+                                           MovementPatterns.StraightPattern((3, 3)),
+                                           MovementPatterns.StraightPattern((0, -1)),
+                                           MovementPatterns.StraightPattern((1, 0)),
+                                           MovementPatterns.StraightPattern((-1, 0)),
+                                           MovementPatterns.StraightPattern((1, 1)),
+                                           MovementPatterns.StraightPattern((-1, 1)),
+                                           MovementPatterns.StraightPattern((1, -1)),
+                                           MovementPatterns.StraightPattern((-1, -1))])
                 else:
                     EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((random.random(), 4 * random.random())))])
                 if len(self.EnemySpawnQueue) == 0:

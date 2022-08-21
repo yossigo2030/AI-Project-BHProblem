@@ -20,7 +20,7 @@ class QLearner:
 
     def update_values(self, state: Game):
         for i in range(self.itercount // self.steps):
-            cs = state.__copy__(False)
+            cs = state.__copy__()
             for j in range(self.steps):
                 pa = self.mdp.getPossibleActions(cs)
                 if random.uniform(0, 1) < self.eps:
@@ -40,18 +40,19 @@ class QLearner:
                 yn -= 1
                 xlocs = [int(xn + x - 1) for x in range(3) if 0 <= xn + x - 1 < self.bs[0]]
                 ylocs = [int(yn + y - 1) for y in range(3) if 0 <= yn + y - 1 < self.bs[1]]
-
                 if j + 1 < self.steps:
                     max_of_future = np.max([self.Q[x][y][1][j + 1] for x in xlocs for y in ylocs])  # TODO check logic
                 else:
                     max_of_future = 0
-
                 self.Q[xc][yc][int(action[1])][j] += self.lr * (reward + self.gamma * max_of_future - self.Q[xc][yc][int(action[1])][j])
 
     def next_turn(self):
         pass
 
     def print_at_depth(self, d=0):
+        # np.unravel_index(self.Q.argmax(), self.Q.shape)
+        # self.Q[0][99][1][0]
+
         mat_ya = self.Q[:][:][0][d]
         mat_na = self.Q[:][:][1][d]
         print(f"depth {d}")
