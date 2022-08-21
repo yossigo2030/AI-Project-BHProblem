@@ -31,7 +31,7 @@ class DataStructures:
     def __copy__(self):
         data_structure = DataStructures()
         for sprite in self.AllSpritesGroup:
-             sprite_new = sprite.__copy__(data_structure)
+            sprite_new = sprite.__copy__(data_structure)
             if sprite in self.EnemySpriteGroup:
                 data_structure.EnemySpriteGroup.add(sprite_new)
             if sprite in self.EnemyBossSpriteGroup:
