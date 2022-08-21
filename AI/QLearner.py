@@ -20,7 +20,7 @@ class QLearner:
 
     def update_values(self, state: Game):
         for i in range(self.itercount // self.steps):
-            cs = state.__copy__(False)
+            cs = state.__copy__()
             for j in range(self.steps):
                 pa = self.mdp.getPossibleActions(cs)
                 if random.uniform(0, 1) < self.eps:

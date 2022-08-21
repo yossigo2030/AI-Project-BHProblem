@@ -29,6 +29,7 @@ from Game import Game
 
 # board has an array of enemies projectiles a player object and the limits,
 # in its update function we will track score and update the units locations
+AI = True
 
 running = True
 clock = pygame.time.Clock()
@@ -45,9 +46,10 @@ def game_loop():
         # TODO figure out what the situation with move is, we need it for successors
         gamecopy.update()
         gamecopy = gamecopy.__copy__(True)
-        q.update_values(gamecopy)
-        q.print_at_depth(1)
-        q.print_at_depth(2)
+        if AI:
+            q.update_values(gamecopy)
+            q.print_at_depth(1)
+            q.print_at_depth(2)
 
         clock.tick(60)
 
