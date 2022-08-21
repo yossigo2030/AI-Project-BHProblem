@@ -50,6 +50,9 @@ class QLearner:
         pass
 
     def print_at_depth(self, d=0):
+        # np.unravel_index(self.Q.argmax(), self.Q.shape)
+        # self.Q[0][99][1][0]
+
         mat_ya = self.Q[:][:][0][d]
         mat_na = self.Q[:][:][1][d]
         print(f"depth {d}")
