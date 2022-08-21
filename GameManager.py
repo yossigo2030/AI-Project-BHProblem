@@ -12,6 +12,7 @@ import Player
 import Wave
 import EnemyType
 import MovementPatterns
+from AI.QLearner import QLearner
 from Game import Game
 
 # this file is currently empty it is a detailed explanation of how the game will
@@ -34,7 +35,7 @@ clock = pygame.time.Clock()
 game = Game()
 # TODO: figure out the ratio with board
 pygame.display.init()
-
+q = QLearner((100, 100))
 game.update()
 
 
@@ -44,6 +45,10 @@ def game_loop():
         # TODO figure out what the situation with move is, we need it for successors
         gamecopy.update()
         gamecopy = gamecopy.__copy__(True)
+        q.update_values(gamecopy)
+        q.print_at_depth(1)
+        q.print_at_depth(2)
+
         clock.tick(60)
 
 
