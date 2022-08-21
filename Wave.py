@@ -39,6 +39,7 @@ class Wave:
 
     def __copy__(self, data):
         wave = Wave(self.number_of_wave, self.board_ratio, data, True)
+        wave.cooldownCounter = self.cooldownCounter
         wave.EnemySpawnQueue = self.EnemySpawnQueue
         return wave
 
