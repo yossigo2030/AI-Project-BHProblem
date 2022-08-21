@@ -14,7 +14,7 @@ class Wave:
         self.EnemySpawnQueue = []
         self.number_of_wave = number_of_wave
         self.cooldownCounter = COOLDOWN
-        self.board_ratio = board_ratio
+        self.board_ratio = board_size
         shape = (((number_of_wave - 1) * number_of_wave) / 2) + 1
         shape %= 3
         for i in range(number_of_wave):

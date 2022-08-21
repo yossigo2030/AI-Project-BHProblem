@@ -29,7 +29,7 @@ class Game:
             wave = Wave.Wave(1, self.board_ratio, self.data)
         self.wave = wave
 
-    def __copy__(self, visuals=False):
+    def __copy__(self, visuals=True):
         # todo other cop ctors?? maybe make new objects with already knwon data
         data = self.data.__copy__()
         return Game(self.frame, visuals, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
