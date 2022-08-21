@@ -84,8 +84,8 @@ class Game:
 
 
     def location_convert(self, coords, dims) -> Tuple[int, int]:
-        return min(int(coords[0] / self.board_ratio[0] * dims[0]), dim[0] - 1),\
-               min(int(coords[1] / self.board_ratio[1] * dims[1]), dim[1], -1)
+        return min(int(coords[0] / self.board_ratio[0] * dims[0]), dims[0] - 1),\
+               min(int(coords[1] / self.board_ratio[1] * dims[1]), dims[1], -1)
 
     def get_next_start_state(self):
         """
