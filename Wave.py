@@ -9,37 +9,41 @@ COOLDOWN = 100
 
 
 class Wave:
-    def __init__(self, number_of_wave, board_ratio, data):
+    def __init__(self, number_of_wave, board_size, data):
         self.data = data
         self.EnemySpawnQueue = []
         self.number_of_wave = number_of_wave
         self.cooldownCounter = COOLDOWN
+<<<<<<< HEAD
         self.board_ratio = board_ratio
         shape = (((number_of_wave - 1) * number_of_wave) / 2) + 1
+=======
+        self.board_ratio = board_size
+        shape = (number_of_wave * (1 + number_of_wave)) / 2
+>>>>>>> 44c35e70402b14cee8f7f79b43fa00c876a80579
         shape %= 3
         for i in range(number_of_wave):
             if shape == 0:
-                self.EnemySpawnQueue.append([board_ratio[0] / 2, 100, True])
+                self.EnemySpawnQueue.append([board_size[0] / 2, 100, True])
 
             if shape == 1:
                 self.enemy_DNA(self.EnemySpawnQueue,
                                2,
-                               (board_ratio[0] / 2),
-                               (board_ratio[0] / 12),
+                               (board_size[0] / 2),
+                               (board_size[0] / 12),
                                20)
             if shape == 2:
                 self.enemy_double_DNA(self.EnemySpawnQueue,
                                       3,
-                                      (board_ratio[0] / 4),
-                                      ((3 * board_ratio[0]) / 4),
-                                      (board_ratio[0] / 12),
+                                      (board_size[0] / 4),
+                                      ((3 * board_size[0]) / 4),
+                                      (board_size[0] / 12),
                                       30)
             shape = (shape + 1) % 3
 
     def __copy__(self, data):
         # todo fix this! @JoJo
         # test code, this obviously does not work properly on multiple separate instances
-        self.data = data
         return self
 
     def number_getter(self):

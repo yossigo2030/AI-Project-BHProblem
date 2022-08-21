@@ -76,8 +76,14 @@ class Game:
             array[location[0]][location[1]].append(projectile)
         return array
 
+
+    def get_player_loc(self, dims: Tuple[int, int]):
+        # TODO can return values that are out of array range [0, dims[0] - 1]
+        return self.location_convert(self.player.location, dims)
+
+
     def location_convert(self, coords, dims) -> Tuple[int, int]:
-        return coords[0] // self.board_ratio[0] * dims[0], coords[1] // self.board_ratio[1] * dims[1]
+        return int(coords[0] // self.board_ratio[0] * dims[0]), int(coords[1] // self.board_ratio[1] * dims[1])
 
     def get_next_start_state(self):
         """
