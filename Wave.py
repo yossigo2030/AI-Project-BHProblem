@@ -15,7 +15,7 @@ class Wave:
         self.number_of_wave = number_of_wave
         self.cooldownCounter = COOLDOWN
         self.board_ratio = board_ratio
-        shape = (number_of_wave * (1 + number_of_wave)) / 2
+        shape = (((number_of_wave - 1) * number_of_wave) / 2) + 1
         shape %= 3
         for i in range(number_of_wave):
             if shape == 0:
@@ -48,7 +48,10 @@ class Wave:
     def enemy_DNA(self, EnemySpawnQueue, number_of_arches, offset, change_factor, frames):
         for i in range(number_of_arches * 12):
             factor = math.cos(i * math.pi / 12) * change_factor
-            EnemySpawnQueue.append([offset + factor, frames, False])
+            if not i:
+                EnemySpawnQueue.append([offset + factor, frames + 75, False])
+            else:
+                EnemySpawnQueue.append([offset + factor, frames, False])
 
             if factor != 0:
                 EnemySpawnQueue.append([offset - factor, 0, False])
@@ -56,9 +59,11 @@ class Wave:
     def enemy_double_DNA(self, EnemySpawnQueue, number_of_arches, offset1, offset2, change_factor, frames):
         for i in range(number_of_arches * 12):
             factor = math.cos(i * math.pi / 12) * change_factor
-            EnemySpawnQueue.append([offset1 + factor, frames, False])
+            if not i:
+                EnemySpawnQueue.append([offset1 + factor, frames + 75, False])
+            else:
+                EnemySpawnQueue.append([offset1 + factor, frames, False])
             EnemySpawnQueue.append([offset2 + factor, 0, False])
-
             if factor != 0:
                 EnemySpawnQueue.append([offset1 - factor, 0, False])
                 EnemySpawnQueue.append([offset2 - factor, 0, False])
@@ -75,11 +80,15 @@ class Wave:
                 head = self.EnemySpawnQueue.pop(0)
                 if head[2]:
                     gato = pygame.image.load(r"resources\en_boss.png")
-                    EnemyType.EnemyShooter([head[0], 0], pygame.transform.scale(gato,[75,75]),
-                                           self.data, MovementPatterns.StraightPattern((0, 1)),
-                                           [MovementPatterns.StraightPattern((0, 2)),
-                                            MovementPatterns.StraightPattern((-1, 2)),
-                                            MovementPatterns.StraightPattern((1, 2)),
+                    EnemyType.BossShooter([head[0], 0], pygame.transform.scale(gato,[75,75]),
+                                           self.data, MovementPatterns.StraightPattern((0, 2*0.25)),
+                                           [MovementPatterns.StraightPattern((0, 3)),
+                                            MovementPatterns.StraightPattern((-1, 3)),
+                                            MovementPatterns.StraightPattern((1, 3)),
+                                            MovementPatterns.StraightPattern((-2, 3)),
+                                            MovementPatterns.StraightPattern((2, 3)),
+                                            MovementPatterns.StraightPattern((-3, 3)),
+                                            MovementPatterns.StraightPattern((3, 3)),
                                             MovementPatterns.StraightPattern((0, -1)),
                                             MovementPatterns.StraightPattern((1, 0)),
                                             MovementPatterns.StraightPattern((-1, 0)),

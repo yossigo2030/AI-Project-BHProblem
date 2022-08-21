@@ -9,7 +9,6 @@ from cooldown import cooldown
 class EnemyType(BulletHellSprite):
     def __init__(self, location, sprite, data, movement_pattern: MovePattern, health=1):
         super().__init__(location, sprite, data, movement_pattern)
-        self.data.EnemySpriteGroup.add(self)
         self.health = health
 
     def on_hit(self, dmg):
@@ -23,6 +22,7 @@ class EnemyShooter(EnemyType):
         super().__init__(location, sprite, data, movement_pattern)
         self.projPatterns = projPatterns
         self.cd = cooldown
+        self.data.EnemySpriteGroup.add(self)
 
     def __copy__(self, data):
         return EnemyShooter(self.location, self.image, data, self.move_pattern.__copy__(), self.projPatterns, cooldown(self.cd.time, self.cd.counter))  # self.cd.counter
@@ -42,6 +42,7 @@ class BossShooter(EnemyType):
         super().__init__(location, sprite, data, movement_pattern)
         self.projPatterns = projPatterns
         self.cd = cooldown
+        self.data.EnemyBossSpriteGroup.add(self)
 
     def __copy__(self, data):
         return EnemyShooter(self.location, self.image, data, self.move_pattern.__copy__(), self.projPatterns, cooldown(self.cd.time, self.cd.counter))  # self.cd.counter
@@ -58,8 +59,12 @@ class BossShooter(EnemyType):
 def update_all(data: DataStructures):
     for sprite in data.EnemySpriteGroup.sprites():
         sprite.update()
+    for sprite in data.EnemyBossSpriteGroup.sprites():
+        sprite.update()
 
 
 def draw_all(data: DataStructures):
     for sprite in data.EnemySpriteGroup.sprites():
         sprite.draw()
+    for sprite in data.EnemyBossSpriteGroup.sprites():
+        sprite.update()
