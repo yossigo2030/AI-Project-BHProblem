@@ -9,7 +9,7 @@ from Game import Game
 class QLearner:
     def __init__(self, board_size, future_steps=10, itercount=1000, epsilon=0.1):
         # Q is a [board_size] matrix, by [shoot/notshoot], over [future_steps] turns
-        self.Q = np.zeros((board_size[0], board_size[1], 2, future_steps))
+        self.Q = np.zeros((board_size[0], board_size[1], 2, future_steps))  # index order is retardium. should be reversed.
         self.bs = board_size
         self.lr = 0.8  # TODO discount the LR into the future
         self.gamma = 0.9
@@ -35,9 +35,7 @@ class QLearner:
                 cs = ns
 
                 xc, yc = cs.get_player_loc(self.bs)
-                yc -= 1
                 xn, yn = ns.get_player_loc(self.bs)
-                yn -= 1
                 xlocs = [int(xn + x - 1) for x in range(3) if 0 <= xn + x - 1 < self.bs[0]]
                 ylocs = [int(yn + y - 1) for y in range(3) if 0 <= yn + y - 1 < self.bs[1]]
                 if j + 1 < self.steps:
