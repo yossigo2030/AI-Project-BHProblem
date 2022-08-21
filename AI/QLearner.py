@@ -20,7 +20,7 @@ class QLearner:
 
     def update_values(self, state: Game):
         for i in range(self.itercount // self.steps):
-            cs = state.__copy__()
+            cs = state.__copy__(False)
             for j in range(self.steps):
                 pa = self.mdp.getPossibleActions(cs)
                 if random.uniform(0, 1) < self.eps:
@@ -29,7 +29,7 @@ class QLearner:
                 else:
                     """ Exploit: select the action with max value (future reward) """
                     action = pa[round(random.uniform(0, max(len(pa) - 1, 0)))]  # TODO
-                ns = cs.__copy__()
+                ns = cs.__copy__(False)
                 ns.update(action)
                 reward = self.mdp.getReward(cs, action, ns)
                 cs = ns
