@@ -20,7 +20,7 @@ def basic_heuristic(state: Game, action: Tuple[Tuple[int, int], bool]):
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
-    return state.get_state_score() + 10000*state.get_not_move(action)
+    return 10000*state.get_not_move(action)
 
 
 
@@ -62,7 +62,7 @@ def a_star_search(problem: Game, node_search_quota=10000,
     i = 0
     while len(queue):
         curr_state, curr_move, score = queue.pop()  # reversed from min to max (score)
-        print(len(queue), [i for i in range(len(queue)) if queue[i][1][0] == [0, 0]])
+        print(len(queue), [i for i in range(len(queue)) if queue[i][1][0] == [0, 0] ])
         if node_search_quota == i:
             path = []
             key = get_key(curr_state, curr_move)
