@@ -14,7 +14,7 @@ import EnemyType
 import MovementPatterns
 from AI.QLearner import QLearner
 from Game import Game
-
+import AI.metaclass
 # this file is currently empty it is a detailed explanation of how the game will
 # be built code wise, then we will use the code elements to build a graphic gui
 # after we decide weather we want to use pygame tkinter or another program
@@ -29,7 +29,8 @@ from Game import Game
 
 # board has an array of enemies projectiles a player object and the limits,
 # in its update function we will track score and update the units locations
-AI = True
+qlearn = False
+aStar = True
 
 running = True
 clock = pygame.time.Clock()
@@ -41,12 +42,13 @@ game.update()
 
 
 def game_loop():
-    gamecopy = game.__copy__(True)
+    # gamecopy = game.__copy__(True)
     while running:
         # TODO figure out what the situation with move is, we need it for successors
-        gamecopy.update()
-        gamecopy = gamecopy.__copy__(True)
-        if AI:
+        if aStar:
+            game.update(AI.metaclass.a_star_player(game))
+        # gamecopy = gamecopy.__copy__(True)
+        if qlearn:
             q.update_values(gamecopy)
             q.print_at_depth(1)
             q.print_at_depth(2)

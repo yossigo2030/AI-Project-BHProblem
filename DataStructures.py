@@ -28,6 +28,20 @@ class DataStructures:
         self.ProjectilePlayerGroup = pygame.sprite.Group()
         self.PlayerSpriteGroup = pygame.sprite.Group()
 
+    def copy_proj_and_enemies(self):
+        data_structure = DataStructures()
+        for sprite in self.AllSpritesGroup:
+            sprite_new = sprite.__copy__(data_structure)
+            if sprite in self.EnemySpriteGroup:
+                data_structure.EnemySpriteGroup.add(sprite_new)
+            if sprite in self.EnemyBossSpriteGroup:
+                data_structure.EnemyBossSpriteGroup.add(sprite_new)
+            if sprite in self.ProjectilePlayerGroup:
+                data_structure.ProjectilePlayerGroup.add(sprite_new)
+            if sprite in self.PlayerSpriteGroup:
+                data_structure.PlayerSpriteGroup.add(sprite_new)
+        return data_structure
+
     def __copy__(self):
         data_structure = DataStructures()
         for sprite in self.AllSpritesGroup:

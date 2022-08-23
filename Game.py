@@ -10,7 +10,7 @@ import Spriteables
 import Wave
 import CollisionManager
 from DataStructures import DataStructures
-
+import AI
 
 class Game:
     """
@@ -93,12 +93,34 @@ class Game:
         """
         return self
 
-    # def get_successors(self, state) -> List[Tuple[State, Action, int]]:
-    #     """
-    #     :param state: A Bullet Hell Game State
-    #     :return: a list of (curr_state, move, score) resulting for all possible moves from the current state of the game
-    #     move is the move which takes state to curr_state
-    #     """
-    #     # get player moves
-    #     moves = []
-    #     games =[Game.__copy__(self)]
+    def get_successors(self):
+        """
+        :param state: A Bullet Hell Game State
+        :return: a list of (curr_state, move, score) resulting for all possible moves from the current state of the game
+        move is the move which takes state to curr_state
+        """
+        # get player moves
+        games = [[Game.__copy__(self), move, 0] for move in AI.mdp.MarkovDecisionProcess.getPossibleActions(self)]
+        for game in games:
+            game[0].update(game[1])
+            game[2] = self.delta_score(game[0])
+        return [tuple(i) for i in games]
+
+    def delta_score(self, after_play, move=None):
+        return after_play.player.score - self.player.score
+
+    def get_state_score(self):
+        return self.player.score
+
+    def get_not_move(self, next_copy):
+        return self.player.location == next_copy.player.location
+
+    def predict_projectiles_Score(self, depth = 4):
+        data = self.data.copy_proj_and_enemies()
+        copy = Game(self.frame, False, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
+        score = 0
+        while copy.data.ProjectilePlayerGroup and depth:
+            copy.update()
+            score += CollisionManager.collision_check_enemies(data)
+            depth -= 1
+        return score

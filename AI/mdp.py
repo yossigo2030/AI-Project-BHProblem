@@ -35,13 +35,14 @@ class MarkovDecisionProcess:
         """
         return Game()
 
-    def getPossibleActions(self, state: Game):
+    @staticmethod
+    def getPossibleActions(state: Game):
         """
         Return list of possible actions from 'state'.
         """
         if state.player.cd.is_ready():
-            return self.actions_shoot
-        return self.actions_no_shoot
+            return MarkovDecisionProcess.actions_shoot
+        return MarkovDecisionProcess.actions_no_shoot
 
     def getTransitionStatesAndProbs(self, state: Game, action):
         """
