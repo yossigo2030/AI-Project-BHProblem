@@ -20,7 +20,8 @@ def basic_heuristic(state: Game, action: Tuple[Tuple[int, int], bool]):
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
-    return state.get_state_score(state)
+    return state.get_state_score() + 10000*state.get_not_move(action)
+
 
 
 def basic_heuristic_2(state: Game, action: Tuple[Tuple[int, int], bool]):
@@ -53,25 +54,23 @@ def a_star_search(problem: Game, node_search_quota=10000,
     """
     Search the node that has the lowest combined cost and heuristic first.
     """
-    # get starting point
-    # board_instance = problem.get_next_start_state()
     queue = problem.get_successors()
-    # make a visited list, paternity list
     visited = set(x for (x, y, z) in queue)
     father = {}
     g = lambda x: x[2] + heuristic(x[0],
-                                   problem)  # x = (curr_state, curr_move, score), where the current state is the state *after* curr_move has been executed, and the score is also after the move.
+                                   x[1])  # x = (curr_state, curr_move, score), where the current state is the state *after* curr_move has been executed, and the score is also after the move.
     i = 0
     while len(queue):
         curr_state, curr_move, score = queue.pop()  # reversed from min to max (score)
+        print(len(queue), [i for i in range(len(queue)) if queue[i][1][0] == [0, 0]])
         if node_search_quota == i:
             path = []
             key = get_key(curr_state, curr_move)
             while key in father.keys():
-                path.insert(0, curr_move)
+                path.append(curr_move)
                 curr_state, curr_move = father[key]
                 key = get_key(curr_state, curr_move)
-            path.insert(0, curr_move)
+            path.append(curr_move)
             return path
         for (bstate, bmove, reward) in problem.get_successors():  # TODO alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
             if bstate not in visited:
@@ -90,7 +89,7 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game):
-    next_moves = a_star_search(problem, node_search_quota=1, heuristic=predict_shoot_heuristic)
+    next_moves = a_star_search(problem, node_search_quota=5, heuristic=predict_shoot_heuristic)
     if next_moves is []:
         return
-    return next_moves[0]
+    return next_moves

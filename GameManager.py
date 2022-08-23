@@ -42,9 +42,12 @@ game.update()
 
 
 def game_loop():
+    moves = []
     while running:
         if alg == "aStar":
-            game.update(a_star_player(game))
+            if moves == []:
+               moves = a_star_player(game)
+            game.update(moves.pop())
         elif alg == "qLearn":
             q.update_values(game)
             move = q.next_turn(game)
