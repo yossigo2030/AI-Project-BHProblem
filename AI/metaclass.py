@@ -1,9 +1,13 @@
+from typing import Tuple
+
 import Game
+
+
 class AIBase:
     pass
 
 
-def null_heuristic(state, problem=None):
+def null_heuristic(state: Game, action: Tuple[Tuple[int, int], bool]):
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
@@ -11,23 +15,23 @@ def null_heuristic(state, problem=None):
     return 0
 
 
-def basic_heuristic(state, problem: Game = None):
+def basic_heuristic(state: Game, action: Tuple[Tuple[int, int], bool]):
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
-    return problem.get_state_score()
+    return state.get_state_score(state)
 
 
-def basic_heuristic_2(state, problem: Game = None):
+def basic_heuristic_2(state: Game, action: Tuple[Tuple[int, int], bool]):
     """
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
-    return problem.get_state_score()
+    return state.get_state_score(state)
 
-def predict_shoot_heuristic(state, problem: Game = None):
-    return problem.predict_projectiles_Score()
+def predict_shoot_heuristic(state: Game, action: Tuple[Tuple[int, int], bool]):
+    return state.predict_projectiles_Score()
 
 
 def find_loc(func, arr, element):

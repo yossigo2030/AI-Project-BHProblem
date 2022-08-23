@@ -28,34 +28,23 @@ class DataStructures:
         self.ProjectilePlayerGroup = pygame.sprite.Group()
         self.PlayerSpriteGroup = pygame.sprite.Group()
 
-    def copy_proj_and_enemies(self):
+    def copy(self, players=True, enemies=True, projectiles_hostile=True, projectile_friendly=True):
         data_structure = DataStructures()
         for sprite in self.AllSpritesGroup:
             sprite_new = sprite.__copy__(data_structure)
-            if sprite in self.EnemySpriteGroup:
+            if enemies and sprite in self.EnemySpriteGroup:
                 data_structure.EnemySpriteGroup.add(sprite_new)
-            if sprite in self.EnemyBossSpriteGroup:
+            if enemies and sprite in self.EnemyBossSpriteGroup:
                 data_structure.EnemyBossSpriteGroup.add(sprite_new)
-            if sprite in self.ProjectilePlayerGroup:
+            if projectiles_hostile and sprite in self.ProjectileEnemyGroup:
+                data_structure.ProjectileEnemyGroup.add(sprite_new)
+                data_structure.ProjectileSpriteGroup.add(sprite_new)
+            if projectile_friendly and sprite in self.ProjectilePlayerGroup:
                 data_structure.ProjectilePlayerGroup.add(sprite_new)
-            if sprite in self.PlayerSpriteGroup:
+                data_structure.ProjectileSpriteGroup.add(sprite_new)
+            if players and sprite in self.PlayerSpriteGroup:
                 data_structure.PlayerSpriteGroup.add(sprite_new)
         return data_structure
 
     def __copy__(self):
-        data_structure = DataStructures()
-        for sprite in self.AllSpritesGroup:
-            sprite_new = sprite.__copy__(data_structure)
-            if sprite in self.EnemySpriteGroup:
-                data_structure.EnemySpriteGroup.add(sprite_new)
-            if sprite in self.EnemyBossSpriteGroup:
-                data_structure.EnemyBossSpriteGroup.add(sprite_new)
-            if sprite in self.ProjectileSpriteGroup:
-                data_structure.ProjectileSpriteGroup.add(sprite_new)
-            if sprite in self.ProjectileEnemyGroup:
-                data_structure.ProjectileEnemyGroup.add(sprite_new)
-            if sprite in self.ProjectilePlayerGroup:
-                data_structure.ProjectilePlayerGroup.add(sprite_new)
-            if sprite in self.PlayerSpriteGroup:
-                data_structure.PlayerSpriteGroup.add(sprite_new)
-        return data_structure
+        return self.copy()

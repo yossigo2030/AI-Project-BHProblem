@@ -10,7 +10,7 @@ import Spriteables
 import Wave
 import CollisionManager
 from DataStructures import DataStructures
-import AI
+from AI.mdp import MarkovDecisionProcess as MDP
 
 class Game:
     """
@@ -30,7 +30,6 @@ class Game:
         self.wave = wave
 
     def __copy__(self, visuals=True):
-        # todo other cop ctors?? maybe make new objects with already knwon data
         data = self.data.__copy__()
         return Game(self.frame, visuals, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
 
@@ -78,7 +77,6 @@ class Game:
         return array
 
     def get_player_loc(self, dims: Tuple[int, int]):
-        # TODO can return values that are out of array range [0, dims[0] - 1]
         return self.location_convert(self.player.location, dims)
 
     def location_convert(self, coords, dims) -> Tuple[int, int]:
@@ -100,7 +98,7 @@ class Game:
         move is the move which takes state to curr_state
         """
         # get player moves
-        games = [[Game.__copy__(self), move, 0] for move in AI.mdp.MarkovDecisionProcess.getPossibleActions(self)]
+        games = [[Game.__copy__(self), move, 0] for move in MDP.getPossibleActions(self)]
         for game in games:
             game[0].update(game[1])
             game[2] = self.delta_score(game[0])
@@ -116,7 +114,7 @@ class Game:
         return self.player.location == next_copy.player.location
 
     def predict_projectiles_Score(self, depth = 4):
-        data = self.data.copy_proj_and_enemies()
+        data = self.data.copy(True, True, False, True)
         copy = Game(self.frame, False, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
         score = 0
         while copy.data.ProjectilePlayerGroup and depth:

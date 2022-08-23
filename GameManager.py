@@ -14,7 +14,7 @@ import EnemyType
 import MovementPatterns
 from AI.QLearner import QLearner
 from Game import Game
-import AI.metaclass
+from AI.metaclass import a_star_player
 # this file is currently empty it is a detailed explanation of how the game will
 # be built code wise, then we will use the code elements to build a graphic gui
 # after we decide weather we want to use pygame tkinter or another program
@@ -35,21 +35,17 @@ aStar = True
 running = True
 clock = pygame.time.Clock()
 game = Game()
-# TODO: figure out the ratio with board
 pygame.display.init()
-q = QLearner((100, 100), future_steps=10) # calc board size based on player movespeed
+q = QLearner((100, 100), future_steps=10)  # calc board size based on player movespeed
 game.update()
 
 
 def game_loop():
-    # gamecopy = game.__copy__(True)
     while running:
-        # TODO figure out what the situation with move is, we need it for successors
         if aStar:
-            game.update(AI.metaclass.a_star_player(game))
-        # gamecopy = gamecopy.__copy__(True)
+            game.update(a_star_player(game))
         if qlearn:
-            q.update_values(gamecopy)
+            q.update_values(game)
             q.print_at_depth(1)
             q.print_at_depth(2)
             q.print_at_depth(3)
