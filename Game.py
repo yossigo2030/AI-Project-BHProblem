@@ -29,7 +29,7 @@ class Game:
             wave = Wave.Wave(1, self.board_ratio, self.data)
         self.wave = wave
 
-    def __copy__(self, visuals=True):
+    def __copy__(self, visuals=False):
         data = self.data.__copy__()
         return Game(self.frame, visuals, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
 
@@ -110,8 +110,9 @@ class Game:
     def get_state_score(self):
         return self.player.score
 
-    def get_not_move(self, next_copy):
-        return self.player.location == next_copy.player.location
+    @staticmethod
+    def get_not_move(move):
+        return move[0] == [0, 0]
 
     def predict_projectiles_Score(self, depth = 4):
         data = self.data.copy(True, True, False, True)
