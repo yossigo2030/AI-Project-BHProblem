@@ -64,7 +64,7 @@ class MarkovDecisionProcess:
 
         Not available in reinforcement learning.
         """
-        return nextState.player.score - state.player.score + (1 if action[1] else 0)
+        return nextState.player.score - state.player.score + (1 if action[1] else 0) - (10000 if nextState.player.lives < state.player.lives else 0)
 
     def isTerminal(self, state: Game):
         """

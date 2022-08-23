@@ -2,6 +2,7 @@ import math
 import time
 from queue import Queue
 
+import numpy as np
 import pygame
 import Draw
 import Spriteables
@@ -30,7 +31,7 @@ from AI.metaclass import a_star_player
 # board has an array of enemies projectiles a player object and the limits,
 # in its update function we will track score and update the units locations
 algs = ["aStar", "qLearn"]
-alg = "qLearn"
+alg = "aStar"
 
 running = True
 clock = pygame.time.Clock()
@@ -46,11 +47,15 @@ def game_loop():
             game.update(a_star_player(game))
         elif alg == "qLearn":
             q.update_values(game)
-            game.update()
-            q.print_at_depth(1)
-            q.print_at_depth(2)
-            q.print_at_depth(3)
-            q.print_at_depth(4)
+            move = q.next_turn(game)
+            print(move)
+            game.update(move)
+            q.print_at_depth(game, 0)
+            print(list(np.where(q.Q == np.max(q.Q))))
+            # q.print_at_depth(game, 1)
+            # q.print_at_depth(game, 2)
+            # q.print_at_depth(game, 3)
+            # q.print_at_depth(game, 4)
 
         clock.tick(60)
 

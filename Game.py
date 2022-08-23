@@ -23,7 +23,7 @@ class Game:
         self.board_ratio = board_ratio
         self.data = data
         if player is None:
-            player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 2), r"resources\ship.png", self.data)
+            player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 5), r"resources\ship.png", self.data)
         self.player = player
         if wave is None:
             wave = Wave.Wave(1, self.board_ratio, self.data)

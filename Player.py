@@ -58,6 +58,7 @@ class Player(BulletHellSprite):
         if move is None:
             self.update()
         else:
+            InputHandler.clear()
             current_position = self.location
             new_loc = [self.location[i] + move[0][i] * self.speed for i in range(2)]
             final_loc = list(current_position)
