@@ -1,4 +1,5 @@
 import random
+import sys
 
 import numpy as np
 
@@ -17,6 +18,7 @@ class QLearner:
         self.itercount = itercount
         self.eps = epsilon
         self.mdp = MarkovDecisionProcess()
+        np.set_printoptions(threshold=sys.maxsize, linewidth=sys.maxsize)
 
     def update_values(self, state: Game):
         for i in range(self.itercount // self.steps):
@@ -32,14 +34,15 @@ class QLearner:
                 ns = cs.__copy__(False)
                 ns.update(action)
                 reward = self.mdp.getReward(cs, action, ns)
-                cs = ns
 
                 xc, yc = cs.get_player_loc(self.bs)
                 xn, yn = ns.get_player_loc(self.bs)
+
+                cs = ns
                 xlocs = [int(xn + x - 1) for x in range(3) if 0 <= xn + x - 1 < self.bs[0]]
                 ylocs = [int(yn + y - 1) for y in range(3) if 0 <= yn + y - 1 < self.bs[1]]
                 if j + 1 < self.steps:
-                    max_of_future = np.max([self.Q[x][y][1][j + 1] for x in xlocs for y in ylocs])  # TODO check logic
+                    max_of_future = np.max([self.Q[x][y][abs(action[1] - 1)][j + 1] for x in xlocs for y in ylocs])  # TODO check logic
                 else:
                     max_of_future = 0
                 self.Q[xc][yc][int(action[1])][j] += self.lr * (reward + self.gamma * max_of_future - self.Q[xc][yc][int(action[1])][j])
@@ -51,8 +54,10 @@ class QLearner:
         # np.unravel_index(self.Q.argmax(), self.Q.shape)
         # self.Q[0][99][1][0]
 
-        mat_ya = self.Q[:][:][0][d]
-        mat_na = self.Q[:][:][1][d]
-        print(f"depth {d}")
-        print(mat_ya)
-        print(mat_na)
+        mat_ya = self.Q[::, ::, 0, d].T
+        mat_na = self.Q[::, ::, 1, d].T
+        print(f"depth {d}\nNo shoot:")
+        print(np.array_str(mat_ya[48:52], precision=1, suppress_small=True))
+        print("Yes Shoot:")
+        print(np.array_str(mat_na[48:52], precision=1, suppress_small=True))
+        print("")

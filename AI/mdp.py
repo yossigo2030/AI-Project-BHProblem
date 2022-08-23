@@ -1,6 +1,5 @@
 from Game import Game
 
-
 class MarkovDecisionProcess:
     actions_no_shoot = [([0, 0], False),
                         ([1, 0], False),

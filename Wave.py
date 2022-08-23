@@ -74,7 +74,8 @@ class Wave:
     def update(self):
         if len(self.EnemySpawnQueue) == 0:
             if self.cooldownCounter == COOLDOWN:
-                print("end of wave")
+                pass
+                # print("end of wave")
             if self.cooldownCounter == 0:
                 return 1
             self.cooldownCounter -= 1

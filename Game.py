@@ -23,7 +23,7 @@ class Game:
         self.board_ratio = board_ratio
         self.data = data
         if player is None:
-            player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1]), r"resources\ship.png", self.data)
+            player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 2), r"resources\ship.png", self.data)
         self.player = player
         if wave is None:
             wave = Wave.Wave(1, self.board_ratio, self.data)
@@ -77,15 +77,13 @@ class Game:
             array[location[0]][location[1]].append(projectile)
         return array
 
-
     def get_player_loc(self, dims: Tuple[int, int]):
         # TODO can return values that are out of array range [0, dims[0] - 1]
         return self.location_convert(self.player.location, dims)
 
-
     def location_convert(self, coords, dims) -> Tuple[int, int]:
-        return min(int(coords[0] / self.board_ratio[0] * dims[0]), dims[0] - 1),\
-               min(int(coords[1] / self.board_ratio[1] * dims[1]), dims[1], -1)
+        return min(int(coords[0] / self.board_ratio[0] * dims[0]), dims[0] - 1), \
+               min(int(coords[1] / self.board_ratio[1] * dims[1]), dims[1] - 1)
 
     def get_next_start_state(self):
         """

@@ -9,7 +9,7 @@ from Spriteables import BulletHellSprite
 
 
 class Player(BulletHellSprite):
-    def __init__(self, location, sprite, data, speed=10, shoot_cd=10, hitbox_size=(25, 25), image_size=(40, 40), shoot_cc=None, lives=3):
+    def __init__(self, location, sprite, data, speed=5, shoot_cd=10, hitbox_size=(25, 25), image_size=(40, 40), shoot_cc=None, lives=3):
         super().__init__(location, sprite, data, PlayerMovementPattern(speed, image_size), hitbox_size, image_size)
         self.data.PlayerSpriteGroup.add(self)
         self.cd = cooldown.cooldown(shoot_cd, shoot_cc)
@@ -59,12 +59,14 @@ class Player(BulletHellSprite):
             self.update()
         else:
             current_position = self.location
-            new_loc = current_position + move[0] * self.speed
+            new_loc = [current_position[i] + move[0][i] * self.speed for i in range(2)]
             final_loc = list(current_position)
             if not out_of_bounds_player((new_loc[0], current_position[1]), (self.imsize[0] / 2, self.imsize[1] / 2)):
                 final_loc[0] = new_loc[0]
             if not out_of_bounds_player((current_position[0], new_loc[1]), (self.imsize[0] / 2, self.imsize[1] / 2)):
                 final_loc[1] = new_loc[1]
+
+            self.location = final_loc
 
             shoot = move[1]
 

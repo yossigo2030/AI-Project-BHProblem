@@ -36,7 +36,7 @@ clock = pygame.time.Clock()
 game = Game()
 # TODO: figure out the ratio with board
 pygame.display.init()
-q = QLearner((100, 100),future_steps=2)
+q = QLearner((100, 100), future_steps=10) # calc board size based on player movespeed
 game.update()
 
 
@@ -48,8 +48,10 @@ def game_loop():
         gamecopy = gamecopy.__copy__(True)
         if AI:
             q.update_values(gamecopy)
-            # q.print_at_depth(1)
-            # q.print_at_depth(2)
+            q.print_at_depth(1)
+            q.print_at_depth(2)
+            q.print_at_depth(3)
+            q.print_at_depth(4)
 
         clock.tick(60)
 
