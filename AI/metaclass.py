@@ -20,7 +20,7 @@ def basic_heuristic(state: Game, action: Tuple[Tuple[int, int], bool]):
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
-    return state.get_state_score() + 10000*state.get_not_move(action)
+    return 10000*state.get_not_move(action)
 
 
 
