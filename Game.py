@@ -35,7 +35,7 @@ class Game:
 
     def update(self, move=None):
         self.frame += 1
-        self.player.set_score(1)
+        # self.player.increment_score(1)
         # player input and actions
         self.player.updateWrapper(move)
         # enemy moves and actions
@@ -46,7 +46,7 @@ class Game:
         Spriteables.sprite_culling(self.data)
 
         # check collisions
-        self.player.set_score(CollisionManager.collision_check_enemies(self.data))
+        self.player.increment_score(CollisionManager.collision_check_enemies(self.data))
         CollisionManager.collision_check_player(self.data)
 
         # check pickup collisions

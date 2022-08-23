@@ -30,7 +30,7 @@ from AI.metaclass import a_star_player
 # board has an array of enemies projectiles a player object and the limits,
 # in its update function we will track score and update the units locations
 algs = ["aStar", "qLearn"]
-alg = "aStar"
+alg = "qLearn"
 
 running = True
 clock = pygame.time.Clock()
@@ -46,6 +46,7 @@ def game_loop():
             game.update(a_star_player(game))
         elif alg == "qLearn":
             q.update_values(game)
+            game.update()
             q.print_at_depth(1)
             q.print_at_depth(2)
             q.print_at_depth(3)
