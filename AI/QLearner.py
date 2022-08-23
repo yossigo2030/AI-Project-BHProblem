@@ -2,6 +2,7 @@ import random
 import sys
 
 import numpy as np
+import heatmap
 
 from AI.mdp import MarkovDecisionProcess
 from Game import Game
@@ -46,6 +47,7 @@ class QLearner:
                 else:
                     max_of_future = 0
                 self.Q[xc][yc][int(action[1])][j] += self.lr * (reward + self.gamma * max_of_future - self.Q[xc][yc][int(action[1])][j])
+        heatmap.show_map(self.Q[::, ::, 0, 1] + self.Q[::, ::, 1, 1])
 
     def next_turn(self, game):
         x, y = game.get_player_loc(self.bs)
