@@ -12,6 +12,7 @@ import CollisionManager
 from DataStructures import DataStructures
 import AI
 
+
 class Game:
     """
     Documentation goes here
@@ -23,7 +24,7 @@ class Game:
         self.board_ratio = board_ratio
         self.data = data
         if player is None:
-            player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 5), r"resources\ship.png", self.data)
+            player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 2), r"resources\ship.png", self.data)
         self.player = player
         if wave is None:
             wave = Wave.Wave(1, self.board_ratio, self.data)
@@ -101,11 +102,11 @@ class Game:
         games = [[Game.__copy__(self), move, 0] for move in AI.mdp.MarkovDecisionProcess.getPossibleActions(self)]
         for game in games:
             game[0].update(game[1])
-            game[2] = self.delta_score(game[0])
+            game[2] = self.delta_score(game[0], game[1])
         return [tuple(i) for i in games]
 
     def delta_score(self, after_play, move=None):
-        return after_play.player.score - self.player.score
+        return after_play.player.score - self.player.score + self.get_not_move(move) * 100
 
     def get_state_score(self):
         return self.player.score
@@ -114,7 +115,7 @@ class Game:
     def get_not_move(move):
         return move[0] == [0, 0]
 
-    def predict_projectiles_Score(self, depth = 4):
+    def predict_projectiles_Score(self, depth=4):
         data = self.data.copy(True, True, False, True)
         copy = Game(self.frame, False, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
         score = 0

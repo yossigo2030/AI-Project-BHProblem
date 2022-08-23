@@ -16,6 +16,7 @@ import MovementPatterns
 from AI.QLearner import QLearner
 from Game import Game
 from AI.metaclass import a_star_player
+
 # this file is currently empty it is a detailed explanation of how the game will
 # be built code wise, then we will use the code elements to build a graphic gui
 # after we decide weather we want to use pygame tkinter or another program
@@ -45,16 +46,15 @@ def game_loop():
     moves = []
     while running:
         if alg == "aStar":
-            if moves == []:
-               moves = a_star_player(game)
-            game.update(moves.pop())
+            # if moves == []:
+            moves = a_star_player(game)
+            game.update(moves.pop(0))
         elif alg == "qLearn":
             q.update_values(game)
             move = q.next_turn(game)
             print(move)
             game.update(move)
             q.print_at_depth(game, 0)
-            print(list(np.where(q.Q == np.max(q.Q))))
             # q.print_at_depth(game, 1)
             # q.print_at_depth(game, 2)
             # q.print_at_depth(game, 3)

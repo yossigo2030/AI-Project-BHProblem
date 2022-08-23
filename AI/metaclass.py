@@ -42,7 +42,7 @@ def find_loc(func, arr, element):
     while h > l:
         m = (h + l) // 2
         mval = func(arr[m])
-        if mval < element_val:
+        if mval > element_val:
             l = m + 1
         else:
             h = m
@@ -57,22 +57,22 @@ def a_star_search(problem: Game, node_search_quota=10000,
     queue = problem.get_successors()
     visited = set(x for (x, y, z) in queue)
     father = {}
-    g = lambda x: x[2] + heuristic(x[0],
-                                   x[1])  # x = (curr_state, curr_move, score), where the current state is the state *after* curr_move has been executed, and the score is also after the move.
+    g = lambda x: x[2] + heuristic(x[0], x[1])  # x = (curr_state, curr_move, score), where the current state is the state *after* curr_move has been executed, and the score is also after the move.
     i = 0
     while len(queue):
-        curr_state, curr_move, score = queue.pop()  # reversed from min to max (score)
-        print(len(queue), [i for i in range(len(queue)) if queue[i][1][0] == [0, 0]])
+        curr_state, curr_move, score = queue.pop(0)  # reversed from min to max (score)
+        # print(len(queue), [i for i in range(len(queue)) if queue[i][1][0] == [0, 0]])
         if node_search_quota == i:
             path = []
             key = get_key(curr_state, curr_move)
             while key in father.keys():
-                path.append(curr_move)
+                path.insert(0, curr_move)
                 curr_state, curr_move = father[key]
                 key = get_key(curr_state, curr_move)
-            path.append(curr_move)
+            path.insert(0, curr_move)
+            path.reverse() # TODO check path order
             return path
-        for (bstate, bmove, reward) in problem.get_successors():  # TODO alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
+        for (bstate, bmove, reward) in problem.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
             if bstate not in visited:
                 queue_elem = (bstate, bmove, reward + score)
                 queue.insert(find_loc(g, queue, queue_elem), queue_elem)
@@ -89,7 +89,7 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game):
-    next_moves = a_star_search(problem, node_search_quota=5, heuristic=predict_shoot_heuristic)
+    next_moves = a_star_search(problem, node_search_quota=5, heuristic=basic_heuristic)
     if next_moves is []:
         return
     return next_moves

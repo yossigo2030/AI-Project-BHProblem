@@ -50,7 +50,7 @@ class QLearner:
     def next_turn(self, game):
         x, y = game.get_player_loc(self.bs)
         # we get value from max_of_future = np.max([self.Q[x][y][shoot][1] for x in xlocs for y in ylocs for shoot in range (2)])
-        # TODO might be better to rely on the possible actions and pickt he one with the highest value instead of scanning the array.
+        # TODO might be better to rely on the possible actions and pick the one with the highest value instead of scanning the array.
         xlocs = [int(x + a - 1) for a in range(3) if 0 <= x + a - 1 < self.bs[0]]
         ylocs = [int(y + b - 1) for b in range(3) if 0 <= y + b - 1 < self.bs[1]]
         max_of_future = np.max([self.Q[x][y][shoot][1] for x in xlocs for y in ylocs for shoot in range(2)])
@@ -69,7 +69,7 @@ class QLearner:
         mat_ya = self.Q[::, ::, 0, d].T
         mat_na = self.Q[::, ::, 1, d].T
         print(f"depth {d}\nNo shoot:")
-        print(np.array_str(mat_ya[x - 8:x + 9, y - 8:y + 9], precision=1, suppress_small=True))
+        print(np.array_str(mat_ya[y - 8:y + 9, x - 8:x + 9], precision=1, suppress_small=True))
         print("Yes Shoot:")
-        print(np.array_str(mat_na[x - 8:x + 9, y - 8:y + 9], precision=1, suppress_small=True))
+        print(np.array_str(mat_na[y - 8:y + 9, x - 8:x + 9], precision=1, suppress_small=True))
         print(f"")
