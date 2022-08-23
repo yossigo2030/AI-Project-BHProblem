@@ -124,3 +124,6 @@ class Game:
             score += CollisionManager.collision_check_enemies(data)
             depth -= 1
         return score
+
+    def get_lives(self):
+        return self.player.lives
