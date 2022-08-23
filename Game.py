@@ -10,7 +10,7 @@ import Spriteables
 import Wave
 import CollisionManager
 from DataStructures import DataStructures
-from AI.mdp import MarkovDecisionProcess as MDP
+import AI
 
 class Game:
     """
