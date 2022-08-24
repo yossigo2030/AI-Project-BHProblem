@@ -1,48 +1,48 @@
 from Game import Game
 
+actions_no_shoot = [([0, 0], False),
+                    ([1, 0], False),
+                    ([1, 1], False),
+                    ([0, 1], False),
+                    ([-1, 0], False),
+                    ([-1, -1], False),
+                    ([0, -1], False),
+                    ([1, -1], False),
+                    ([-1, 1], False)]
+actions_shoot = [([0, 0], False),
+                 ([1, 0], False),
+                 ([1, 1], False),
+                 ([0, 1], False),
+                 ([-1, 0], False),
+                 ([-1, -1], False),
+                 ([0, -1], False),
+                 ([1, -1], False),
+                 ([-1, 1], False),
+                 ([0, 0], True),
+                 ([1, 0], True),
+                 ([1, 1], True),
+                 ([0, 1], True),
+                 ([-1, 0], True),
+                 ([-1, -1], True),
+                 ([0, -1], True),
+                 ([1, -1], True),
+                 ([-1, 1], True)]
 
 class MarkovDecisionProcess:
-    actions_no_shoot = [([0, 0], False),
-                        ([1, 0], False),
-                        ([1, 1], False),
-                        ([0, 1], False),
-                        ([-1, 0], False),
-                        ([-1, -1], False),
-                        ([0, -1], False),
-                        ([1, -1], False),
-                        ([-1, 1], False)]
-    actions_shoot = [([0, 0], False),
-                     ([1, 0], False),
-                     ([1, 1], False),
-                     ([0, 1], False),
-                     ([-1, 0], False),
-                     ([-1, -1], False),
-                     ([0, -1], False),
-                     ([1, -1], False),
-                     ([-1, 1], False),
-                     ([0, 0], True),
-                     ([1, 0], True),
-                     ([1, 1], True),
-                     ([0, 1], True),
-                     ([-1, 0], True),
-                     ([-1, -1], True),
-                     ([0, -1], True),
-                     ([1, -1], True),
-                     ([-1, 1], True)]
-
     def getStartState(self):
         """
         Return the start state of the MDP.
         """
         return Game()
 
-    def getPossibleActions(self, state: Game):
+    @staticmethod
+    def getPossibleActions(state: Game):
         """
         Return list of possible actions from 'state'.
         """
         if state.player.cd.is_ready():
-            return self.actions_shoot
-        return self.actions_no_shoot
+            return actions_shoot
+        return actions_no_shoot
 
     def getTransitionStatesAndProbs(self, state: Game, action):
         """
@@ -64,7 +64,7 @@ class MarkovDecisionProcess:
 
         Not available in reinforcement learning.
         """
-        return nextState.player.score - state.player.score + (1 if action[1] else 0)
+        return nextState.frame / 10 + nextState.player.score - state.player.score + (10 if action[1] else 0) - (1000 if nextState.player.lives < state.player.lives else 0)
 
     def isTerminal(self, state: Game):
         """

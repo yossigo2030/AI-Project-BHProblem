@@ -10,6 +10,7 @@ import Spriteables
 import Wave
 import CollisionManager
 from DataStructures import DataStructures
+import AI
 
 
 class Game:
@@ -23,20 +24,19 @@ class Game:
         self.board_ratio = board_ratio
         self.data = data
         if player is None:
-            player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1]), r"resources\ship.png", self.data)
+            player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 2), r"resources\ship.png", self.data)
         self.player = player
         if wave is None:
             wave = Wave.Wave(1, self.board_ratio, self.data)
         self.wave = wave
 
-    def __copy__(self, visuals=True):
-        # todo other cop ctors?? maybe make new objects with already knwon data
+    def __copy__(self, visuals=False):
         data = self.data.__copy__()
         return Game(self.frame, visuals, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
 
     def update(self, move=None):
         self.frame += 1
-        self.player.set_score(1)
+        # self.player.increment_score(1)
         # player input and actions
         self.player.updateWrapper(move)
         # enemy moves and actions
@@ -47,7 +47,7 @@ class Game:
         Spriteables.sprite_culling(self.data)
 
         # check collisions
-        self.player.set_score(CollisionManager.collision_check_enemies(self.data))
+        self.player.increment_score(CollisionManager.collision_check_enemies(self.data))
         CollisionManager.collision_check_player(self.data)
 
         # check pickup collisions
@@ -59,7 +59,9 @@ class Game:
         # enemy spawning
         if self.wave.update() == 1:
             self.wave = Wave.Wave(self.wave.number_of_wave + 1, self.board_ratio, self.data)
-        pygame.display.flip()
+
+        if self.visual:
+            pygame.display.flip()
 
     def visual_update(self):
         Draw.redrawGameWindow()
@@ -77,14 +79,12 @@ class Game:
             array[location[0]][location[1]].append(projectile)
         return array
 
-
     def get_player_loc(self, dims: Tuple[int, int]):
-        # TODO can return values that are out of array range [0, dims[0] - 1]
         return self.location_convert(self.player.location, dims)
 
-
     def location_convert(self, coords, dims) -> Tuple[int, int]:
-        return int(coords[0] // self.board_ratio[0] * dims[0]), int(coords[1] // self.board_ratio[1] * dims[1])
+        return min(int(coords[0] / self.board_ratio[0] * dims[0]), dims[0] - 1), \
+               min(int(coords[1] / self.board_ratio[1] * dims[1]), dims[1] - 1)
 
     def get_next_start_state(self):
         """
@@ -94,12 +94,38 @@ class Game:
         """
         return self
 
-    # def get_successors(self, state) -> List[Tuple[State, Action, int]]:
-    #     """
-    #     :param state: A Bullet Hell Game State
-    #     :return: a list of (curr_state, move, score) resulting for all possible moves from the current state of the game
-    #     move is the move which takes state to curr_state
-    #     """
-    #     # get player moves
-    #     moves = []
-    #     games =[Game.__copy__(self)]
+    def get_successors(self):
+        """
+        :param state: A Bullet Hell Game State
+        :return: a list of (curr_state, move, score) resulting for all possible moves from the current state of the game
+        move is the move which takes state to curr_state
+        """
+        # get player moves
+        games = [[Game.__copy__(self), move, 0] for move in AI.mdp.MarkovDecisionProcess.getPossibleActions(self)]
+        for game in games:
+            game[0].update(game[1])
+            game[2] = self.delta_score(game[0], game[1])
+        return [tuple(i) for i in games]
+
+    def delta_score(self, after_play, move=None):
+        return after_play.player.score - self.player.score + self.get_not_move(move) * 100
+
+    def get_state_score(self):
+        return self.player.score
+
+    @staticmethod
+    def get_not_move(move):
+        return move[0] == [0, 0]
+
+    def predict_projectiles_Score(self, depth=40):
+        data = self.data.copy(True, True, False, True)
+        copy = Game(self.frame, False, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
+        score = 0
+        while copy.data.ProjectilePlayerGroup and depth:
+            copy.update()
+            score += CollisionManager.collision_check_enemies(data)
+            depth -= 1
+        return score
+
+    def get_lives(self):
+        return self.player.lives
