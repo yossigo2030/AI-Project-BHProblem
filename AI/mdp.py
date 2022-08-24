@@ -1,3 +1,4 @@
+import Draw
 from Game import Game
 
 actions_no_shoot = [([0, 0], False),
@@ -28,6 +29,7 @@ actions_shoot = [([0, 0], False),
                  ([1, -1], True),
                  ([-1, 1], True)]
 
+
 class MarkovDecisionProcess:
     def getStartState(self):
         """
@@ -40,9 +42,29 @@ class MarkovDecisionProcess:
         """
         Return list of possible actions from 'state'.
         """
+        dirs = MarkovDecisionProcess.directions_can_move(state)
         if state.player.cd.is_ready():
-            return actions_shoot
-        return actions_no_shoot
+            return [(dir1, False) for dir1 in dirs] + [(dir1, True) for dir1 in
+                                                       dirs]
+        return [(dir1, False) for dir1 in dirs]
+
+    @staticmethod
+    def directions_can_move(state: Game):
+        dirs = [[0, 0],
+                [1, 0],
+                [1, 1],
+                [0, 1],
+                [-1, 0],
+                [-1, -1],
+                [0, -1],
+                [1, -1],
+                [-1, 1]]
+        for dir1 in dirs:
+            if state.player.location[0] < 0 or state.player.location[
+                0] > Draw.WIDTH or state.player.location[1] < 0 or \
+                    state.player.location[1] > Draw.LENGTH:
+                dirs.remove(dir1)
+        return dirs
 
     def getTransitionStatesAndProbs(self, state: Game, action):
         """
@@ -64,7 +86,9 @@ class MarkovDecisionProcess:
 
         Not available in reinforcement learning.
         """
-        return nextState.frame / 10 + nextState.player.score - state.player.score + (10 if action[1] else 0) - (1000 if nextState.player.lives < state.player.lives else 0)
+        return nextState.frame / 10 + nextState.player.score - state.player.score + (
+            10 if action[1] else 0) - (
+                   1000 if nextState.player.lives < state.player.lives else 0)
 
     def isTerminal(self, state: Game):
         """

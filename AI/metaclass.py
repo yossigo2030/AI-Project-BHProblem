@@ -2,6 +2,7 @@ from typing import Tuple
 
 import Game
 import math
+import Draw
 
 
 class AIBase:
@@ -45,7 +46,16 @@ def Stay_Alive_Aim_To_Kill(state: Game, action: Tuple[Tuple[int, int], bool]):
 
 
 def centerize(state: Game, action: Tuple[Tuple[int, int], bool]):
-    return - math.sqrt(math.pow(state.player.location[0] - state.board_ratio[0], 2) + math.pow(state.player.location[1] - state.board_ratio[1], 2))
+    location = [action[0][0]*state.player.speed + state.player.location[0], action[0][1]*state.player.speed + state.player.location[1]]
+    dis = - 5 * distance(location , (Draw.WIDTH//2,Draw.LENGTH//2))
+    print(dis)
+    return dis
+
+def distance(point1, point2):
+    return math.sqrt(math.pow(point2[0] - point1[0],
+                              2) + math.pow(
+        point2[1] - point1[1], 2))
+
 
 def centerize_alive(state: Game, action: Tuple[Tuple[int, int], bool]):
     return stay_Alive(state, action) + centerize(state, action)
@@ -106,7 +116,7 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game):
-    next_moves = a_star_search(problem, node_search_quota=3, heuristic=stay_Alive)
+    next_moves = a_star_search(problem, node_search_quota=10, heuristic=centerize_alive)
     if next_moves is []:
         return
     return next_moves
