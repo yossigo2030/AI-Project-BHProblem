@@ -31,15 +31,15 @@ def basic_heuristic_2(state: Game, action: Tuple[Tuple[int, int], bool]):
     """
     return state.get_state_score(state)
 
-def predict_shoot_heuristic(state: Game, action: Tuple[Tuple[int, int], bool]):
-    return state.predict_projectiles_Score(depth = 10)
+def predict_shoot_heuristic(state: Game, action: Tuple[Tuple[int, int], bool], depth = 10):
+    return state.predict_projectiles_Score(depth)
 
 
 def stay_Alive(state: Game, action: Tuple[Tuple[int, int], bool]):
     return state.get_lives() * 1000
 
 def Stay_Alive_Aim_To_Kill(state: Game, action: Tuple[Tuple[int, int], bool]):
-    return stay_Alive(state, action) + predict_shoot_heuristic(state, action)
+    return stay_Alive(state, action) + predict_shoot_heuristic(state, action, depth = 3)
 
 def find_loc(func, arr, element):
     l = 0
@@ -95,7 +95,7 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game):
-    next_moves = a_star_search(problem, node_search_quota=1, heuristic=Stay_Alive_Aim_To_Kill)
+    next_moves = a_star_search(problem, node_search_quota=3, heuristic=Stay_Alive_Aim_To_Kill)
     if next_moves is []:
         return
     return next_moves

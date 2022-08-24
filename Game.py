@@ -59,7 +59,8 @@ class Game:
         # enemy spawning
         if self.wave.update() == 1:
             self.wave = Wave.Wave(self.wave.number_of_wave + 1, self.board_ratio, self.data)
-        pygame.display.flip()
+        if self.visual:
+            pygame.display.flip()
 
     def visual_update(self):
         Draw.redrawGameWindow()
