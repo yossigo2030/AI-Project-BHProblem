@@ -22,7 +22,7 @@ class EnemyShooter(EnemyType):
     def __init__(self, location, sprite, data, movement_pattern: MovePattern, projPatterns: [MovePattern], cd: int or cooldown = 90):
         super().__init__(location, sprite, data, movement_pattern)
         self.projPatterns = projPatterns
-        self.cd = cooldown(cd) if isinstance(cd, int) else cooldown
+        self.cd = cooldown(cd) if isinstance(cd, int) else cd
         self.data.EnemySpriteGroup.add(self)
 
     def __copy__(self, data):
