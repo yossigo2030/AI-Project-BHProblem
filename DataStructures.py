@@ -20,6 +20,7 @@ class DataStructures:
         """
         Okay okay new plan: move all the sprite groups into a dictionary, then dynamically create accessor methods with the correct name to access the groups. and then the copy can just use the dictionary to copy properly.
         """
+        # Move sprite groups to lists instead.
         self.AllSpritesGroup = pygame.sprite.Group()
         self.EnemySpriteGroup = pygame.sprite.Group()
         self.EnemyBossSpriteGroup = pygame.sprite.Group()

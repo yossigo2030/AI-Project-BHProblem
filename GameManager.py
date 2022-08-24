@@ -1,4 +1,5 @@
 import math
+import sys
 import time
 from queue import Queue
 
@@ -32,18 +33,20 @@ from AI.metaclass import a_star_player
 # board has an array of enemies projectiles a player object and the limits,
 # in its update function we will track score and update the units locations
 algs = ["aStar", "qLearn"]
-alg = "aStar"
+alg = ""
 
 running = True
 clock = pygame.time.Clock()
 game = Game()
 pygame.display.init()
-q = QLearner((100, 100), future_steps=10)  # calc board size based on player movespeed
+q = QLearner((100, 100), future_steps=10, itercount=5000)  # calc board size based on player movespeed
 game.update()
 
 
-def game_loop():
+def game_loop(alg: str):
     moves = []
+    for i in range(120):
+        game.update()
     while running:
         if alg == "aStar":
             # if moves == []:
@@ -51,16 +54,21 @@ def game_loop():
             game.update(moves.pop(0))
         elif alg == "qLearn":
             q.update_values(game)
-            move = q.next_turn(game)
+            move = q.next_turn_2(game)
             print(move)
+            print(f"HP count: {game.player.lives}")
             game.update(move)
-            q.print_at_depth(game, 0)
+            # q.print_at_depth(game, 0)
             # q.print_at_depth(game, 1)
             # q.print_at_depth(game, 2)
             # q.print_at_depth(game, 3)
             # q.print_at_depth(game, 4)
-        clock.tick(60)
+        else:
+            game.update()
+            clock.tick(60)
 
 
 if __name__ == '__main__':
-    game_loop()
+    algorithm = sys.argv[1]
+    print(algorithm)
+    game_loop(algorithm)

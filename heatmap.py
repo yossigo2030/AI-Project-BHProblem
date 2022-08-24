@@ -5,10 +5,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def show_map(array, save = False, results_path = 'results.png'):
+def show_map(array, save=True, results_path='results.png'):
     plt.close("all")
     df = pd.DataFrame(array)
-    if save:
-        plt.savefig(results_path)
     sns.heatmap(df)
-    plt.show()
+    if save:
+        try:
+            plt.savefig(results_path)
+        except Exception:
+            pass
+    else:
+        plt.show()
+    plt.close()

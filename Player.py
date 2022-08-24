@@ -19,6 +19,9 @@ class Player(BulletHellSprite):
         self.lives = lives
         self.score = 0
 
+    def kill(self) -> None:
+        pass
+
     def get_location(self):
         return self.location
 

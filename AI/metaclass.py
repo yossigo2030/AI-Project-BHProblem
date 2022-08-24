@@ -21,8 +21,7 @@ def basic_heuristic(state: Game, action: Tuple[Tuple[int, int], bool]):
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
-    return 10000*state.get_not_move(action)
-
+    return 10000 * state.get_not_move(action)
 
 
 def basic_heuristic_2(state: Game, action: Tuple[Tuple[int, int], bool]):
@@ -32,7 +31,8 @@ def basic_heuristic_2(state: Game, action: Tuple[Tuple[int, int], bool]):
     """
     return state.get_state_score(state)
 
-def predict_shoot_heuristic(state: Game, action: Tuple[Tuple[int, int], bool], depth = 10):
+
+def predict_shoot_heuristic(state: Game, action: Tuple[Tuple[int, int], bool], depth=10):
     return state.predict_projectiles_Score(depth)
 
 
@@ -49,6 +49,7 @@ def centerize(state: Game, action: Tuple[Tuple[int, int], bool]):
 
 def centerize_alive(state: Game, action: Tuple[Tuple[int, int], bool]):
     return stay_Alive(state, action) + centerize(state, action)
+
 
 
 def find_loc(func, arr, element):
@@ -86,7 +87,7 @@ def a_star_search(problem: Game, node_search_quota=10000,
                 curr_state, curr_move = father[key]
                 key = get_key(curr_state, curr_move)
             path.insert(0, curr_move)
-            path.reverse() # TODO check path order
+            path.reverse()  # TODO check path order
             return path
         for (bstate, bmove, reward) in problem.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
             if bstate not in visited:

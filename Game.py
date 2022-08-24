@@ -59,6 +59,7 @@ class Game:
         # enemy spawning
         if self.wave.update() == 1:
             self.wave = Wave.Wave(self.wave.number_of_wave + 1, self.board_ratio, self.data)
+
         if self.visual:
             pygame.display.flip()
 
@@ -116,7 +117,7 @@ class Game:
     def get_not_move(move):
         return move[0] == [0, 0]
 
-    def predict_projectiles_Score(self, depth=4):
+    def predict_projectiles_Score(self, depth=40):
         data = self.data.copy(True, True, False, True)
         copy = Game(self.frame, False, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
         score = 0
