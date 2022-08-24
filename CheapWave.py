@@ -4,7 +4,7 @@ from typing import Tuple
 import DataStructures
 import EnemyType
 import MovementPatterns
-from cooldown import cooldown
+from cooldown import Cooldown
 
 
 class CheapWave:

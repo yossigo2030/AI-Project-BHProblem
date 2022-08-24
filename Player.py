@@ -14,8 +14,8 @@ class Player(BulletHellSprite):
     def __init__(self, location, sprite, data, speed=5, shoot_cd=10, hitbox_size=(25, 25), image_size=(40, 40), shoot_cc=None, lives=3):
         super().__init__(location, sprite, data, PlayerMovementPattern(speed, image_size), hitbox_size, image_size)
         self.data.PlayerSpriteGroup.add(self)
-        self.cd = cooldown.cooldown(shoot_cd, shoot_cc)
-        self.iframe = cooldown.cooldown(20)
+        self.cd = cooldown.Cooldown(shoot_cd, shoot_cc)
+        self.iframe = cooldown.Cooldown(20)
         self.speed = speed
         self.hitbox_backup = self.hitbox
         self.lives = lives

@@ -15,6 +15,8 @@ import Wave
 import EnemyType
 import MovementPatterns
 from AI.QLearner import QLearner
+from CollisionTestingWave import CollisionTestingWave
+from DataStructures import DataStructures
 from Game import Game
 from AI.metaclass import a_star_player
 
@@ -34,13 +36,17 @@ from AI.metaclass import a_star_player
 # in its update function we will track score and update the units locations
 algs = ["aStar", "qLearn"]
 tps = 60
-NODECOUNT = 100
+NODECOUNT = 10
 SKIPSTART = False
 running = True
 SAVETOFILE = True
+TESTWAVE = True
 
 clock = pygame.time.Clock()
 game = Game()
+if TESTWAVE:
+    game.wave = CollisionTestingWave(pygame.display.get_window_size(), game.data)
+
 pygame.display.init()
 q = QLearner((100, 100), future_steps=10, itercount=2500)  # calc board size based on player movespeed
 game.update()
@@ -63,10 +69,6 @@ def game_loop(alg: str):
             print(f"HP count: {game.player.lives}")
             game.update(move)
             # q.print_at_depth(game, 0)
-            # q.print_at_depth(game, 1)
-            # q.print_at_depth(game, 2)
-            # q.print_at_depth(game, 3)
-            # q.print_at_depth(game, 4)
         else:
             game.update(save_to_file=SAVETOFILE)
         clock.tick(tps)
