@@ -36,7 +36,7 @@ class Game:
         data = self.data.__copy__()
         return Game(self.frame, visuals, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
 
-    def update(self, move=None):
+    def update(self, move=None, save_to_file=False):
         self.frame += 1
         # self.player.increment_score(1)
         # player input and actions
@@ -65,6 +65,9 @@ class Game:
 
         if self.visual:
             pygame.display.flip()
+
+        if self.visual and save_to_file:
+            pygame.image.save(pygame.display.get_surface(), f"results/{self.frame:04}.png")
 
     def visual_update(self):
         Draw.redrawGameWindow()

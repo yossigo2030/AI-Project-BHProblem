@@ -33,9 +33,10 @@ from AI.metaclass import a_star_player
 # board has an array of enemies projectiles a player object and the limits,
 # in its update function we will track score and update the units locations
 algs = ["aStar", "qLearn"]
-alg = ""
+tps = 60
 SKIPSTART = False
 running = True
+
 clock = pygame.time.Clock()
 game = Game()
 pygame.display.init()
@@ -52,7 +53,7 @@ def game_loop(alg: str):
         if alg == "aStar":
             # if moves == []:
             moves = a_star_player(game)
-            game.update(moves.pop(0))
+            game.update(moves.pop(0), save_to_file=True)
         elif alg == "qLearn":
             q.update_values(game)
             move = q.next_turn_2(game)
@@ -65,11 +66,16 @@ def game_loop(alg: str):
             # q.print_at_depth(game, 3)
             # q.print_at_depth(game, 4)
         else:
-            game.update()
-        clock.tick(60)
+            game.update(save_to_file=True)
+        clock.tick(tps)
 
 
 if __name__ == '__main__':
-    algorithm = sys.argv[1]
-    print(algorithm)
+    try:
+        algorithm = sys.argv[1]
+        if algorithm in algs:
+            print(algorithm)
+    except Exception:
+        algorithm = None
+
     game_loop(algorithm)
