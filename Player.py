@@ -1,5 +1,7 @@
 from typing import Tuple
 
+import pygame
+
 import InputHandler
 import cooldown
 from DataStructures import Directions, DataStructures
@@ -40,6 +42,7 @@ class Player(BulletHellSprite):
             self.iframe.use()
             self.hitbox = (0, 0)
             self.lives -= 1
+        print(f"Player hit :(, now at {self.lives} lives")
         return self.lives > 0
 
     def update(self):
@@ -58,6 +61,11 @@ class Player(BulletHellSprite):
             Projectile(self.location, "resources\\ball.png", self.data, movement_pattern=StraightPattern(Directions.Up(10)), player_projectile=True)
 
     def updateWrapper(self, move: Tuple[Tuple[int, int], bool] = None):
+        if self.lives <= 0:
+            self.image = pygame.transform.scale(self.image, (0, 0))
+            self.hitbox_backup = (0, 0)
+            return
+
         if move is None:
             self.update()
         else:
