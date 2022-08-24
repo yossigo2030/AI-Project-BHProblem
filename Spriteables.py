@@ -5,6 +5,8 @@ import Draw
 from DataStructures import DataStructures
 from MovementPatterns import *
 
+imagedict = {}
+
 
 class BulletHellSprite(pygame.sprite.Sprite):
     # _sprite_group = AllSpritesGroup
@@ -15,7 +17,15 @@ class BulletHellSprite(pygame.sprite.Sprite):
         self.data.AllSpritesGroup.add(self)
         self.location = location
         self.sprite = sprite
-        self.image = sprite if isinstance(sprite, pygame.Surface) else pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), image_size)
+        if isinstance(sprite, pygame.Surface):
+            self.image = sprite
+        else:
+            if sprite in imagedict:
+                self.image = imagedict[sprite]
+            else:
+                image = pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), image_size)
+                self.image = image
+                imagedict[sprite] = image
         self.imsize = image_size
         self.hitbox = hitbox_size
         self.move_pattern = movement_pattern
@@ -24,6 +34,7 @@ class BulletHellSprite(pygame.sprite.Sprite):
         return BulletHellSprite(self.location, self.image, data, self.move_pattern, self.hitbox, self.imsize)
 
     def get_hitbox(self):
+        # return self.image.get_rect()
         return pygame.rect.Rect(self.location[0] - self.hitbox[0] / 2,
                                 self.location[1] - self.hitbox[1] / 2,
                                 self.hitbox[0], self.hitbox[1])

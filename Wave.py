@@ -42,7 +42,7 @@ class Wave:
     def __copy__(self, data):
         wave = Wave(self.number_of_wave, self.board_ratio, data, True)
         wave.cooldownCounter = self.cooldownCounter
-        wave.EnemySpawnQueue = copy.deepcopy(self.EnemySpawnQueue)
+        wave.EnemySpawnQueue = [enemy.copy() for enemy in self.EnemySpawnQueue]
         return wave
 
     def number_getter(self):
@@ -74,7 +74,8 @@ class Wave:
     def update(self):
         if len(self.EnemySpawnQueue) == 0:
             if self.cooldownCounter == COOLDOWN:
-                print("end of wave")
+                pass
+                # print("end of wave")
             if self.cooldownCounter == 0:
                 return 1
             self.cooldownCounter -= 1
@@ -100,7 +101,8 @@ class Wave:
                                            MovementPatterns.StraightPattern((1, -1)),
                                            MovementPatterns.StraightPattern((-1, -1))])
                 else:
-                    EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((random.random(), 4 * random.random())))])
+                    # EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((random.random(), 4 * random.random())))])
+                    EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern((1.5, 0))])
                 if len(self.EnemySpawnQueue) == 0:
                     break
             else:

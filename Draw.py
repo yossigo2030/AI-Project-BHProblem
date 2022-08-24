@@ -1,7 +1,7 @@
 import pygame
 
-WIDTH = 1000
-LENGTH = 1000
+WIDTH = 500
+LENGTH = 500
 screen = pygame.display.set_mode((WIDTH, LENGTH))
 BLACK = (0, 0, 0)
 

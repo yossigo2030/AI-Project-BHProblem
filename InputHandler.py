@@ -47,5 +47,11 @@ def get_input():
             dct[pygame.K_SPACE] = False
     return dir
 
+
 def get_shot():
     return dct[pygame.K_SPACE]
+
+
+def clear():
+    events = pygame.event.get()
+    return

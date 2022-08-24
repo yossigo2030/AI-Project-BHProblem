@@ -5,6 +5,7 @@ import numpy as np
 
 from Game import Game
 
+
 Action = List[bool, bool, bool, bool, bool]  # representing left, right, up, down (arrows), and shoot.
 State = object
 
