@@ -39,7 +39,7 @@ def stay_Alive(state: Game, action: Tuple[Tuple[int, int], bool]):
     return state.get_lives() * 1000
 
 def Stay_Alive_Aim_To_Kill(state: Game, action: Tuple[Tuple[int, int], bool]):
-    return stay_Alive(state, action) + predict_shoot_heuristic(state, action, depth = 3)
+    return stay_Alive(state, action) + 100*predict_shoot_heuristic(state, action, depth = 4)
 
 def find_loc(func, arr, element):
     l = 0

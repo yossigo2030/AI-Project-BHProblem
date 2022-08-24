@@ -4,6 +4,7 @@ from MovementPatterns import MovePattern
 from Spriteables import BulletHellSprite
 from Projectile import Projectile
 from cooldown import cooldown
+import copy
 
 
 class EnemyType(BulletHellSprite):
