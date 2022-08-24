@@ -9,7 +9,17 @@ from Game import Game
 
 
 class QLearner:
-    def __init__(self, board_size, future_steps=10, itercount=1000, epsilon=0.1):
+    """
+    # TODO - double check the logic, i think it's not right. especially regarding the shoot / no shoot split.
+        There is the issue of whether or not i need to sample the current time or the next time in the Q matrix
+        The updates might be wrong in some fashion.
+        Discount factor... might want it to be higher?
+        Maybe modify max_of_future to be a weighted average instead, which would backprop danger more effectively.
+        Modify the heuristics to include extra motivation to remain in the center of the map
+        Also consider either accounting for future hits
+        Idea: instead of two Q matrices per time stamp, calculate the shooting rewards separately..?
+    """
+    def __init__(self, board_size, future_steps=10, itercount=1000, epsilon=0.8):
         # Q is a [board_size] matrix, by [shoot/notshoot], over [future_steps] turns
         self.Q = np.zeros((board_size[0], board_size[1], 2, future_steps))  # index order is retardium. should be reversed.
         self.bs = board_size
@@ -55,7 +65,7 @@ class QLearner:
                 xn, yn = ns.get_player_loc(self.bs)
 
                 cs = ns
-                xlocs = [int(xn + x - 1) for x in range(3) if 0 <= xn + x - 1 < self.bs[0]] # TODO check logic yeah
+                xlocs = [int(xn + x - 1) for x in range(3) if 0 <= xn + x - 1 < self.bs[0]]  # TODO check logic yeah
                 ylocs = [int(yn + y - 1) for y in range(3) if 0 <= yn + y - 1 < self.bs[1]]
                 if j + 1 < self.steps:
                     max_of_future = np.max([self.Q[x][y][int(action[1])][j + 1] for x in xlocs for y in ylocs])  # TODO check logic. action might need to be abs(action[1] - 1)
@@ -65,7 +75,7 @@ class QLearner:
         # print("after")
         # self.print_at_depth(state, 0)
         # self.print_at_depth(state, 1)
-        heatmap.show_map(self.Q[::, ::, 0, 1] + self.Q[::, ::, 1, 1])
+        heatmap.show_map([(self.Q[::, ::, 0, i].T, self.Q[::, ::, 1, i].T) for i in range(10)], True)
 
     def next_turn(self, game):
         x, y = game.get_player_loc(self.bs)
@@ -93,7 +103,7 @@ class QLearner:
             if rew > bestrew:  # * 1.1
                 bestrew = rew
                 act = action
-        return act
+        return act[0], False
 
     def print_at_depth(self, game, d=0):
         # np.unravel_index(self.Q.argmax(), self.Q.shape)

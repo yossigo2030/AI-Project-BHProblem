@@ -42,7 +42,7 @@ def stay_Alive(state: Game, action: Tuple[Tuple[int, int], bool]):
 
 
 def Stay_Alive_Aim_To_Kill(state: Game, action: Tuple[Tuple[int, int], bool]):
-    return stay_Alive(state, action) + 100*predict_shoot_heuristic(state, action, depth = 0)
+    return stay_Alive(state, action) + 100 * predict_shoot_heuristic(state, action, depth=0)
 
 
 def centerize(state: Game, action: Tuple[Tuple[int, int], bool]):
@@ -90,9 +90,9 @@ def distance(point1, point2):
         point2[1] - point1[1], 2))
 
 
+
 def centerize_alive(state: Game, action: Tuple[Tuple[int, int], bool]):
     return stay_Alive(state, action) + centerize(state, action)
-
 
 
 def find_loc(func, arr, element):

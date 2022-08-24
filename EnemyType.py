@@ -19,10 +19,10 @@ class EnemyType(BulletHellSprite):
 
 class EnemyShooter(EnemyType):
     # shoot pattern is a list of directions
-    def __init__(self, location, sprite, data, movement_pattern: MovePattern, projPatterns: [MovePattern], cooldown=cooldown(90)):
+    def __init__(self, location, sprite, data, movement_pattern: MovePattern, projPatterns: [MovePattern], cd: int or cooldown = 90):
         super().__init__(location, sprite, data, movement_pattern)
         self.projPatterns = projPatterns
-        self.cd = cooldown
+        self.cd = cooldown(cd) if isinstance(cd, int) else cooldown
         self.data.EnemySpriteGroup.add(self)
 
     def __copy__(self, data):

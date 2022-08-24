@@ -34,19 +34,20 @@ from AI.metaclass import a_star_player
 # in its update function we will track score and update the units locations
 algs = ["aStar", "qLearn"]
 alg = ""
-
+SKIPSTART = False
 running = True
 clock = pygame.time.Clock()
 game = Game()
 pygame.display.init()
-q = QLearner((100, 100), future_steps=10, itercount=5000)  # calc board size based on player movespeed
+q = QLearner((100, 100), future_steps=10, itercount=2500)  # calc board size based on player movespeed
 game.update()
 
 
 def game_loop(alg: str):
     moves = []
-    for i in range(120):
-        game.update()
+    if SKIPSTART:
+        for i in range(250):
+            game.update()
     while running:
         if alg == "aStar":
             # if moves == []:
@@ -65,7 +66,7 @@ def game_loop(alg: str):
             # q.print_at_depth(game, 4)
         else:
             game.update()
-            clock.tick(60)
+        clock.tick(60)
 
 
 if __name__ == '__main__':
