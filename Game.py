@@ -49,8 +49,11 @@ class Game:
         Spriteables.sprite_culling(self.data)
 
         # check collisions
+        lives = self.player.lives
         self.player.increment_score(CollisionManager.collision_check_enemies(self.data))
         CollisionManager.collision_check_player(self.data)
+        if self.visual and lives > self.player.lives:
+            print(f"Player hit :(, now at {self.player.lives} lives")
 
         # check pickup collisions
 
@@ -67,7 +70,7 @@ class Game:
             pygame.display.flip()
 
         if self.visual and save_to_file:
-            pygame.image.save(pygame.display.get_surface(), f"results/{self.frame:04}.png")
+            pygame.image.save(pygame.display.get_surface(), f"results/{self.frame:05}.png")
 
     def visual_update(self):
         Draw.redrawGameWindow()

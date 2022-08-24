@@ -42,7 +42,7 @@ class Player(BulletHellSprite):
             self.iframe.use()
             self.hitbox = (0, 0)
             self.lives -= 1
-        print(f"Player hit :(, now at {self.lives} lives")
+        # print(f"Player hit :(, now at {self.lives} lives")
         return self.lives > 0
 
     def update(self):
