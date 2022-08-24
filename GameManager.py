@@ -60,7 +60,7 @@ def game_loop(alg: str):
     moves = []
     search = None
     if SKIPSTART:
-        for i in range(250):
+        for i in range(120):
             game.update()
     while running:
         if InputHandler.Quit():
