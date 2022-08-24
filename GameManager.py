@@ -55,7 +55,7 @@ game.update()
 def game_loop(alg: str):
     moves = []
     if SKIPSTART:
-        for i in range(250):
+        for i in range(120):
             game.update()
     while running:
         if alg == "aStar":

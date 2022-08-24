@@ -6,11 +6,12 @@ import matplotlib.pyplot as plt
 
 
 def show_map(array_list, save=True, results_path='results.png'):
-    fig, axs = plt.subplots(nrows=2, ncols=10, figsize=(44, 10))
+    fig, axs = plt.subplots(nrows=2, ncols=5, figsize=(22, 10))
     for j, arrays in enumerate(array_list):
         for i, array in enumerate(arrays):
             # df = pd.DataFrame(array)
-            sns.heatmap(array, cbar=False, ax=axs[i][j])
+            sns.heatmap(array, cbar=False, ax=axs[j // 5][j % 5])
+            break
     if save:
         try:
             plt.savefig(results_path)

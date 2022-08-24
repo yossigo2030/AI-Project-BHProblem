@@ -43,17 +43,28 @@ class QLearner:
             for j in range(self.steps):
                 pa = self.mdp.getPossibleActions(cs)
                 xc, yc = cs.get_player_loc(self.bs)
-
+                # TODO by removing the action matrix, i need a better way to determine when to shoot or not. probably a future hit based approach, in the meantime just perma shoot.
                 if random.uniform(0, 1) < self.eps:
                     """ Explore: select a random action """
                     action = pa[round(random.uniform(0, max(len(pa) - 1, 0)))]
+                elif random.uniform(0, 1) < self.eps:
+                    """ Exploit but negative """
+                    bestrew = -np.inf
+                    act = None
+                    for action in pa:
+                        nx, ny = xc + action[0][0], yc + action[0][1]
+                        rew = self.Q[nx][ny][0][1]
+                        if rew < bestrew:
+                            bestrew = rew
+                            act = action
+                    action = act
                 else:
                     """ Exploit: select the action with max value (future reward) """
                     bestrew = -np.inf
                     act = None
                     for action in pa:
                         nx, ny = xc + action[0][0], yc + action[0][1]
-                        rew = self.Q[nx][ny][int(action[1])][1]
+                        rew = self.Q[nx][ny][0][1]
                         if rew > bestrew:  # * 1.1
                             bestrew = rew
                             act = action
@@ -68,10 +79,10 @@ class QLearner:
                 xlocs = [int(xn + x - 1) for x in range(3) if 0 <= xn + x - 1 < self.bs[0]]  # TODO check logic yeah
                 ylocs = [int(yn + y - 1) for y in range(3) if 0 <= yn + y - 1 < self.bs[1]]
                 if j + 1 < self.steps:
-                    max_of_future = np.max([self.Q[x][y][int(action[1])][j + 1] for x in xlocs for y in ylocs])  # TODO check logic. action might need to be abs(action[1] - 1)
+                    max_of_future = np.max([self.Q[x][y][0][j + 1] for x in xlocs for y in ylocs])  # TODO check logic. action might need to be abs(action[1] - 1)
                 else:
                     max_of_future = 0
-                self.Q[xc][yc][int(action[1])][j] += self.lr * (reward + self.gamma * max_of_future - self.Q[xc][yc][int(action[1])][j])
+                self.Q[xc][yc][0][j] += self.lr * (reward + self.gamma * max_of_future - self.Q[xc][yc][0][j])
         # print("after")
         # self.print_at_depth(state, 0)
         # self.print_at_depth(state, 1)
@@ -99,7 +110,7 @@ class QLearner:
         act = None
         for action in pa:
             nx, ny = x + action[0][0], y + action[0][1]
-            rew = self.Q[nx][ny][int(action[1])][1]
+            rew = self.Q[nx][ny][0][1]
             if rew > bestrew:  # * 1.1
                 bestrew = rew
                 act = action
