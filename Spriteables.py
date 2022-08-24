@@ -18,18 +18,23 @@ class BulletHellSprite(pygame.sprite.Sprite):
         self.image = sprite if isinstance(sprite, pygame.Surface) else pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), image_size)
         self.imsize = image_size
         self.hitbox = hitbox_size
+        self.rect = pygame.rect.Rect(self.location[0] - self.hitbox[0] / 2,
+                                self.location[1] - self.hitbox[1] / 2,
+                                self.hitbox[0], self.hitbox[1])
         self.move_pattern = movement_pattern
 
     def __copy__(self, data):
         return BulletHellSprite(self.location, self.image, data, self.move_pattern, self.hitbox, self.imsize)
 
     def get_hitbox(self):
-        return pygame.rect.Rect(self.location[0] - self.hitbox[0] / 2,
-                                self.location[1] - self.hitbox[1] / 2,
-                                self.hitbox[0], self.hitbox[1])
+        # return self.image.get_rect()
+        return self.rect
 
     def update(self):
         self.location = self.move_pattern.get_next_position(self.location)
+        self.rect.update(self.location[0] - self.hitbox[0] / 2,
+                                self.location[1] - self.hitbox[1] / 2,
+                                self.hitbox[0], self.hitbox[1])
 
     def draw(self):
         Draw.draw_sprite(self.image, self.location)

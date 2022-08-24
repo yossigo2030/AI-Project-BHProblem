@@ -1,6 +1,7 @@
 from typing import Tuple
 
 import Game
+import math
 
 
 class AIBase:
@@ -38,8 +39,17 @@ def predict_shoot_heuristic(state: Game, action: Tuple[Tuple[int, int], bool], d
 def stay_Alive(state: Game, action: Tuple[Tuple[int, int], bool]):
     return state.get_lives() * 1000
 
+
 def Stay_Alive_Aim_To_Kill(state: Game, action: Tuple[Tuple[int, int], bool]):
-    return stay_Alive(state, action) + 100*predict_shoot_heuristic(state, action, depth = 4)
+    return stay_Alive(state, action) + 100*predict_shoot_heuristic(state, action, depth = 0)
+
+
+def centerize(state: Game, action: Tuple[Tuple[int, int], bool]):
+    return - math.sqrt(math.pow(state.player.location[0] - state.board_ratio[0], 2) + math.pow(state.player.location[1] - state.board_ratio[1], 2))
+
+def centerize_alive(state: Game, action: Tuple[Tuple[int, int], bool]):
+    return stay_Alive(state, action) + centerize(state, action)
+
 
 def find_loc(func, arr, element):
     l = 0
@@ -95,7 +105,7 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game):
-    next_moves = a_star_search(problem, node_search_quota=3, heuristic=Stay_Alive_Aim_To_Kill)
+    next_moves = a_star_search(problem, node_search_quota=10, heuristic=centerize_alive)
     if next_moves is []:
         return
     return next_moves
