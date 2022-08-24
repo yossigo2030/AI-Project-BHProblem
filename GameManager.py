@@ -29,7 +29,7 @@ from Game import Game
 
 # board has an array of enemies projectiles a player object and the limits,
 # in its update function we will track score and update the units locations
-AI = True
+AI = False
 
 running = True
 clock = pygame.time.Clock()
