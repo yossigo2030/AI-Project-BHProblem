@@ -51,8 +51,26 @@ def centerize(state: Game, action: Tuple[Tuple[int, int], bool]):
 
 def hunt(state: Game, action: Tuple[Tuple[int, int], bool]):
     for enemy in state.data.EnemySpriteGroup:
-        print()
         return go_to(state, action, (enemy.location[0] + enemy.imsize[0] // 2, enemy.location[1] + 100 + enemy.imsize[1] // 2))
+    return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
+
+
+def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
+    player = state.player
+    location = [
+        action[0][0] * player.speed + player.location[0] + player.imsize[
+            0] // 2,
+        action[0][1] * player.speed + player.location[1] + player.imsize[
+            1] // 2]
+    closest_enemy = None
+    min = 10000000
+    for enemy in state.data.EnemySpriteGroup:
+        dis = distance(location, (enemy.location[0] + enemy.imsize[0] // 2, enemy.location[1] + 100 + enemy.imsize[1] // 2))
+        if min > dis:
+            min = dis
+            closest_enemy = enemy
+    if closest_enemy is not None:
+        return go_to(state, action, (closest_enemy.location[0] + closest_enemy.imsize[0] // 2, closest_enemy.location[1] + 100 + closest_enemy.imsize[1] // 2))
     return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
 
 def go_to(state: Game, action: Tuple[Tuple[int, int], bool], destination):
@@ -61,6 +79,10 @@ def go_to(state: Game, action: Tuple[Tuple[int, int], bool], destination):
                 action[0][1] * player.speed + player.location[1] + player.imsize[1] // 2]
     dis = - 30 * distance(location, destination)
     return dis
+
+
+def hunt_alive(state: Game, action: Tuple[Tuple[int, int], bool]):
+    return stay_Alive(state, action) + hunt(state, action)
 
 def distance(point1, point2):
     return math.sqrt(math.pow(point2[0] - point1[0],
@@ -127,7 +149,7 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game):
-    next_moves = a_star_search(problem, node_search_quota=10, heuristic=hunt)
+    next_moves = a_star_search(problem, node_search_quota=10, heuristic=hunt_alive)
     if next_moves is []:
         return
     return next_moves
