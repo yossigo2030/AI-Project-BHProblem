@@ -78,10 +78,10 @@ class TargetPosPattern(MovePattern):
             self.is_first_time = False
             target_pos = self.target
             vel = np.array([target_pos[i] - current_position[i] for i in range(2)])
-            vel = vel / (vel.sum()) ** 2 * self.velocity
-            if vel.sum() > 5:
+            vel = vel / (np.linalg.norm(vel))
+            if np.linalg.norm(vel) > 1:
                 print(vel)
-            self.vel = vel
+            self.vel = vel * self.velocity
         return [current_position[i] + self.vel[i] for i in range(2)]
 
 
