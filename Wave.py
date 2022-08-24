@@ -102,7 +102,7 @@ class Wave:
                                            MovementPatterns.StraightPattern((-1, -1))])
                 else:
                     # EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((random.random(), 4 * random.random())))])
-                    EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern((0, 2))])
+                    EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern((3, 0))])
                 if len(self.EnemySpawnQueue) == 0:
                     break
             else:
