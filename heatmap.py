@@ -7,11 +7,9 @@ import matplotlib.pyplot as plt
 
 def show_map(array_list, save=True, results_path='results.png'):
     fig, axs = plt.subplots(nrows=2, ncols=5, figsize=(22, 10))
-    for j, arrays in enumerate(array_list):
-        for i, array in enumerate(arrays):
-            # df = pd.DataFrame(array)
-            sns.heatmap(array, cbar=False, ax=axs[j // 5][j % 5])
-            break
+    for i, array in enumerate(array_list):
+        # df = pd.DataFrame(array)
+        sns.heatmap(array, cbar=False, ax=axs[i // 5][i % 5])
     if save:
         try:
             plt.savefig(results_path)

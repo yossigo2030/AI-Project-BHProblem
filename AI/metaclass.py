@@ -151,7 +151,7 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game, expanded_node_count=10):
-    next_moves = a_star_search(problem, node_search_quota=expanded_node_count, heuristic=hunt_alive_close)
+    next_moves = a_star_search(problem, node_search_quota=expanded_node_count, heuristic=stay_Alive)
     if next_moves is []:
         return
     return next_moves

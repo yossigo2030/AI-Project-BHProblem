@@ -39,7 +39,7 @@ tps = 60
 NODECOUNT = 100
 SKIPSTART = False
 running = True
-SAVETOFILE = False
+SAVETOFILE = True
 TESTWAVE = True
 
 clock = pygame.time.Clock()
@@ -48,7 +48,7 @@ if TESTWAVE:
     game.wave = CollisionTestingWave(pygame.display.get_window_size(), game.data)
 
 pygame.display.init()
-q = QLearner((100, 100), future_steps=10, itercount=2500)  # calc board size based on player movespeed
+q = QLearner((100, 100), future_steps=10, itercount=50000, epsilon=0.75)  # calc board size based on player movespeed
 game.update()
 
 
@@ -64,11 +64,10 @@ def game_loop(alg: str):
             game.update(moves.pop(0), save_to_file=SAVETOFILE)
         elif alg == "qLearn":
             q.update_values(game)
-            move = q.next_turn_2(game)
+            move = q.get_next_turn(game)
             print(move)
             print(f"HP count: {game.player.lives}")
-            game.update(move)
-            # q.print_at_depth(game, 0)
+            game.update(move, save_to_file=SAVETOFILE)
         else:
             game.update(save_to_file=SAVETOFILE)
         clock.tick(tps)
