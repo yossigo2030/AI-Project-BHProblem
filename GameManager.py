@@ -36,7 +36,7 @@ from AI.metaclass import a_star_player
 # in its update function we will track score and update the units locations
 algs = ["aStar", "qLearn"]
 tps = 60
-NODECOUNT = 6
+NODECOUNT = 10
 SKIPSTART = False
 running = True
 SAVETOFILE = False

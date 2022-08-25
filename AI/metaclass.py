@@ -103,7 +103,7 @@ def find_loc(func, arr, element):
     element_val = func(element)
     while h > l:
         m = (h + l) // 2
-        mval = func(arr[m])
+        mval = func(arr[m])  # TODO store the heuristic return value -_-
         if mval > element_val:
             l = m + 1
         else:
