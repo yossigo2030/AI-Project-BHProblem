@@ -18,7 +18,7 @@ from AI.QLearner import QLearner
 from CollisionTestingWave import CollisionTestingWave
 from DataStructures import DataStructures
 from Game import Game
-from AI.metaclass import a_star_player
+from AI.metaclass import a_star_player, a_star_search_times
 
 # this file is currently empty it is a detailed explanation of how the game will
 # be built code wise, then we will use the code elements to build a graphic gui
@@ -34,9 +34,9 @@ from AI.metaclass import a_star_player
 
 # board has an array of enemies projectiles a player object and the limits,
 # in its update function we will track score and update the units locations
-algs = ["aStar", "qLearn"]
+algs = ["aStar", "aStarT", "qLearn"]
 tps = 60
-NODECOUNT = 10
+NODECOUNT = 100
 SKIPSTART = False
 running = True
 SAVETOFILE = False
@@ -54,14 +54,20 @@ game.update()
 
 def game_loop(alg: str):
     moves = []
+    search = None
     if SKIPSTART:
         for i in range(250):
             game.update()
     while running:
         if alg == "aStar":
-            if len(moves) < NODECOUNT - 5:
+            if len(moves) == 0:
                 moves = a_star_player(game, NODECOUNT)
             game.update(moves.pop(0), save_to_file=SAVETOFILE)
+        if alg == "aStarT":
+            if search is None:
+                search = a_star_search_times(game, 0.25)
+            move = search()
+            game.update(move, save_to_file=SAVETOFILE)
         elif alg == "qLearn":
             q.update_values(game)
             move = q.next_turn_2(game)
