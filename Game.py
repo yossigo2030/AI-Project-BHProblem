@@ -1,3 +1,4 @@
+import random
 from typing import Tuple
 
 import pygame
@@ -33,7 +34,12 @@ class Game:
             wave = CheapWave.CheapWave(self.board_ratio, self.data)
         self.wave = wave
 
-    def __copy__(self, visuals=True):
+    #     self._hash = int(random.uniform(-10000000000, 10000000000))
+    #
+    # def __hash__(self):
+    #     return self._hash
+
+    def __copy__(self, visuals=False):
         data = self.data.__copy__()
         return Game(self.frame, visuals, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
 
@@ -111,7 +117,7 @@ class Game:
         move is the move which takes state to curr_state
         """
         # get player moves
-        games = [[Game.__copy__(self), move, 0] for move in AI.mdp.MarkovDecisionProcess.getPossibleActions(self)]
+        games = [[self.__copy__(), move, 0] for move in AI.mdp.MarkovDecisionProcess.getPossibleActions(self)]
         for game in games:
             game[0].update(game[1])
             game[2] = self.delta_score(game[0], game[1])

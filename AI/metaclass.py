@@ -87,6 +87,7 @@ def hunt_alive(state: Game, action: Tuple[Tuple[int, int], bool]):
 def hunt_alive_close(state: Game, action: Tuple[Tuple[int, int], bool]):
     return stay_Alive(state, action) + hunt_close(state, action)
 
+
 def distance(point1, point2):
     return math.sqrt(math.pow(point2[0] - point1[0],
                               2) + math.pow(
@@ -132,9 +133,8 @@ def a_star_search(problem: Game, node_search_quota=10000,
                 curr_state, curr_move = father[key]
                 key = get_key(curr_state, curr_move)
             path.insert(0, curr_move)
-            path.reverse()  # TODO check path order
             return path
-        for (bstate, bmove, reward) in problem.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
+        for (bstate, bmove, reward) in curr_state.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
             if bstate not in visited:
                 queue_elem = (bstate, bmove, reward + score)
                 queue.insert(find_loc(g, queue, queue_elem), queue_elem)
@@ -151,7 +151,7 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game, expanded_node_count=10):
-    next_moves = a_star_search(problem, node_search_quota=expanded_node_count, heuristic=stay_Alive)
+    next_moves = a_star_search(problem, node_search_quota=expanded_node_count, heuristic=hunt_alive_close)
     if next_moves is []:
         return
     return next_moves
