@@ -35,7 +35,7 @@ class QLearner:
 
     def update_values(self, state: Game):
         Q = np.zeros_like(self.Q)
-        Q[::, ::, :self.steps - 1] = self.Q[::, ::, 1:]
+        # Q[::, ::, :self.steps - 1] = self.Q[::, ::, 1:]
         self.Q = Q
         for i in range(self.itercount // self.steps):
             cs = state.__copy__(False)
@@ -48,30 +48,31 @@ class QLearner:
                     action = pa[round(random.uniform(0, max(len(pa) - 1, 0)))]
                 elif random.uniform(0, 1) < self.negeps:
                     """ Exploit but negative """
-                    action = self.get_best_action(xc, yc, pa, inverted=True)
+                    action = self.get_best_action(xc, yc, pa, inverted=True)[0]
                 else:
                     """ Exploit: select the action with max value (future reward) """
-                    action = self.get_best_action(xc, yc, pa)
+                    action = self.get_best_action(xc, yc, pa)[0]
                 ns = cs.__copy__(False)
                 ns.update(action)
                 reward = self.mdp.getReward(cs, action, ns)
                 xn, yn = ns.get_player_loc(self.bs)
                 cs = ns
 
-                xlocs = [int(xn + x - 1) for x in range(3) if 0 <= xn + x - 1 < self.bs[0]]
-                ylocs = [int(yn + y - 1) for y in range(3) if 0 <= yn + y - 1 < self.bs[1]]
+                # xlocs = [int(xn + x - 1) for x in range(3) if 0 <= xn + x - 1 < self.bs[0]]
+                # ylocs = [int(yn + y - 1) for y in range(3) if 0 <= yn + y - 1 < self.bs[1]]
                 if j + 1 < self.steps:
-                    max_of_future = np.max([self.Q[x][y][j + 1] for x in xlocs for y in ylocs])  # TODO check logic. action might need to be abs(action[1] - 1)
+                    # max_of_future = np.max([self.Q[x][y][j + 1] for x in xlocs for y in ylocs])  # TODO change this to the other thing
+                    max_of_future = self.get_best_action(xn, yn, pa)[1]
                 else:
                     max_of_future = 0
                 self.Q[xc][yc][j] += self.lr * (reward + self.gamma * max_of_future - self.Q[xc][yc][j])
-        heatmap.show_map([self.Q[::, ::, i].T for i in range(10)], True, f"mdp/{state.frame:04}.png")
-        heatmap.show_map([self.Q[::, ::, i].T for i in range(10)], True)
+        heatmap.show_map([self.Q[::, ::, i].T for i in range(self.steps)], True, f"mdp/{state.frame:04}.png")
+        heatmap.show_map([self.Q[::, ::, i].T for i in range(self.steps)], True)
 
     def get_next_turn(self, state: Game):
         pa = self.mdp.getPossibleActions(state)
         x, y = state.get_player_loc(self.bs)
-        act = self.get_best_action(x, y, pa)
+        act = self.get_best_action(x, y, pa)[0]
         return act[0], True
 
     def get_best_action(self, x, y, action_list, inverted=False):
@@ -79,7 +80,7 @@ class QLearner:
         act = None
         for action in action_list:
             nx, ny = x + action[0][0], y + action[0][1]
-            rew = self.Q[nx][ny][1]  # QLearning still requires double checking the algorithm (specifically whether to play based on J=0 or J=1
+            rew = self.Q[nx][ny][1]  # TODO QLearning still requires double checking the algorithm (specifically whether to play based on J=0 or J=1
             if inverted:
                 if rew < bestrew:
                     bestrew = rew
@@ -88,7 +89,7 @@ class QLearner:
                 if rew > bestrew:
                     bestrew = rew
                     act = action
-        return act
+        return act, bestrew
 
     def print_at_depth(self, game, d=0):
         # np.unravel_index(self.Q.argmax(), self.Q.shape)
