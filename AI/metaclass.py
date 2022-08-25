@@ -58,10 +58,8 @@ def hunt(state: Game, action: Tuple[Tuple[int, int], bool]):
 def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
     player = state.player
     location = [
-        action[0][0] * player.speed + player.location[0] + player.imsize[
-            0] // 2,
-        action[0][1] * player.speed + player.location[1] + player.imsize[
-            1] // 2]
+        player.location[0] + player.imsize[0] // 2,
+        player.location[1] + player.imsize[1] // 2]
     closest_enemy = None
     min = 10000000
     for enemy in state.data.EnemySpriteGroup:
@@ -76,8 +74,8 @@ def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
 
 def go_to(state: Game, action: Tuple[Tuple[int, int], bool], destination):
     player = state.player
-    location = [action[0][0] * player.speed + player.location[0] + player.imsize[0] // 2,
-                action[0][1] * player.speed + player.location[1] + player.imsize[1] // 2]
+    location = [player.location[0] + player.imsize[0] // 2,
+                player.location[1] + player.imsize[1] // 2]
     dis = - 30 * distance(location, destination)
     return dis
 
@@ -85,6 +83,9 @@ def go_to(state: Game, action: Tuple[Tuple[int, int], bool], destination):
 def hunt_alive(state: Game, action: Tuple[Tuple[int, int], bool]):
     return stay_Alive(state, action) + hunt(state, action)
 
+
+def hunt_alive_close(state: Game, action: Tuple[Tuple[int, int], bool]):
+    return stay_Alive(state, action) + hunt_close(state, action)
 
 def distance(point1, point2):
     return math.sqrt(math.pow(point2[0] - point1[0],
@@ -150,7 +151,7 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game, expanded_node_count=10):
-    next_moves = a_star_search(problem, node_search_quota=expanded_node_count, heuristic=hunt_alive)
+    next_moves = a_star_search(problem, node_search_quota=expanded_node_count, heuristic=stay_Alive)
     if next_moves is []:
         return
     return next_moves

@@ -36,10 +36,10 @@ from AI.metaclass import a_star_player
 # in its update function we will track score and update the units locations
 algs = ["aStar", "qLearn"]
 tps = 60
-NODECOUNT = 10
+NODECOUNT = 6
 SKIPSTART = False
 running = True
-SAVETOFILE = True
+SAVETOFILE = False
 TESTWAVE = True
 
 clock = pygame.time.Clock()
@@ -59,8 +59,8 @@ def game_loop(alg: str):
             game.update()
     while running:
         if alg == "aStar":
-            # if len(moves) < NODECOUNT - 5:
-            moves = a_star_player(game, NODECOUNT)
+            if len(moves) < NODECOUNT - 5:
+                moves = a_star_player(game, NODECOUNT)
             game.update(moves.pop(0), save_to_file=SAVETOFILE)
         elif alg == "qLearn":
             q.update_values(game)
