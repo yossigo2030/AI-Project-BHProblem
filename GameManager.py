@@ -36,7 +36,7 @@ from AI.metaclass import a_star_player, a_star_search_times
 # in its update function we will track score and update the units locations
 algs = ["aStar", "aStarT", "qLearn"]
 tps = 60
-NODECOUNT = 1000
+NODECOUNT = 100
 SKIPSTART = False
 running = True
 SAVETOFILE = False
@@ -65,7 +65,7 @@ def game_loop(alg: str):
             game.update(moves.pop(0), save_to_file=SAVETOFILE)
         if alg == "aStarT":
             if search is None:
-                search = a_star_search_times(game, 0.)
+                search = a_star_search_times(game, 0.5)
             move = search()
             game.update(move, save_to_file=SAVETOFILE)
         elif alg == "qLearn":
