@@ -134,7 +134,7 @@ def a_star_search_times(problem: Game, time_per_frame,
         start = timer()
         while len(queue):
             curr_state, curr_move, score = queue.pop(0)
-            if (timer() - start > time_per_frame or len(path[curr_state]) > largest_path) and len(queue) > 1:
+            if timer() - start > time_per_frame or len(path[curr_state]) > largest_path:
                 chosen = path[curr_state][0]
                 del path[chosen[0]]
                 new_queue = []
@@ -142,6 +142,10 @@ def a_star_search_times(problem: Game, time_per_frame,
                     if path[key][0] == chosen:
                         path[key].pop(0)
                         new_queue.append(path[key][-1])
+                if len(new_queue) == 0:
+                    new_queue = curr_state.get_successors()
+                    for state, move, score in new_queue:
+                        path[state] = [(state, move, score)]
                 queue = new_queue
                 return chosen[1]
             for (bstate, bmove, reward) in curr_state.get_successors():
