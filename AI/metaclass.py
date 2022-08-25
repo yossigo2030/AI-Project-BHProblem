@@ -3,6 +3,7 @@ from typing import Tuple
 import Game
 import math
 import Draw
+from timeit import default_timer as timer
 
 
 class AIBase:
@@ -33,7 +34,8 @@ def basic_heuristic_2(state: Game, action: Tuple[Tuple[int, int], bool]):
     return state.get_state_score(state)
 
 
-def predict_shoot_heuristic(state: Game, action: Tuple[Tuple[int, int], bool], depth=10):
+def predict_shoot_heuristic(state: Game, action: Tuple[Tuple[int, int], bool],
+                            depth=10):
     return state.predict_projectiles_Score(depth)
 
 
@@ -42,7 +44,9 @@ def stay_Alive(state: Game, action: Tuple[Tuple[int, int], bool]):
 
 
 def Stay_Alive_Aim_To_Kill(state: Game, action: Tuple[Tuple[int, int], bool]):
-    return stay_Alive(state, action) + 100 * predict_shoot_heuristic(state, action, depth=0)
+    return stay_Alive(state, action) + 100 * predict_shoot_heuristic(state,
+                                                                     action,
+                                                                     depth=0)
 
 
 def centerize(state: Game, action: Tuple[Tuple[int, int], bool]):
@@ -51,7 +55,9 @@ def centerize(state: Game, action: Tuple[Tuple[int, int], bool]):
 
 def hunt(state: Game, action: Tuple[Tuple[int, int], bool]):
     for enemy in state.data.EnemySpriteGroup:
-        return go_to(state, action, (enemy.location[0] + enemy.imsize[0] // 2, enemy.location[1] + 100 + enemy.imsize[1] // 2))
+        return go_to(state, action, (enemy.location[0] + enemy.imsize[0] // 2,
+                                     enemy.location[1] + 100 + enemy.imsize[
+                                         1] // 2))
     return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
 
 
@@ -63,12 +69,16 @@ def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
     closest_enemy = None
     min = 10000000
     for enemy in state.data.EnemySpriteGroup:
-        dis = distance(location, (enemy.location[0] + enemy.imsize[0] // 2, enemy.location[1] + 100 + enemy.imsize[1] // 2))
+        dis = distance(location, (enemy.location[0] + enemy.imsize[0] // 2,
+                                  enemy.location[1] + 100 + enemy.imsize[
+                                      1] // 2))
         if min > dis:
             min = dis
             closest_enemy = enemy
     if closest_enemy is not None:
-        return go_to(state, action, (closest_enemy.location[0] + closest_enemy.imsize[0] // 2, closest_enemy.location[1] + 100 + closest_enemy.imsize[1] // 2))
+        return go_to(state, action, (
+        closest_enemy.location[0] + closest_enemy.imsize[0] // 2,
+        closest_enemy.location[1] + 100 + closest_enemy.imsize[1] // 2))
     return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
 
 
@@ -112,6 +122,43 @@ def find_loc(func, arr, element):
     return l
 
 
+def a_star_search_times(problem: Game, time_per_frame,
+                        heuristic=hunt_alive_close):
+    """
+    Search the node that has the lowest combined cost and heuristic first.
+    """
+    queue = problem.get_successors()
+    visited = set(x for (x, y, z) in queue)
+    path = {}
+    # init path
+    for state, move, score in queue:
+        path[state] = [(state, move, score)]
+    g = lambda x: x[2] + heuristic(x[0], x[1])
+    def search():
+        start = timer()
+        while len(queue):
+            curr_state, curr_move, score = queue.pop(0)
+            if timer() - start > time_per_frame:
+                chosen = path[curr_state][0]
+                del path[chosen[0]]
+                for key in path.keys():
+                    if path[key][0] == chosen:
+                        path[key] = path[key][1:]
+                    else:
+                        queue_elem = path[key][-1]
+                        if queue_elem in queue:
+                            queue.remove(queue_elem)
+                return chosen[1]
+            for (bstate, bmove, reward) in curr_state.get_successors():
+                if bstate not in visited:
+                    queue_elem = (bstate, bmove, reward + score)
+                    queue.insert(find_loc(g, queue, queue_elem), queue_elem)
+                    visited.add(bstate)
+                    path[bstate] = path[curr_state] + [queue_elem]
+        return ([0, 0], False)
+    return search
+
+
 def a_star_search(problem: Game, node_search_quota=10000,
                   heuristic=null_heuristic):
     """
@@ -120,10 +167,12 @@ def a_star_search(problem: Game, node_search_quota=10000,
     queue = problem.get_successors()
     visited = set(x for (x, y, z) in queue)
     father = {}
-    g = lambda x: x[2] + heuristic(x[0], x[1])  # x = (curr_state, curr_move, score), where the current state is the state *after* curr_move has been executed, and the score is also after the move.
+    g = lambda x: x[2] + heuristic(x[0], x[
+        1])  # x = (curr_state, curr_move, score), where the current state is the state *after* curr_move has been executed, and the score is also after the move.
     i = 0
     while len(queue):
-        curr_state, curr_move, score = queue.pop(0)  # reversed from min to max (score)
+        curr_state, curr_move, score = queue.pop(
+            0)  # reversed from min to max (score)
         # print(len(queue), [i for i in range(len(queue)) if queue[i][1][0] == [0, 0]])
         if node_search_quota == i:
             path = []
@@ -134,7 +183,8 @@ def a_star_search(problem: Game, node_search_quota=10000,
                 key = get_key(curr_state, curr_move)
             path.insert(0, curr_move)
             return path
-        for (bstate, bmove, reward) in curr_state.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
+        for (bstate, bmove,
+             reward) in curr_state.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
             if bstate not in visited:
                 queue_elem = (bstate, bmove, reward + score)
                 queue.insert(find_loc(g, queue, queue_elem), queue_elem)
@@ -151,7 +201,9 @@ def get_key(state, move):
 
 
 def a_star_player(problem: Game, expanded_node_count=10):
-    next_moves = a_star_search(problem, node_search_quota=expanded_node_count, heuristic=hunt_alive_close)
+    next_moves = a_star_search(problem, node_search_quota=expanded_node_count,
+                               heuristic=hunt_alive_close)
     if next_moves is []:
         return
     return next_moves
+
