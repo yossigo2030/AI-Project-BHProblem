@@ -46,7 +46,7 @@ def Stay_Alive_Aim_To_Kill(state: Game, action: Tuple[Tuple[int, int], bool]):
 
 
 def centerize(state: Game, action: Tuple[Tuple[int, int], bool]):
-    return go_to(state,action,(Draw.WIDTH // 2, Draw.LENGTH // 2))
+    return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
 
 
 def hunt(state: Game, action: Tuple[Tuple[int, int], bool]):
@@ -58,10 +58,8 @@ def hunt(state: Game, action: Tuple[Tuple[int, int], bool]):
 def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
     player = state.player
     location = [
-        action[0][0] * player.speed + player.location[0] + player.imsize[
-            0] // 2,
-        action[0][1] * player.speed + player.location[1] + player.imsize[
-            1] // 2]
+        player.location[0] + player.imsize[0] // 2,
+        player.location[1] + player.imsize[1] // 2]
     closest_enemy = None
     min = 10000000
     for enemy in state.data.EnemySpriteGroup:
@@ -73,10 +71,11 @@ def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
         return go_to(state, action, (closest_enemy.location[0] + closest_enemy.imsize[0] // 2, closest_enemy.location[1] + 100 + closest_enemy.imsize[1] // 2))
     return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
 
+
 def go_to(state: Game, action: Tuple[Tuple[int, int], bool], destination):
     player = state.player
-    location = [action[0][0] * player.speed + player.location[0] + player.imsize[0] // 2,
-                action[0][1] * player.speed + player.location[1] + player.imsize[1] // 2]
+    location = [player.location[0] + player.imsize[0] // 2,
+                player.location[1] + player.imsize[1] // 2]
     dis = - 30 * distance(location, destination)
     return dis
 
@@ -84,11 +83,15 @@ def go_to(state: Game, action: Tuple[Tuple[int, int], bool], destination):
 def hunt_alive(state: Game, action: Tuple[Tuple[int, int], bool]):
     return stay_Alive(state, action) + hunt(state, action)
 
+
+def hunt_alive_close(state: Game, action: Tuple[Tuple[int, int], bool]):
+    return stay_Alive(state, action) + hunt_close(state, action)
+
+
 def distance(point1, point2):
     return math.sqrt(math.pow(point2[0] - point1[0],
                               2) + math.pow(
         point2[1] - point1[1], 2))
-
 
 
 def centerize_alive(state: Game, action: Tuple[Tuple[int, int], bool]):
@@ -101,7 +104,7 @@ def find_loc(func, arr, element):
     element_val = func(element)
     while h > l:
         m = (h + l) // 2
-        mval = func(arr[m])
+        mval = func(arr[m])  # TODO store the heuristic return value -_-
         if mval > element_val:
             l = m + 1
         else:
@@ -130,9 +133,8 @@ def a_star_search(problem: Game, node_search_quota=10000,
                 curr_state, curr_move = father[key]
                 key = get_key(curr_state, curr_move)
             path.insert(0, curr_move)
-            path.reverse()  # TODO check path order
             return path
-        for (bstate, bmove, reward) in problem.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
+        for (bstate, bmove, reward) in curr_state.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
             if bstate not in visited:
                 queue_elem = (bstate, bmove, reward + score)
                 queue.insert(find_loc(g, queue, queue_elem), queue_elem)
@@ -148,8 +150,8 @@ def get_key(state, move):
     return state, (tuple(move[0]), move[1])
 
 
-def a_star_player(problem: Game):
-    next_moves = a_star_search(problem, node_search_quota=10, heuristic=hunt_alive)
+def a_star_player(problem: Game, expanded_node_count=10):
+    next_moves = a_star_search(problem, node_search_quota=expanded_node_count, heuristic=hunt_alive_close)
     if next_moves is []:
         return
     return next_moves
