@@ -14,6 +14,7 @@ def collision_check_enemies(data: DataStructures):
                 if not enemy.on_hit(1):
                     enemy.kill()
                     score = 20
+                    spawn_bonus(enemy.location)
                 projectile.kill()
         if score > 0:
             for boss in data.EnemyBossSpriteGroup:
@@ -35,3 +36,7 @@ def collision_check_player(data: DataStructures):
                 if not player.on_hit():
                     player.kill()
                 projectile.kill()
+
+
+def spawn_bonus(location):
+    
