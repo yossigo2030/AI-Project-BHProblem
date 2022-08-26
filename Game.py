@@ -1,7 +1,10 @@
+import random
 from typing import Tuple
 
 import pygame
 
+import CheapWave
+import CollisionTestingWave
 import Draw
 import EnemyType
 import Player
@@ -18,23 +21,29 @@ class Game:
     Documentation goes here
     """
 
-    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=pygame.display.get_window_size(), wave=None, data=DataStructures()):
+    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=pygame.display.get_window_size(), wave=None, data=None):
         self.frame = curr_frame
         self.visual = visual
         self.board_ratio = board_ratio
-        self.data = data
+        self.data = DataStructures() if data is None else data
         if player is None:
             player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 2), r"resources\ship.png", self.data)
         self.player = player
         if wave is None:
-            wave = Wave.Wave(1, self.board_ratio, self.data)
+            # wave = Wave.Wave(1, self.board_ratio, self.data)
+            wave = CheapWave.CheapWave(self.board_ratio, self.data)
         self.wave = wave
+
+    #     self._hash = int(random.uniform(-10000000000, 10000000000))
+    #
+    # def __hash__(self):
+    #     return self._hash
 
     def __copy__(self, visuals=False):
         data = self.data.__copy__()
         return Game(self.frame, visuals, [x for x in data.PlayerSpriteGroup][0], self.board_ratio, self.wave.__copy__(data), data)
 
-    def update(self, move=None):
+    def update(self, move=None, save_to_file=False):
         self.frame += 1
         # self.player.increment_score(1)
         # player input and actions
@@ -47,8 +56,11 @@ class Game:
         Spriteables.sprite_culling(self.data)
 
         # check collisions
+        lives = self.player.lives
         self.player.increment_score(CollisionManager.collision_check_enemies(self.data))
         CollisionManager.collision_check_player(self.data)
+        if self.visual and lives > self.player.lives:
+            print(f"Player hit :(, now at {self.player.lives} lives")
 
         # check pickup collisions
 
@@ -58,10 +70,14 @@ class Game:
 
         # enemy spawning
         if self.wave.update() == 1:
-            self.wave = Wave.Wave(self.wave.number_of_wave + 1, self.board_ratio, self.data)
+            pass
+            # self.wave = Wave.Wave(self.wave.number_of_wave + 1, self.board_ratio, self.data)
 
         if self.visual:
             pygame.display.flip()
+
+        if self.visual and save_to_file:
+            pygame.image.save(pygame.display.get_surface(), f"results/{self.frame:05}.png")
 
     def visual_update(self):
         Draw.redrawGameWindow()
@@ -101,7 +117,7 @@ class Game:
         move is the move which takes state to curr_state
         """
         # get player moves
-        games = [[Game.__copy__(self), move, 0] for move in AI.mdp.MarkovDecisionProcess.getPossibleActions(self)]
+        games = [[self.__copy__(), move, 0] for move in AI.mdp.MarkovDecisionProcess.getPossibleActions(self)]
         for game in games:
             game[0].update(game[1])
             game[2] = self.delta_score(game[0], game[1])

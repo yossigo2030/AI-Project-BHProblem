@@ -14,7 +14,6 @@ def collision_check_enemies(data: DataStructures):
                 if not enemy.on_hit(1):
                     enemy.kill()
                     score = 20
-                    spawn_bonus(enemy.location)
                 projectile.kill()
         if score > 0:
             for boss in data.EnemyBossSpriteGroup:
@@ -29,14 +28,16 @@ def collision_check_enemies(data: DataStructures):
 
 def collision_check_player(data: DataStructures):
     for player in data.PlayerSpriteGroup:
-        for projectile in data.ProjectileEnemyGroup:
+        for group in [data.ProjectileEnemyGroup, data.EnemySpriteGroup]:
+            for target in group:
+                if pygame.Rect.colliderect(player.get_hitbox(),
+                                           target.get_hitbox()):
+                    # kill proj, hit player
+                    if not player.on_hit():
+                        player.kill()
+                    target.kill()
+        for boss in data.EnemyBossSpriteGroup:
             if pygame.Rect.colliderect(player.get_hitbox(),
-                                       projectile.get_hitbox()):
-                # kill proj, hit player
+                                       boss.get_hitbox()):
                 if not player.on_hit():
                     player.kill()
-                projectile.kill()
-
-
-def spawn_bonus(location):
-    
