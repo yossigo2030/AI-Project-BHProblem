@@ -41,7 +41,7 @@ SKIPSTART = False
 running = True
 SAVETOFILE = False
 TESTWAVE = False
-
+pygame.font.init()
 clock = pygame.time.Clock()
 game = Game()
 if TESTWAVE:
