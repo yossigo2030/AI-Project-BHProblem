@@ -40,7 +40,7 @@ NODECOUNT = 100
 SKIPSTART = False
 running = True
 SAVETOFILE = False
-TESTWAVE = True
+TESTWAVE = False
 
 clock = pygame.time.Clock()
 game = Game()
@@ -92,5 +92,5 @@ if __name__ == '__main__':
     except Exception:
         algorithm = None
 
-    game_loop(algorithm)
+    game_loop(None)
     pygame.quit()
