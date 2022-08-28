@@ -54,7 +54,7 @@ def collision_check_player(data: DataStructures):
 
 
 def summon_bonus(data: DataStructures, location):
-    chance = random.randint(0, 0)
+    chance = random.randint(0, 9)
     if chance == 0:
         Bonus.Bonus(data, 20, location)
         pass
