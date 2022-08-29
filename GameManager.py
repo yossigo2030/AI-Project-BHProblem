@@ -36,7 +36,7 @@ from AI.metaclass import a_star_player, a_star_search_times
 # in its update function we will track score and update the units locations
 algs = ["aStar", "aStarT", "qLearn"]
 tps = 60
-NODECOUNT = 100
+NODECOUNT = 200
 SKIPSTART = False
 running = True
 SAVETOFILE = False
@@ -92,5 +92,5 @@ if __name__ == '__main__':
     except Exception:
         algorithm = None
 
-    game_loop(None)
+    game_loop(algorithm)
     pygame.quit()

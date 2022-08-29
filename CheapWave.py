@@ -1,4 +1,5 @@
 import random
+from copy import copy
 from typing import Tuple
 
 import DataStructures
@@ -12,13 +13,16 @@ class CheapWave:
         self.board_size = board_size
         self.data = data
         self.eps = eps
+        self.random = random.Random(138561857482)
 
     def __copy__(self, data):
-        return CheapWave(self.board_size, data, self.eps)
+        obj = CheapWave(self.board_size, data, self.eps)
+        obj.random = copy(self.random)
+        return obj
 
     def update(self):
-        if random.uniform(0, 1) < self.eps:
-            pos = [random.uniform(0, self.board_size[0]), -10]
+        if self.random.uniform(0, 1) < self.eps:
+            pos = [self.random.uniform(0, self.board_size[0]), -10]
             EnemyType.EnemyShooter(pos, r"resources\en.png", self.data,
                                    MovementPatterns.StraightPattern((0, 1)),
                                    [MovementPatterns.TargetPosPattern(2, self.data.PlayerSpriteGroup.sprites()[0].location)])
