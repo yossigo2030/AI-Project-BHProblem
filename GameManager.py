@@ -62,14 +62,13 @@ def game_loop(alg: str):
     while running:
         if InputHandler.Quit():
             running = False
-
         if alg == "aStar":
             if len(moves) == 0:
                 moves = a_star_player(game, NODECOUNT)
             game.update(moves.pop(0), save_to_file=SAVETOFILE)
         if alg == "aStarT":
             if search is None:
-                search = a_star_search_times(game, 0.25)
+                search = a_star_search_times(game, 0.1)
             move = search()
             game.update(move, save_to_file=SAVETOFILE)
         elif alg == "qLearn":
@@ -91,6 +90,5 @@ if __name__ == '__main__':
             print(algorithm)
     except Exception:
         algorithm = None
-
-    game_loop(None)
+    game_loop(algorithm)
     pygame.quit()
