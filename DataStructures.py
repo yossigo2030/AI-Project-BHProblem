@@ -27,6 +27,7 @@ class DataStructures:
         self.ProjectileSpriteGroup = pygame.sprite.Group()
         self.ProjectileEnemyGroup = pygame.sprite.Group()
         self.ProjectilePlayerGroup = pygame.sprite.Group()
+        self.BonusGroup = pygame.sprite.Group()
         self.PlayerSpriteGroup = pygame.sprite.Group()
 
     def copy(self, players=True, enemies=True, projectiles_hostile=True, projectile_friendly=True):
@@ -45,6 +46,8 @@ class DataStructures:
                 data_structure.ProjectileSpriteGroup.add(sprite_new)
             if players and sprite in self.PlayerSpriteGroup:
                 data_structure.PlayerSpriteGroup.add(sprite_new)
+            if players and sprite in self.BonusGroup:
+                data_structure.BonusGroup.add(sprite_new)
         return data_structure
 
     def __copy__(self):
