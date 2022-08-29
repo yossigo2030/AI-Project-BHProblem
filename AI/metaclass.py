@@ -50,6 +50,10 @@ def hunt(state: Game, action: Tuple[Tuple[int, int], bool]):
         return go_to(state, action, (enemy.location[0] + enemy.imsize[0] // 2,
                                      enemy.location[1] + 100 + enemy.imsize[
                                          1] // 2))
+    for enemy in state.data.EnemyBossSpriteGroup:
+        return go_to(state, action, (enemy.location[0] + enemy.imsize[0] // 2,
+                                     enemy.location[1] + 100 + enemy.imsize[
+                                         1] // 2))
     return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
 
 
@@ -71,8 +75,7 @@ def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
         return go_to(state, action, (
         closest_enemy.location[0] + closest_enemy.imsize[0] // 2,
         closest_enemy.location[1] + 100 + closest_enemy.imsize[1] // 2))
-    return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
-
+    return hunt(state, action)
 
 def go_to(state: Game, action: Tuple[Tuple[int, int], bool], destination):
     player = state.player
