@@ -50,6 +50,10 @@ def hunt(state: Game, action: Tuple[Tuple[int, int], bool]):
         return go_to(state, action, (enemy.location[0] + enemy.imsize[0] // 2,
                                      enemy.location[1] + 100 + enemy.imsize[
                                          1] // 2))
+    for enemy in state.data.EnemyBossSpriteGroup:
+        return go_to(state, action, (enemy.location[0] + enemy.imsize[0] // 2,
+                                     enemy.location[1] + 100 + enemy.imsize[
+                                         1] // 2))
     return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
 
 
@@ -60,6 +64,10 @@ def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
         player.location[1] + player.imsize[1] // 2]
     closest_enemy = None
     min = 10000000
+    for enemy_boss in state.data.EnemyBossSpriteGroup:
+        return go_to(state, action, (enemy_boss.location[0] + enemy_boss.imsize[0] // 2,
+                                     enemy_boss.location[1] + 100 + enemy_boss.imsize[
+                                         1] // 2))
     for enemy in state.data.EnemySpriteGroup:
         dis = distance(location, (enemy.location[0] + enemy.imsize[0] // 2,
                                   enemy.location[1] + 100 + enemy.imsize[
@@ -71,8 +79,7 @@ def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
         return go_to(state, action, (
         closest_enemy.location[0] + closest_enemy.imsize[0] // 2,
         closest_enemy.location[1] + 100 + closest_enemy.imsize[1] // 2))
-    return go_to(state, action, (Draw.WIDTH // 2, Draw.LENGTH // 2))
-
+    return hunt(state, action)
 
 def go_to(state: Game, action: Tuple[Tuple[int, int], bool], destination):
     player = state.player
@@ -201,7 +208,7 @@ def get_key(state, move):
 
 def a_star_player(problem: Game, expanded_node_count=10):
     next_moves = a_star_search(problem, node_search_quota=expanded_node_count,
-                               heuristic=stay_Alive)
+                               heuristic=hunt_alive_close)
     if next_moves is []:
         return
     return next_moves

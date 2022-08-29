@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+# FFMPEG party trick: ffmpeg -framerate 30 -pattern_type glob -i '*.png' filename.mp4
 def show_map(array_list, save=True, results_path='results.png'):
     fig, axs = plt.subplots(nrows=2, ncols=10, figsize=(44, 10))
     for j, arrays in enumerate(array_list):

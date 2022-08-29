@@ -83,7 +83,9 @@ class Game:
         Draw.redrawGameWindow()
         Projectile.draw_all(self.data)
         EnemyType.draw_all(self.data)
+        for i in self.data.BonusGroup: i.draw()
         self.player.draw()
+        Draw.write_score_and_hp(self.player.score, self.player.lives)
 
     def convert_to_array(self, dims: Tuple[int, int]):
         array = [[[] for i in range(dims[0])] for j in range(dims[1])]

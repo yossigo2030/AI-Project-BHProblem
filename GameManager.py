@@ -40,8 +40,8 @@ NODECOUNT = 100
 SKIPSTART = False
 running = True
 SAVETOFILE = False
-TESTWAVE = True
-
+TESTWAVE = False
+pygame.font.init()
 clock = pygame.time.Clock()
 game = Game()
 if TESTWAVE:
@@ -53,19 +53,22 @@ game.update()
 
 
 def game_loop(alg: str):
+    global running
     moves = []
     search = None
     if SKIPSTART:
         for i in range(250):
             game.update()
     while running:
+        if InputHandler.Quit():
+            running = False
         if alg == "aStar":
             if len(moves) == 0:
                 moves = a_star_player(game, NODECOUNT)
             game.update(moves.pop(0), save_to_file=SAVETOFILE)
         if alg == "aStarT":
             if search is None:
-                search = a_star_search_times(game, 0.25)
+                search = a_star_search_times(game, 0.1)
             move = search()
             game.update(move, save_to_file=SAVETOFILE)
         elif alg == "qLearn":
@@ -89,3 +92,4 @@ if __name__ == '__main__':
         algorithm = None
 
     game_loop(algorithm)
+    pygame.quit()
