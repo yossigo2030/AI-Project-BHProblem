@@ -64,6 +64,10 @@ def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
         player.location[1] + player.imsize[1] // 2]
     closest_enemy = None
     min = 10000000
+    for enemy_boss in state.data.EnemyBossSpriteGroup:
+        return go_to(state, action, (enemy_boss.location[0] + enemy_boss.imsize[0] // 2,
+                                     enemy_boss.location[1] + 100 + enemy_boss.imsize[
+                                         1] // 2))
     for enemy in state.data.EnemySpriteGroup:
         dis = distance(location, (enemy.location[0] + enemy.imsize[0] // 2,
                                   enemy.location[1] + 100 + enemy.imsize[
