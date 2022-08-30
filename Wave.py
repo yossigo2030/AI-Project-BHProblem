@@ -28,7 +28,7 @@ class Wave:
         self.start_new_wave()
 
     def __copy__(self, data):
-        wave = self.Wave(self.board_size, data, True)
+        wave = Wave(self.board_size, data, True)
         wave.cooldownCounter = self.cooldownCounter
         return wave
 
