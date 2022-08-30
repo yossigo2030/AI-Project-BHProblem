@@ -95,6 +95,7 @@ class Game:
         Draw.redrawGameWindow()
         Projectile.draw_all(self.data)
         EnemyType.draw_all(self.data)
+        for i in self.data.EnemyBossSpriteGroup: i.draw()
         for i in self.data.BonusGroup: i.draw()
         self.player.draw()
         Draw.write_score_and_hp(self.player.score, self.player.lives)
