@@ -14,6 +14,7 @@ import Wave
 import CollisionManager
 from DataStructures import DataStructures
 import AI
+from metrix import *
 
 
 class Game:
@@ -21,11 +22,15 @@ class Game:
     Documentation goes here
     """
 
-    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=pygame.display.get_window_size(), wave=None, data=None):
+    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=pygame.display.get_window_size(), wave=None, data=None,  brain=None):
         self.frame = curr_frame
         self.visual = visual
         self.board_ratio = board_ratio
         self.data = DataStructures() if data is None else data
+        ################
+        self.neural_network = brain
+        self.m = metrix(self.neural_network, self.data)
+        #################
         if player is None:
             player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 2), r"resources\ship.png", self.data)
         self.player = player
@@ -51,6 +56,10 @@ class Game:
         # enemy moves and actions
         Projectile.update_all(self.data)
         EnemyType.update_all(self.data)
+
+        #################
+        self.m.round()
+        ################
 
         # Discard objects that are out of bounds
         Spriteables.sprite_culling(self.data)
@@ -78,6 +87,7 @@ class Game:
 
         if self.visual and save_to_file:
             pygame.image.save(pygame.display.get_surface(), f"results/{self.frame:05}.png")
+
 
     def visual_update(self):
         Draw.redrawGameWindow()

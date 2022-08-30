@@ -7,6 +7,7 @@ import numpy as np
 import Draw
 import InputHandler
 import Spriteables
+from metrix import *
 
 Position = Tuple[int or float]
 Velocity = Tuple[int or float]

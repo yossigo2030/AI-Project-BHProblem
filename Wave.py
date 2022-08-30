@@ -6,6 +6,7 @@ import EnemyType
 import MovementPatterns
 import pygame
 import copy
+import cooldown
 
 COOLDOWN = 100
 
