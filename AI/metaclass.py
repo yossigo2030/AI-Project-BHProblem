@@ -124,6 +124,24 @@ def find_loc(func, arr, element):
             h = m
     return l
 
+def find_loc_mem():
+    values = dict()
+    def find_loc(func, arr, element):
+        l = 0
+        h = len(arr)
+        values[element[0]] = func(element)
+        element_val = values[element[0]]
+        while h > l:
+            m = (h + l) // 2
+            if arr[m][0] not in values:
+                values[arr[m][0]] = func(arr[m])
+            mval = values[arr[m][0]]
+            if mval > element_val:
+                l = m + 1
+            else:
+                h = m
+        return l
+    return find_loc
 
 def a_star_search_times(problem: Game, time_per_frame,
                         heuristic=hunt_alive_close, largest_path = 30):
@@ -133,6 +151,7 @@ def a_star_search_times(problem: Game, time_per_frame,
     queue = problem.get_successors()
     visited = set(x for (x, y, z) in queue)
     path = {}
+    find_local = find_loc_mem()
     for state, move, score in queue:
         path[state] = [(state, move, score)]
     g = lambda x: x[2] + heuristic(x[0], x[1])
@@ -161,7 +180,7 @@ def a_star_search_times(problem: Game, time_per_frame,
             for (bstate, bmove, reward) in curr_state.get_successors():
                 if bstate not in visited:
                     queue_elem = (bstate, bmove, reward + score)
-                    queue.insert(find_loc(g, queue, queue_elem), queue_elem)
+                    queue.insert(find_local(g, queue, queue_elem), queue_elem)
                     visited.add(bstate)
                     path[bstate] = path[curr_state] + [queue_elem]
         return ([0, 0], False)
