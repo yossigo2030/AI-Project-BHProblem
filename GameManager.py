@@ -51,8 +51,7 @@ else:
     # game.wave = CheapWave(pygame.display.get_window_size(), game.data)
     game.wave = Wave.Wave(1, pygame.display.get_window_size(), game.data)
 pygame.display.init()
-q = QLearner((100, 100), future_steps=5, itercount=1000, epsilon=0.8)  # calc board size based on player movespeed
-game.update()
+q = QLearner((100, 100), future_steps=5, itercount=100, epsilon=0.8)  # calc board size based on player movespeed
 
 
 def game_loop(alg: str):
@@ -76,6 +75,8 @@ def game_loop(alg: str):
             game.update(move, save_to_file=SAVETOFILE)
         elif alg == "qLearn":
             q.update_values(game)
+            if game.frame == 50:
+                x = 0
             move = q.get_next_turn(game)
             print(move)
             print(f"HP count: {game.player.lives}")

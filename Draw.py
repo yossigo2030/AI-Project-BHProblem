@@ -15,13 +15,14 @@ def draw_blank_square_at_loc(loc):
     color = (255, 255, 255)
     pygame.draw.rect(screen, color, pygame.Rect(loc[0], loc[1], 10, 10))
 
-def write_score_and_hp(score, hp):
+def write_score_and_hp(score, hp, frame):
     write_text(f"score: %d" % score, (WIDTH*0.5, 20))
     write_text(f"lives: %d" % hp, (WIDTH*0.5, 50))
+    write_text(f"frame: %d" % frame, (50, 20))
 
 
 def write_text(substance, location):
-    font = pygame.font.Font('freesansbold.ttf', WIDTH// 30)
+    font = pygame.font.Font('freesansbold.ttf', WIDTH // 30)
     text = font.render(substance, True, (255,255,255))
     textRect = text.get_rect()
     screen.blit(text, (location[0] -textRect.width // 2 , location[1]))

@@ -100,7 +100,7 @@ class Game:
         for i in self.data.EnemyBossSpriteGroup: i.draw()
         for i in self.data.BonusGroup: i.draw()
         self.player.draw()
-        Draw.write_score_and_hp(self.player.score, self.player.lives)
+        Draw.write_score_and_hp(self.player.score, self.player.lives, self.frame)
 
     def convert_to_array(self, dims: Tuple[int, int]):
         array = [[[] for i in range(dims[0])] for j in range(dims[1])]
