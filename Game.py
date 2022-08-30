@@ -38,6 +38,7 @@ class Game:
             # wave = Wave.Wave(1, self.board_ratio, self.data)
             wave = CheapWave.CheapWave(self.board_ratio, self.data)
         self.wave = wave
+        self.is_genetic = bool(brain)
 
     #     self._hash = int(random.uniform(-10000000000, 10000000000))
     #
@@ -58,7 +59,8 @@ class Game:
         EnemyType.update_all(self.data)
 
         #################
-        self.m.round()
+        if self.is_genetic:
+            self.m.round()
         ################
 
         # Discard objects that are out of bounds
