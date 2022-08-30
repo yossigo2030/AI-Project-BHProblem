@@ -57,29 +57,37 @@ class Wave:
                 self.write_to_file([offset1 - factor, 0, False])
                 self.write_to_file([offset2 - factor, 0, False])
 
+    def enemy_collision_formation(self, c):
+        for i in range(c):
+            self.write_to_file([(i * self.board_size[0] / c + 20), (self.board_size[1] / 3), False])
+            #EnemyType.EnemyShooter(pos, r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 0)),[MovementPatterns.TargetPosPattern(2, self.data.PlayerSpriteGroup.sprites()[0].location)])
+
     def start_new_wave(self):
         self.number_of_wave += 1
         self.cooldownCounter = COOLDOWN
         self.courser = self.number_of_lines
         if not self.isCopy:
             shape = (((self.number_of_wave - 1) * self.number_of_wave) / 2) + 1
-            shape %= 3
+            shape %= 4
             for i in range(self.number_of_wave):
                 if shape == 0:
                     self.write_to_file([self.board_size[0] / 2, 100, True])
 
                 if shape == 1:
+                    self.enemy_collision_formation(10)
+
+                if shape == 2:
                     self.enemy_DNA(2,
                                    (self.board_size[0] / 2),
                                    (self.board_size[0] / 12),
                                    20)
-                if shape == 2:
+                if shape == 3:
                     self.enemy_double_DNA(3,
                                           (self.board_size[0] / 4),
                                           ((3 * self.board_size[0]) / 4),
                                           (self.board_size[0] / 12),
                                           30)
-                shape = (shape + 1) % 3
+                shape = (shape + 1) % 4
         self.read_from_file()
 
     def update(self):
@@ -151,7 +159,7 @@ class Wave:
         self.courser += 1
         if item[2] == 'True':
             self.__current_item = [float(item[0]), int(item[1]), True]
-        self.__current_item = [float(item[0]), int(item[1]), False]
+        self.__current_item = [float(item[0]), float(item[1]), False]
 
     def next_wave_args(self):
         return self.number_of_wave + 1, self.board_size, self.data, self.isCopy, self.courser

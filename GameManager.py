@@ -94,5 +94,5 @@ if __name__ == '__main__':
     except Exception:
         algorithm = None
 
-    game_loop('qLearn')
+    game_loop(None)
     pygame.quit()
