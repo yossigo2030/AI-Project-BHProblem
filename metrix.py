@@ -51,7 +51,9 @@ class metrix:
         input_vector = self.input_metrix.flatten()
         hidden_1 = self.relu(self.neural_network[0].dot(input_vector))
         hidden_2 = self.relu(self.neural_network[1].dot(hidden_1))
-        self.output = self.softmax(self.neural_network[2].dot(hidden_2))
+        self.output = self.neural_network[2].dot(hidden_2)
+
+        # self.output = self.softmax(self.neural_network[2].dot(hidden_2))
 
     def relu(self, x):
         return np.maximum(0, x)

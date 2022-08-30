@@ -38,8 +38,11 @@ flag = True
 
 
 def create_neural_network():
-    return [2 * np.random.random_sample((24, 100 * 100)) - 1, 2 * np.random.random_sample((24, 24)) - 1,
-            2 * np.random.random_sample((5, 24)) - 1]
+    # return [np.random.randn(sizes[i-1], sizes[i])*np.sqrt(2/sizes[i-1]), ]
+
+
+    return [5 * np.random.random_sample((24, 100 * 100)) - 1, 5 * np.random.random_sample((24, 24)) - 1,
+            5 * np.random.random_sample((5, 24)) - 1]
 
 
 def genetic_algorithm(brain_file=None, score=None):
@@ -62,7 +65,7 @@ def choose_action(array):
     max_num = 0
     action = 0
     for i in range(5):
-        if array[i] < max_num:
+        if array[i] > max_num:
             max_num = array[i]
             action = i
     if action == 0:
@@ -80,15 +83,17 @@ def choose_action(array):
 
 def q_genetic(brains):
     brains_array = brains
-    for i in range(3):
+    for i in range(100):
         game = Game(0, True, None, pygame.display.get_window_size(), None, None, brains_array[i])
         running = True
         while running:
             metrix = game.m
             output_array = metrix.get_final_output()
+            # print(output_array)
             move = ([0, 0], False)
             if len(output_array) > 0:
                 move = choose_action(output_array)
+                # print(output_array, move, "rrr")
             game.update(move)
             clock.tick(tps)
             if game.get_lives() == 0:
