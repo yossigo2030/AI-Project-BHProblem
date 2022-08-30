@@ -13,6 +13,7 @@ import Spriteables
 import Wave
 import CollisionManager
 from DataStructures import DataStructures
+import Bonus
 import AI
 from metrix import *
 
@@ -57,6 +58,7 @@ class Game:
         # enemy moves and actions
         Projectile.update_all(self.data)
         EnemyType.update_all(self.data)
+        Bonus.update_all(self.data)
 
         #################
         if self.is_genetic:

@@ -14,3 +14,10 @@ class Bonus(BulletHellSprite):
     def on_hit(self):
         self.kill()
         return self.score
+
+    def __copy__(self, data):
+        return Bonus(data, self.score, self.location)
+
+def update_all(data: DataStructures):
+    for sprite in data.BonusGroup.sprites():
+        sprite.update()
