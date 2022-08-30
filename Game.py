@@ -35,8 +35,8 @@ class Game:
             player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 2), r"resources\ship.png", self.data)
         self.player = player
         if wave is None:
-            # wave = Wave.Wave(1, self.board_ratio, self.data)
-            wave = CheapWave.CheapWave(self.board_ratio, self.data)
+            wave = Wave.Wave(self.board_ratio, self.data)
+            #wave = CheapWave.CheapWave(self.board_ratio, self.data)
         self.wave = wave
         self.is_genetic = bool(brain)
 
@@ -82,7 +82,6 @@ class Game:
         # enemy spawning
         if self.wave.update() == 1:
             pass
-            self.wave = Wave.Wave(self.wave.number_of_wave + 1, self.board_ratio, self.data)
 
         if self.visual:
             pygame.display.flip()
