@@ -54,7 +54,7 @@ class BossShooter(EnemyType):
         if self.cd.is_ready():
             self.cd.use()
             for pattern in self.projPatterns:
-                Projectile(self.location, "resources\\ball.png", self.data, movement_pattern=pattern)
+                Projectile(self.location, "resources\\en_ball.png", self.data, movement_pattern=pattern)
 
 
 def update_all(data: DataStructures):

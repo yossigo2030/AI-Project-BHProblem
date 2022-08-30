@@ -52,7 +52,6 @@ def collision_check_player(data: DataStructures):
                 player.increment_score(bonus.on_hit())
 
 
-
 def summon_bonus(data: DataStructures, location):
     chance = random.randint(0, 9)
     if chance == 0:

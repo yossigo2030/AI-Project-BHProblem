@@ -15,6 +15,7 @@ import Wave
 import EnemyType
 import MovementPatterns
 from AI.QLearner import QLearner
+from CheapWave import CheapWave
 from CollisionTestingWave import CollisionTestingWave
 from DataStructures import DataStructures
 from Game import Game
@@ -47,7 +48,8 @@ game = Game()
 if TESTWAVE:
     game.wave = CollisionTestingWave(pygame.display.get_window_size(), game.data)
 else:
-    game.wave = Wave.Wave(pygame.display.get_window_size(), game.data)
+    # game.wave = CheapWave(pygame.display.get_window_size(), game.data)
+    game.wave = Wave.Wave(1, pygame.display.get_window_size(), game.data)
 pygame.display.init()
 q = QLearner((100, 100), future_steps=10, itercount=2500)  # calc board size based on player movespeed
 game.update()
@@ -92,5 +94,5 @@ if __name__ == '__main__':
     except Exception:
         algorithm = None
 
-    game_loop(None)
+    game_loop(algorithm)
     pygame.quit()

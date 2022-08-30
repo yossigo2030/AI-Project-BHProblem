@@ -13,6 +13,7 @@ import Spriteables
 import Wave
 import CollisionManager
 from DataStructures import DataStructures
+import Bonus
 import AI
 from metrix import *
 
@@ -57,6 +58,7 @@ class Game:
         # enemy moves and actions
         Projectile.update_all(self.data)
         EnemyType.update_all(self.data)
+        Bonus.update_all(self.data)
 
         #################
         if self.is_genetic:
@@ -94,6 +96,7 @@ class Game:
         Draw.redrawGameWindow()
         Projectile.draw_all(self.data)
         EnemyType.draw_all(self.data)
+        for i in self.data.EnemyBossSpriteGroup: i.draw()
         for i in self.data.BonusGroup: i.draw()
         self.player.draw()
         Draw.write_score_and_hp(self.player.score, self.player.lives)
