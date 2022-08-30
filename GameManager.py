@@ -40,13 +40,14 @@ NODECOUNT = 100
 SKIPSTART = False
 running = True
 SAVETOFILE = False
-TESTWAVE = True
+TESTWAVE = False
 pygame.font.init()
 clock = pygame.time.Clock()
 game = Game()
 if TESTWAVE:
     game.wave = CollisionTestingWave(pygame.display.get_window_size(), game.data)
-
+else:
+    game.wave = Wave.Wave(1, pygame.display.get_window_size(), game.data)
 pygame.display.init()
 q = QLearner((100, 100), future_steps=10, itercount=2500)  # calc board size based on player movespeed
 game.update()
@@ -91,5 +92,5 @@ if __name__ == '__main__':
     except Exception:
         algorithm = None
 
-    game_loop(algorithm)
+    game_loop(None)
     pygame.quit()

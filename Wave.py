@@ -18,6 +18,9 @@ class Wave:
         self.number_of_wave = number_of_wave
         self.cooldownCounter = COOLDOWN
         self.board_ratio = board_size
+        if number_of_wave == 1:
+            open('EnemySpawnQueue.txt', 'w').close()
+
         if not isCopy:
             shape = (((number_of_wave - 1) * number_of_wave) / 2) + 1
             shape %= 3
@@ -39,6 +42,11 @@ class Wave:
                                           (board_size[0] / 12),
                                           30)
                 shape = (shape + 1) % 3
+            with open(r'EnemySpawnQueue.txt', 'w') as fp:
+                for item in self.EnemySpawnQueue:
+                    fp.write("%s\t" % str(item[0]))
+                    fp.write("%s\n" % str(item[1]))
+                print('Done')
 
     def __copy__(self, data):
         wave = Wave(self.number_of_wave, self.board_ratio, data, True)
@@ -76,7 +84,7 @@ class Wave:
         if len(self.EnemySpawnQueue) == 0:
             if self.cooldownCounter == COOLDOWN:
                 pass
-                # print("end of wave")
+                print("end of wave")
             if self.cooldownCounter == 0:
                 return 1
             self.cooldownCounter -= 1
