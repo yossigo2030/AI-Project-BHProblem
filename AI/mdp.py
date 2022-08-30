@@ -1,4 +1,5 @@
 import Draw
+from AI import metaclass
 from Game import Game
 
 actions_no_shoot = [([0, 0], False),
@@ -85,10 +86,11 @@ class MarkovDecisionProcess:
         Get the reward for the state, action, nextState transition.
 
         Not available in reinforcement learning.
-        """
-        return nextState.frame / 10 + nextState.player.score - state.player.score + (
-            10 if action[1] else 0) - (
-                   1000 if nextState.player.lives < state.player.lives else 0)
+        """  # TODO consider adding projectile hit detection..?
+        return nextState.player.score - state.player.score + \
+               (10 if action[1] else 0) - \
+               (1000 if nextState.player.lives < state.player.lives else 0) + \
+               (metaclass.distance(nextState.player.location, (Draw.WIDTH // 2, Draw.LENGTH // 2)) // 100)
 
     def isTerminal(self, state: Game):
         """

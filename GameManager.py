@@ -41,17 +41,17 @@ NODECOUNT = 100
 SKIPSTART = False
 running = True
 SAVETOFILE = True
-TESTWAVE = True
+TESTWAVE = False
 pygame.font.init()
 clock = pygame.time.Clock()
 game = Game()
 if TESTWAVE:
     game.wave = CollisionTestingWave(pygame.display.get_window_size(), game.data)
 else:
-    # game.wave = CheapWave(pygame.display.get_window_size(), game.data)
-    game.wave = Wave.Wave(1, pygame.display.get_window_size(), game.data)
+    game.wave = CheapWave(pygame.display.get_window_size(), game.data)
+    # game.wave = Wave.Wave(1, pygame.display.get_window_size(), game.data)
 pygame.display.init()
-q = QLearner((100, 100), future_steps=5, itercount=100, epsilon=0.8)  # calc board size based on player movespeed
+q = QLearner((100, 100), future_steps=10, itercount=2000, epsilon=0.8)  # calc board size based on player movespeed
 
 
 def game_loop(alg: str):
@@ -62,7 +62,7 @@ def game_loop(alg: str):
         for i in range(120):
             game.update()
     while running:
-        if InputHandler.Quit():
+        if InputHandler.Quit() or game.player.lives == 0:
             running = False
         if alg == "aStar":
             if len(moves) == 0:

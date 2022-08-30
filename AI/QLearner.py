@@ -35,7 +35,7 @@ class QLearner:
 
     def update_values(self, state: Game):
         Q = np.zeros_like(self.Q)
-        # Q[::, ::, :self.steps - 1] = self.Q[::, ::, 1:]
+        Q[::, ::, :self.steps - 1] = self.Q[::, ::, 1:]
         self.Q = Q
         for i in range(self.itercount // self.steps):
             cs = state.__copy__(False)
@@ -103,7 +103,7 @@ class QLearner:
             nx, ny = self.clamp(x + action[0][0], self.bs[0] - 1), self.clamp(y + action[0][1], self.bs[1] - 1)
             rew = self.Q[nx][ny][c_j]
             rew_acc += rew
-        return rew_acc
+        return rew_acc / len(action_list)
 
     @staticmethod
     def clamp(val, max_, min_=0):
