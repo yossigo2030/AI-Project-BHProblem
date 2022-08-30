@@ -14,7 +14,7 @@ FILE_NAME = 'EnemySpawnQueue.txt'
 
 
 class Wave:
-    def __init__(self, board_size, data, isCopy = False, __current_item = None, courser = 0):
+    def __init__(self, board_size, data, isCopy=False, __current_item=None, courser=0):
         self.data = data
         self.number_of_wave = 0
         self.board_size = board_size
@@ -24,11 +24,14 @@ class Wave:
         self.number_of_lines = 0
         self.cooldownCounter = COOLDOWN
         open(FILE_NAME, 'w').close()
+        # if not isCopy:
         self.start_new_wave()
 
     def __copy__(self, data):
-        wave = Wave(self.board_size, data, True)
+        wave = Wave(self.board_size, data, True, self.__current_item, self.courser)
         wave.cooldownCounter = self.cooldownCounter
+        wave.number_of_wave = self.number_of_wave
+        wave.number_of_lines = self.number_of_lines
         return wave
 
     def number_getter(self):
@@ -60,7 +63,7 @@ class Wave:
     def enemy_collision_formation(self, c):
         for i in range(c):
             self.write_to_file([(i * self.board_size[0] / c + 20), (self.board_size[1] / 3), False])
-            #EnemyType.EnemyShooter(pos, r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 0)),[MovementPatterns.TargetPosPattern(2, self.data.PlayerSpriteGroup.sprites()[0].location)])
+            # EnemyType.EnemyShooter(pos, r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 0)),[MovementPatterns.TargetPosPattern(2, self.data.PlayerSpriteGroup.sprites()[0].location)])
 
     def start_new_wave(self):
         self.number_of_wave += 1
@@ -123,10 +126,9 @@ class Wave:
                 else:
                     # EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((random.random(), 4 * random.random())))])
 
-
                     EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data,
                                            MovementPatterns.StraightPattern((0, 1)),
-                                           [MovementPatterns.StraightPattern((random.uniform(0, 2)-1, 1.5))])
+                                           [MovementPatterns.StraightPattern((random.uniform(0, 2) - 1, 1.5))])
                 if self.courser == self.number_of_lines:
                     break
                 else:
@@ -143,7 +145,6 @@ class Wave:
             fp.write("%s\t" % str(item[1]))
             fp.write("%s\n" % str(item[2]))
             self.number_of_lines += 1
-
 
     def read_from_file(self):
         file = open(FILE_NAME)
