@@ -69,7 +69,7 @@ def game_loop(alg: str):
             game.update(moves.pop(0), save_to_file=SAVETOFILE)
         if alg == "aStarT":
             if search is None:
-                search = a_star_search_times(game, 0.25)
+                search = a_star_search_times(game, 0.1)
             move = search()
             game.update(move, save_to_file=SAVETOFILE)
         elif alg == "qLearn":
