@@ -115,9 +115,11 @@ class Wave:
                                            MovementPatterns.StraightPattern((-1, -1))])
                 else:
                     # EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 1)), [MovementPatterns.StraightPattern(((random.random(), 4 * random.random())))])
+
+
                     EnemyType.EnemyShooter([head[0], 0], r"resources\en.png", self.data,
                                            MovementPatterns.StraightPattern((0, 1)),
-                                           [MovementPatterns.StraightPattern((1.5, 0))])
+                                           [MovementPatterns.StraightPattern((random.uniform(0, 2)-1, 1.5))])
                 if self.courser == self.number_of_lines:
                     break
                 else:
@@ -138,15 +140,14 @@ class Wave:
 
     def read_from_file(self):
         file = open(FILE_NAME)
+        item = []
         for pos, l_num in enumerate(file):
             # check if the line number is specified in the lines to read array
             if pos == self.courser:
                 # print the required line number
                 item = l_num.split()
         # item = linecache.getline(FILE_NAME, self.courser+1).split()
-        print(str(self.courser) + "\t" + str(self.number_of_lines))
         if len(item) != 3:
-            print(linecache.getline(FILE_NAME, 49))
             return 0
         self.courser += 1
         if item[2] == 'True':
