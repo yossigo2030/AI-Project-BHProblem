@@ -40,7 +40,7 @@ tps = 60
 NODECOUNT = 100
 SKIPSTART = False
 running = True
-SAVETOFILE = True
+SAVETOFILE = False
 TESTWAVE = False
 pygame.font.init()
 clock = pygame.time.Clock()
@@ -94,5 +94,5 @@ if __name__ == '__main__':
     except Exception:
         algorithm = None
 
-    game_loop(algorithm)
+    game_loop('qLearn')
     pygame.quit()
