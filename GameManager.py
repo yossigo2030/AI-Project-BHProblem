@@ -51,7 +51,7 @@ else:
     # game.wave = CheapWave(pygame.display.get_window_size(), game.data)
     game.wave = Wave.Wave(1, pygame.display.get_window_size(), game.data)
 pygame.display.init()
-q = QLearner((100, 100), future_steps=5, itercount=2000, epsilon=0.8)  # calc board size based on player movespeed
+q = QLearner((100, 100), future_steps=5, itercount=1000, epsilon=0.8)  # calc board size based on player movespeed
 game.update()
 
 
