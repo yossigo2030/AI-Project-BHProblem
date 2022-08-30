@@ -41,7 +41,7 @@ SKIPSTART = False
 running = True
 SAVETOFILE = False
 TESTWAVE = True
-
+pygame.font.init()
 clock = pygame.time.Clock()
 game = Game()
 if TESTWAVE:
@@ -53,12 +53,15 @@ game.update()
 
 
 def game_loop(alg: str):
+    global running
     moves = []
     search = None
     if SKIPSTART:
         for i in range(250):
             game.update()
     while running:
+        if InputHandler.Quit():
+            running = False
         if alg == "aStar":
             if len(moves) == 0:
                 moves = a_star_player(game, NODECOUNT)
@@ -89,3 +92,4 @@ if __name__ == '__main__':
         algorithm = None
 
     game_loop(algorithm)
+    pygame.quit()
