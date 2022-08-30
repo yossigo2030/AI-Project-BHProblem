@@ -154,7 +154,10 @@ def a_star_search_times(problem: Game, time_per_frame,
                     for state, move, score in new_queue:
                         path[state] = [(state, move, score)]
                 queue = new_queue
+                print(len(queue))
                 return chosen[1]
+            if len(path[curr_state]) == 10:
+                continue
             for (bstate, bmove, reward) in curr_state.get_successors():
                 if bstate not in visited:
                     queue_elem = (bstate, bmove, reward + score)
