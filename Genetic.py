@@ -1,5 +1,31 @@
-from Game import *
+import math
+import sys
+import time
+from queue import Queue
+
+import numpy as np
+import pygame
+import Draw
+import Spriteables
+import Projectile
+import CollisionManager
+import InputHandler
+import Player
+import Wave
+import EnemyType
+import MovementPatterns
+import metrix
+from AI.QLearner import QLearner
+from CollisionTestingWave import CollisionTestingWave
+from DataStructures import DataStructures
+from Game import Game
+from AI.AStar import a_star_player
+
+
+import random
 from NeuralNetwork import *
+from Game import *
+
 
 tps = 60
 SAVETOFILE = True
@@ -9,26 +35,6 @@ pygame.font.init()
 brain_array = []
 score_array = []
 flag = True
-
-
-# def write_matrix_to_textfile(matrix, number):
-#     with open("matrix_" + str(number) + ".txt", 'w') as testfile:
-#         for row in matrix:
-#             testfile.write(' '.join([str(a) for a in row]) + '\n')
-
-
-# def read_neural_network(matrix_1, metrix_2, metrix_3):
-#     network = []
-#     with open(matrix_1, 'r') as f:
-#         a = [[float(num) for num in line.split(' ')] for line in f]
-#         network.append(a)
-#     with open(metrix_2, 'r') as f:
-#         b = [[float(num) for num in line.split(' ')] for line in f]
-#         network.append(b)
-#     with open(metrix_3, 'r') as f:
-#         c = [[float(num) for num in line.split(' ')] for line in f]
-#         network.append(c)
-#     return network
 
 
 def create_neural_network():
@@ -70,7 +76,6 @@ def choose_action(array):
 
 def genetic_algorithm(num_of_gen, num_of_net_in_gen):
     generation = 0
-    numm = 0
     final_game = False
     while generation < num_of_gen + 1:
         if generation == num_of_gen:
@@ -86,20 +91,6 @@ def genetic_algorithm(num_of_gen, num_of_net_in_gen):
             neural_network_array = brain_array
         q_genetic(neural_network_array, num_of_net_in_gen, final_game)
         generation += 1
-        # numm = save(numm)
-
-
-# def save(num):
-#     numm = num
-#     index, score = best_neural()
-#     smart_neural = brain_array[index]
-#     for metrix in smart_neural:
-#         write_matrix_to_textfile(metrix, numm)
-#         numm += 1
-#     f = open("matrix_" + str(num) + ".txt", "a")
-#     f.write(str(score))
-#     f.close()
-#     return numm + 1
 
 
 def q_genetic(brains, num_of_net_in_gen, final_game):
@@ -127,31 +118,48 @@ def q_genetic(brains, num_of_net_in_gen, final_game):
             break
 
 
-########### to record algorithm
+def genetic_algorithm_form_file():
+    q_genetic_from_file(read_neural_network("first_matrix.txt", "second_matrix.txt", "third_matrix.txt"))
 
 
-# def genetic_algorithm(input_neural_file):
-#     q_genetic(read_neural_network("first_matrix.txt", "second_matrix.txt", "third_matrix.txt"))
-#
-#
-# def q_genetic(brains):
-#     brains_array = brains
-#     np_arrays = []
-#     for array in brains_array:
-#         np_arrays.append(np.array(array))
-#     game = Game(0, True, None, pygame.display.get_window_size(), None, None, np_arrays)
-#     running = True
-#     while running:
-#         metrix = game.m
-#         output_array = metrix.get_final_output()
-#         move = ([0, 0], False)
-#         if len(output_array) > 0:
-#             move = choose_action(output_array)
-#         game.update(move, SAVETOFILE)
-#         clock.tick(tps)
-#         if game.get_lives() == 0:
-#             running = False
+def read_neural_network(matrix_1, metrix_2, metrix_3):
+    network = []
+    with open(matrix_1, 'r') as f:
+        a = [[float(num) for num in line.split(' ')] for line in f]
+        network.append(a)
+    with open(metrix_2, 'r') as f:
+        b = [[float(num) for num in line.split(' ')] for line in f]
+        network.append(b)
+    with open(metrix_3, 'r') as f:
+        c = [[float(num) for num in line.split(' ')] for line in f]
+        network.append(c)
+    return network
+
+
+def q_genetic_from_file(brains):
+    brains_array = brains
+    np_arrays = []
+    for array in brains_array:
+        np_arrays.append(np.array(array))
+    game = Game(0, True, None, pygame.display.get_window_size(), None, None, np_arrays)
+    running = True
+    while running:
+        metrix = game.m
+        output_array = metrix.get_final_output()
+        move = ([0, 0], False)
+        if len(output_array) > 0:
+            move = choose_action(output_array)
+        game.update(move, SAVETOFILE)
+        clock.tick(tps)
+        if game.get_lives() == 0:
+            running = False
 
 
 if __name__ == '__main__':
-    genetic_algorithm(2, 3)
+    # if yow want to read algorithm from file activate function: genetic_algorithm_form_file()
+    # if you want to train new genetic algorithm activate function: genetic_algorithm() with tow parameters
+    # parameter 1: num of generation
+    # parameter 2: num of players in each generation
+    # i recomend at least 20 generation and between 50 - 100 players
+    genetic_algorithm_form_file()
+    # genetic_algorithm(2, 3)
