@@ -5,8 +5,8 @@ the appropriate algorithm ending
 "aStarT" runs timed aStar
 "qLearn" runs Q-Learning algorithm
 "qLearnFast" runs Q-Learning fast algorithm 
-"genetic" runs genetic algorithm
-no argument- runs the game as a human controlled player
+gentic runs on another fileand not GameManager
+any other argument-runs the game as a human controlled player
 advanced:
 change arguments in GameManager for diffrent effects
 NODECOUNT how many nodes in A*
