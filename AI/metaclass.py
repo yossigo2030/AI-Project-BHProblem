@@ -77,9 +77,10 @@ def hunt_close(state: Game, action: Tuple[Tuple[int, int], bool]):
             closest_enemy = enemy
     if closest_enemy is not None:
         return go_to(state, action, (
-        closest_enemy.location[0] + closest_enemy.imsize[0] // 2,
-        closest_enemy.location[1] + 100 + closest_enemy.imsize[1] // 2))
+            closest_enemy.location[0] + closest_enemy.imsize[0] // 2,
+            closest_enemy.location[1] + 100 + closest_enemy.imsize[1] // 2))
     return hunt(state, action)
+
 
 def go_to(state: Game, action: Tuple[Tuple[int, int], bool], destination):
     player = state.player
@@ -124,8 +125,10 @@ def find_loc(func, arr, element):
             h = m
     return l
 
+
 def find_loc_mem():
     values = dict()
+
     def find_loc(func, arr, element):
         l = 0
         h = len(arr)
@@ -141,10 +144,12 @@ def find_loc_mem():
             else:
                 h = m
         return l
+
     return find_loc
 
+
 def a_star_search_times(problem: Game, time_per_frame,
-                        heuristic=hunt_alive_close, largest_path = 30):
+                        heuristic=hunt_alive_close, largest_path=30):
     """
     Search the node that has the lowest combined cost and heuristic first.
     """
@@ -155,6 +160,7 @@ def a_star_search_times(problem: Game, time_per_frame,
     for state, move, score in queue:
         path[state] = [(state, move, score)]
     g = lambda x: x[2] + heuristic(x[0], x[1])
+
     def search():
         nonlocal queue
         start = timer()
@@ -184,6 +190,7 @@ def a_star_search_times(problem: Game, time_per_frame,
                     visited.add(bstate)
                     path[bstate] = path[curr_state] + [queue_elem]
         return ([0, 0], False)
+
     return search
 
 
@@ -199,8 +206,7 @@ def a_star_search(problem: Game, node_search_quota=10000,
         1])  # x = (curr_state, curr_move, score), where the current state is the state *after* curr_move has been executed, and the score is also after the move.
     i = 0
     while len(queue):
-        curr_state, curr_move, score = queue.pop(
-            0)  # reversed from min to max (score)
+        curr_state, curr_move, score = queue.pop(0)  # reversed from min to max (score)
         # print(len(queue), [i for i in range(len(queue)) if queue[i][1][0] == [0, 0]])
         if node_search_quota == i:
             path = []
@@ -211,8 +217,7 @@ def a_star_search(problem: Game, node_search_quota=10000,
                 key = get_key(curr_state, curr_move)
             path.insert(0, curr_move)
             return path
-        for (bstate, bmove,
-             reward) in curr_state.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
+        for (bstate, bmove, reward) in curr_state.get_successors():  # alternatively, modify A* to get the successors of currstate+curr+move instead of currstate being prevstate + currmove.
             if bstate not in visited:
                 queue_elem = (bstate, bmove, reward + score)
                 queue.insert(find_loc(g, queue, queue_elem), queue_elem)
@@ -233,4 +238,3 @@ def a_star_player(problem: Game, expanded_node_count=10):
     if next_moves is []:
         return
     return next_moves
-

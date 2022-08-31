@@ -14,19 +14,16 @@ FILE_NAME = 'EnemySpawnQueue.txt'
 
 
 class Wave:
-    def __init__(self, board_size, data, isCopy=False, __current_item=None, courser=0):
+    def __init__(self, board_size, data, is_copy=False, __current_item=None, courser=0):
         self.data = data
         self.number_of_wave = 0
         self.board_size = board_size
         self.courser = courser
-        self.isCopy = isCopy
+        self.isCopy = is_copy
         self.__current_item = copy(__current_item)
         self.number_of_lines = 0
         self.cooldownCounter = COOLDOWN
-        open(FILE_NAME, 'w').close()
-        # if not isCopy:
-        self.start_new_wave()
-        if not isCopy:
+        if not is_copy:
             open(FILE_NAME, 'w').close()
         self.start_new_wave()
 

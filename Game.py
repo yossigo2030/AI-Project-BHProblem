@@ -23,7 +23,7 @@ class Game:
     Documentation goes here
     """
 
-    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=pygame.display.get_window_size(), wave=None, data=None,  brain=None):
+    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=pygame.display.get_window_size(), wave=None, data=None, brain=None):
         self.frame = curr_frame
         self.visual = visual
         self.board_ratio = board_ratio
@@ -37,7 +37,7 @@ class Game:
         self.player = player
         if wave is None:
             wave = Wave.Wave(self.board_ratio, self.data)
-            #wave = CheapWave.CheapWave(self.board_ratio, self.data)
+            # wave = CheapWave.CheapWave(self.board_ratio, self.data)
         self.wave = wave
         self.is_genetic = bool(brain)
 
@@ -90,7 +90,6 @@ class Game:
 
         if self.visual and save_to_file:
             pygame.image.save(pygame.display.get_surface(), f"results/{self.frame:05}.png")
-
 
     def visual_update(self):
         Draw.redrawGameWindow()
