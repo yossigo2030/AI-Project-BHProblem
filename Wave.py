@@ -28,14 +28,14 @@ class Wave:
         self.start_new_wave()
         if not isCopy:
             open(FILE_NAME, 'w').close()
-            self.start_new_wave()
+        self.start_new_wave()
 
     def __copy__(self, data):
-        wave = Wave(self.board_size, data, True, self.__current_item, self.courser)
+        wave = Wave(self.board_size, data, True, self.__current_item,
+                    self.courser)
         wave.cooldownCounter = self.cooldownCounter
         wave.number_of_wave = self.number_of_wave
         wave.number_of_lines = self.number_of_lines
-        return wave
 
     def number_getter(self):
         return self.number_of_wave
