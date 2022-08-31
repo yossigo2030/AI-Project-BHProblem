@@ -13,6 +13,7 @@ import Spriteables
 import Wave
 import CollisionManager
 from DataStructures import DataStructures
+import Bonus
 import AI
 from metrix import *
 
@@ -22,7 +23,7 @@ class Game:
     Documentation goes here
     """
 
-    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=pygame.display.get_window_size(), wave=None, data=None,  brain=None):
+    def __init__(self, curr_frame=0, visual=True, player=None, board_ratio=pygame.display.get_window_size(), wave=None, data=None, brain=None):
         self.frame = curr_frame
         self.visual = visual
         self.board_ratio = board_ratio
@@ -35,8 +36,8 @@ class Game:
             player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 2), r"resources\ship.png", self.data)
         self.player = player
         if wave is None:
-            # wave = Wave.Wave(1, self.board_ratio, self.data)
-            wave = CheapWave.CheapWave(self.board_ratio, self.data)
+            wave = Wave.Wave(self.board_ratio, self.data)
+            # wave = CheapWave.CheapWave(self.board_ratio, self.data)
         self.wave = wave
         self.is_genetic = bool(brain)
 
@@ -57,6 +58,7 @@ class Game:
         # enemy moves and actions
         Projectile.update_all(self.data)
         EnemyType.update_all(self.data)
+        Bonus.update_all(self.data)
 
         #################
         if self.is_genetic:
@@ -82,7 +84,6 @@ class Game:
         # enemy spawning
         if self.wave.update() == 1:
             pass
-            # self.wave = Wave.Wave(self.wave.number_of_wave + 1, self.board_ratio, self.data)
 
         if self.visual:
             pygame.display.flip()
@@ -90,14 +91,14 @@ class Game:
         if self.visual and save_to_file:
             pygame.image.save(pygame.display.get_surface(), f"results/{self.frame:05}.png")
 
-
     def visual_update(self):
         Draw.redrawGameWindow()
         Projectile.draw_all(self.data)
         EnemyType.draw_all(self.data)
+        for i in self.data.EnemyBossSpriteGroup: i.draw()
         for i in self.data.BonusGroup: i.draw()
         self.player.draw()
-        Draw.write_score_and_hp(self.player.score, self.player.lives)
+        Draw.write_score_and_hp(self.player.score, self.player.lives, self.frame)
 
     def convert_to_array(self, dims: Tuple[int, int]):
         array = [[[] for i in range(dims[0])] for j in range(dims[1])]

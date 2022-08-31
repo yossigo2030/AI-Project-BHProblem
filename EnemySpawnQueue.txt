@@ -1,0 +1,10 @@
+20.0	5	False
+70.0	5	False
+120.0	5	False
+170.0	5	False
+220.0	5	False
+270.0	5	False
+320.0	5	False
+370.0	5	False
+420.0	5	False
+470.0	5	False

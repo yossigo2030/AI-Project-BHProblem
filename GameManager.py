@@ -15,6 +15,7 @@ import Wave
 import EnemyType
 import MovementPatterns
 from AI.QLearner import QLearner
+from CheapWave import CheapWave
 from CollisionTestingWave import CollisionTestingWave
 from DataStructures import DataStructures
 from Game import Game
@@ -36,20 +37,21 @@ from AI.metaclass import a_star_player, a_star_search_times
 # in its update function we will track score and update the units locations
 algs = ["aStar", "aStarT", "qLearn"]
 tps = 60
-NODECOUNT = 100
+NODECOUNT = 20
 SKIPSTART = False
 running = True
 SAVETOFILE = False
-TESTWAVE = True
+TESTWAVE = False
 pygame.font.init()
 clock = pygame.time.Clock()
 game = Game()
 if TESTWAVE:
     game.wave = CollisionTestingWave(pygame.display.get_window_size(), game.data)
-
+else:
+    game.wave = CheapWave(pygame.display.get_window_size(), game.data)
+    # game.wave = Wave.Wave(pygame.display.get_window_size(), game.data)
 pygame.display.init()
-q = QLearner((100, 100), future_steps=10, itercount=2500)  # calc board size based on player movespeed
-game.update()
+q = QLearner((100, 100), future_steps=100, itercount=5000, epsilon=0.8)  # calc board size based on player movespeed
 
 
 def game_loop(alg: str):
@@ -57,27 +59,32 @@ def game_loop(alg: str):
     moves = []
     search = None
     if SKIPSTART:
-        for i in range(250):
+        for i in range(120):
             game.update()
     while running:
-        if InputHandler.Quit():
+        if InputHandler.Quit() or game.player.lives == 0:
             running = False
         if alg == "aStar":
-            if len(moves) == 0:
+            if len(moves) < NODECOUNT * 0.25:
                 moves = a_star_player(game, NODECOUNT)
             game.update(moves.pop(0), save_to_file=SAVETOFILE)
-        if alg == "aStarT":
+        elif alg == "aStarT":
             if search is None:
                 search = a_star_search_times(game, 0.25)
             move = search()
             game.update(move, save_to_file=SAVETOFILE)
         elif alg == "qLearn":
             q.update_values(game)
-            move = q.next_turn_2(game)
+            move = q.get_next_turn(game)
             print(move)
             print(f"HP count: {game.player.lives}")
-            game.update(move)
-            # q.print_at_depth(game, 0)
+            game.update(move, save_to_file=SAVETOFILE)
+        elif alg == "qLearnTest":
+            q.update_values(game)
+            move = q.get_next_turn(game)
+            print(move)
+            print(f"HP count: {game.player.lives}")
+            game.update(move, save_to_file=SAVETOFILE)
         else:
             game.update(save_to_file=SAVETOFILE)
         clock.tick(tps)
@@ -91,5 +98,16 @@ if __name__ == '__main__':
     except Exception:
         algorithm = None
 
-    game_loop(algorithm)
+    alg = "qLearnTest"
+    if alg == "qLearnTest":
+        for a in range(10):
+            for b in range(10):
+                for c in range(10):
+                    for d in range(10):
+                        q = QLearner((100, 100), future_steps=100, itercount=5000, epsilon=0.8, heuristics = [a,b,c,d])
+                        print(q.heuristics)
+                        game_loop(algorithm)
+                        pygame.quit()
+    else:
+        game_loop(algorithm)
     pygame.quit()

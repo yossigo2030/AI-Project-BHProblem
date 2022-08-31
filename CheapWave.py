@@ -9,7 +9,7 @@ from cooldown import Cooldown
 
 
 class CheapWave:
-    def __init__(self, board_size: Tuple[int, int], data: DataStructures.DataStructures, eps=0.05):
+    def __init__(self, board_size: Tuple[int, int], data: DataStructures.DataStructures, eps=0.02):
         self.board_size = board_size
         self.data = data
         self.eps = eps

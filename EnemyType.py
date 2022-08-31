@@ -8,8 +8,8 @@ import copy
 
 
 class EnemyType(BulletHellSprite):
-    def __init__(self, location, sprite, data, movement_pattern: MovePattern, health=1):
-        super().__init__(location, sprite, data, movement_pattern)
+    def __init__(self, location, sprite, data, movement_pattern: MovePattern, health=1, hitbox_size=(25, 25), image_size=(40, 40)):
+        super().__init__(location, sprite, data, movement_pattern, hitbox_size=(25, 25), image_size=image_size)
         self.health = health
 
     def on_hit(self, dmg):
@@ -19,8 +19,8 @@ class EnemyType(BulletHellSprite):
 
 class EnemyShooter(EnemyType):
     # shoot pattern is a list of directions
-    def __init__(self, location, sprite, data, movement_pattern: MovePattern, proj_patterns: [MovePattern], cd: Cooldown or int = 90):
-        super().__init__(location, sprite, data, movement_pattern)
+    def __init__(self, location, sprite, data, movement_pattern: MovePattern, proj_patterns: [MovePattern], cd: Cooldown or int = 90, hitbox_size=(25, 25), image_size=(40, 40)):
+        super().__init__(location, sprite, data, movement_pattern, hitbox_size=(25, 25), image_size=image_size)
         self.projPatterns = proj_patterns
         self.cd = Cooldown(cd) if isinstance(cd, int) else cd
         self.data.EnemySpriteGroup.add(self)
@@ -34,7 +34,7 @@ class EnemyShooter(EnemyType):
         if self.cd.is_ready():
             self.cd.use()
             for pattern in self.projPatterns:
-                Projectile(self.location, "resources\\en_ball.png", self.data, movement_pattern=pattern)
+                Projectile(self.location, "resources\\en_ball.png", self.data, movement_pattern=pattern, hitbox_size=(15, 15), image_size=(20, 20))
 
 
 class BossShooter(EnemyType):
@@ -54,7 +54,7 @@ class BossShooter(EnemyType):
         if self.cd.is_ready():
             self.cd.use()
             for pattern in self.projPatterns:
-                Projectile(self.location, "resources\\ball.png", self.data, movement_pattern=pattern)
+                Projectile(self.location, "resources\\en_ball.png", self.data, movement_pattern=pattern)
 
 
 def update_all(data: DataStructures):
