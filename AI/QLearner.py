@@ -20,7 +20,7 @@ class QLearner:
         Idea: instead of two Q matrices per time stamp, calculate the shooting rewards separately..?
     """
 
-    def __init__(self, board_size, future_steps=10, itercount=1000, epsilon=0.8, negeps=0.5):
+    def __init__(self, board_size, future_steps=10, itercount=1000, epsilon=0.8, negeps=0.5, heuristics = [1,1,1,1]):
         # Q is a [board_size] matrix, by [shoot/notshoot], over [future_steps] turns
         self.Q = np.zeros((board_size[0], board_size[1], future_steps))  # index order is retardium. should be reversed.
         self.bs = board_size
@@ -31,6 +31,7 @@ class QLearner:
         self.eps = epsilon
         self.negeps = negeps
         self.mdp = MarkovDecisionProcess()
+        self.heuristics = heuristics
         np.set_printoptions(threshold=sys.maxsize, linewidth=sys.maxsize)
 
     def update_values(self, state: Game):
@@ -55,7 +56,7 @@ class QLearner:
                     action = self.get_best_action(xc, yc, pa, c_j=j)[0]
                 ns = cs.__copy__(False)
                 ns.update(action)
-                reward += self.mdp.getReward(cs, action, ns)
+                reward += self.mdp.getReward(cs, action, ns, self.heuristics)
                 xn, yn = ns.get_player_loc(self.bs)
                 cs = ns
 

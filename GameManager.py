@@ -79,6 +79,12 @@ def game_loop(alg: str):
             print(move)
             print(f"HP count: {game.player.lives}")
             game.update(move, save_to_file=SAVETOFILE)
+        elif alg == "qLearnTest":
+            q.update_values(game)
+            move = q.get_next_turn(game)
+            print(move)
+            print(f"HP count: {game.player.lives}")
+            game.update(move, save_to_file=SAVETOFILE)
         else:
             game.update(save_to_file=SAVETOFILE)
         clock.tick(tps)
@@ -92,5 +98,16 @@ if __name__ == '__main__':
     except Exception:
         algorithm = None
 
-    game_loop(algorithm)
+    alg = "qLearnTest"
+    if alg == "qLearnTest":
+        for a in range(10):
+            for b in range(10):
+                for c in range(10):
+                    for d in range(10):
+                        q = QLearner((100, 100), future_steps=100, itercount=5000, epsilon=0.8, heuristics = [a,b,c,d])
+                        print(q.heuristics)
+                        game_loop(algorithm)
+                        pygame.quit()
+    else:
+        game_loop(algorithm)
     pygame.quit()
