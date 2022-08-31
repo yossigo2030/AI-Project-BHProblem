@@ -98,8 +98,7 @@ if __name__ == '__main__':
     except Exception:
         algorithm = None
 
-    alg = "qLearnTest"
-    if alg == "qLearnTest":
+    if algorithm == "qLearnTest":
         for a in range(10):
             for b in range(10):
                 for c in range(10):
