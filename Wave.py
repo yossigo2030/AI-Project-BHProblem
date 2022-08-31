@@ -25,7 +25,7 @@ class Wave:
         self.cooldownCounter = COOLDOWN
         if not is_copy:
             open(FILE_NAME, 'w').close()
-        self.start_new_wave()
+            self.start_new_wave()
 
     def __copy__(self, data):
         wave = Wave(self.board_size, data, True, self.__current_item,
