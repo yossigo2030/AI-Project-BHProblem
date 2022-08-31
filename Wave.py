@@ -26,6 +26,9 @@ class Wave:
         open(FILE_NAME, 'w').close()
         # if not isCopy:
         self.start_new_wave()
+        if not isCopy:
+            open(FILE_NAME, 'w').close()
+            self.start_new_wave()
 
     def __copy__(self, data):
         wave = Wave(self.board_size, data, True, self.__current_item, self.courser)
@@ -97,8 +100,6 @@ class Wave:
         if self.courser == self.number_of_lines:
             if self.cooldownCounter == COOLDOWN:
                 pass
-                print("end of wave")
-
             if self.cooldownCounter == 0:
                 self.start_new_wave()
             self.cooldownCounter -= 1
