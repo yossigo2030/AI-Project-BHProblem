@@ -72,8 +72,8 @@ class QLearner:
 
                 # self.Q[xc][yc][j] += self.lr * (reward + self.gamma * max_of_future - self.Q[xc][yc][j])
                 self.Q[xc][yc][j] += self.lr * (reward + self.gamma * average_of_future - self.Q[xc][yc][j])
-        heatmap.show_map([self.Q[::, ::, i].T for i in range(self.steps)], True, f"mdp/{state.frame:04}.png")
-        heatmap.show_map([self.Q[::, ::, i].T for i in range(self.steps)], True)
+        heatmap.show_map([self.Q[::, ::, i].T for i in range(min(self.steps, 10))], True, f"mdp/{state.frame:04}.png")
+        heatmap.show_map([self.Q[::, ::, i].T for i in range(min(self.steps, 10))], True)
 
     def get_next_turn(self, state: Game):
         pa = self.mdp.getPossibleActions(state)
