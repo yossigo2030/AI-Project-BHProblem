@@ -88,9 +88,9 @@ class MarkovDecisionProcess:
         Not available in reinforcement learning.
         """  # TODO consider adding projectile hit detection..?
         return nextState.player.score - state.player.score + \
-               (10 if action[1] else 0) - \
-               (1000 if nextState.player.lives < state.player.lives else 0) + \
-               (metaclass.distance(nextState.player.location, (Draw.WIDTH // 2, Draw.LENGTH // 2)) // 100)
+               (10 if action[1] else 0) + \
+               (- 10000 if nextState.player.lives < state.player.lives else 0) + \
+               (metaclass.distance(nextState.player.location, (Draw.WIDTH // 2, Draw.LENGTH // 2)) // 100)  # + 100 * metaclass.hunt_close(state, action)
 
     def isTerminal(self, state: Game):
         """

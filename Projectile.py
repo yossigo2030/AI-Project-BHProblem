@@ -4,11 +4,8 @@ from Spriteables import BulletHellSprite
 
 
 class Projectile(BulletHellSprite):
-    def __init__(self, location, sprite, data, damage_value=1,
-                 movement_pattern: MovePattern = StraightPattern(
-                     Directions.Up(10)), player_projectile=False):
-        super().__init__(location, sprite, data,
-                         movement_pattern=movement_pattern)
+    def __init__(self, location, sprite, data, damage_value=1, movement_pattern: MovePattern = StraightPattern(Directions.Up(10)), player_projectile=False, hitbox_size=(25, 25), image_size=(40, 40)):
+        super().__init__(location, sprite, data, movement_pattern=movement_pattern, hitbox_size=(25, 25), image_size=image_size)
         self.data.ProjectileSpriteGroup.add(self)
         if player_projectile:
             self.data.ProjectilePlayerGroup.add(self)
@@ -23,9 +20,9 @@ class Projectile(BulletHellSprite):
 
     def __copy__(self, data):
         return Projectile(self.location, self.image, data,
-                              damage_value=self.damage_value,
-                              movement_pattern=self.move_pattern,
-                              player_projectile=self.player_projectile)
+                          damage_value=self.damage_value,
+                          movement_pattern=self.move_pattern,
+                          player_projectile=self.player_projectile)
 
 
 def update_all(data: DataStructures):
