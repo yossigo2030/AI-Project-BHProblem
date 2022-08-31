@@ -23,13 +23,15 @@ from Game import Game
 
 # board has an array of enemies projectiles a player object and the limits,
 # in its update function we will track score and update the units locations
-algs = ["aStar", "aStarT", "qLearn"]
+algs = ["aStar", "aStarT", "qLearn", "aStarT", "Genetic"]
 tps = 60
 NODECOUNT = 20
 SKIPSTART = False
-running = True
 SAVETOFILE = False
 TESTWAVE = False
+
+running = True
+
 pygame.font.init()
 clock = pygame.time.Clock()
 game = Game()
