@@ -1,31 +1,5 @@
-import math
-import sys
-import time
-from queue import Queue
-
-import numpy as np
-import pygame
-import Draw
-import Spriteables
-import Projectile
-import CollisionManager
-import InputHandler
-import Player
-import Wave
-import EnemyType
-import MovementPatterns
-import metrix
-from AI.QLearner import QLearner
-from CollisionTestingWave import CollisionTestingWave
-from DataStructures import DataStructures
-from Game import Game
-from AI.metaclass import a_star_player
-
-
-import random
-from NeuralNetwork import *
 from Game import *
-
+from NeuralNetwork import *
 
 tps = 60
 SAVETOFILE = True

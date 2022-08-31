@@ -1,13 +1,12 @@
 import copy
 import math
 import random
+from copy import copy
+
+import pygame
 
 import EnemyType
 import MovementPatterns
-import pygame
-import cooldown
-from copy import copy
-import linecache
 
 COOLDOWN = 100
 FILE_NAME = 'EnemySpawnQueue.txt'
