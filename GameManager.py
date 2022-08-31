@@ -82,13 +82,15 @@ def game_loop(alg: str):
         else:
             game.update(save_to_file=SAVETOFILE)
         clock.tick(tps)
+    print(game.player.score)
+    print(game.frame)
 
 
 if __name__ == '__main__':
     try:
         algorithm = sys.argv[1]
         if algorithm in algs:
-            print(algorithm)
+            print  (algorithm)
     except Exception:
         algorithm = None
 
