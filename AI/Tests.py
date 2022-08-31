@@ -3,10 +3,11 @@ import subprocess
 import sys
 from subprocess import Popen, PIPE
 
-def execute(command,e):
+
+def execute(command, e):
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     try:
-        process.wait(120*5)
+        process.wait(120 * 5)
     except:
         process.kill()
         print(e)
@@ -14,6 +15,7 @@ def execute(command,e):
 
     # Poll process for new output until finished
     return
+
 
 if __name__ == '__main__':
     os.remove("scores.txt")

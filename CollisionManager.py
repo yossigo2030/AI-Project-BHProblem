@@ -1,10 +1,9 @@
-import pygame
-import DataStructures
-import EnemyType
-import Projectile
-import MovementPatterns
 import random
+
+import pygame
+
 import Bonus
+import DataStructures
 
 
 def collision_check_enemies(data: DataStructures):

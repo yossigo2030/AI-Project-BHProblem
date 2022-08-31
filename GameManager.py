@@ -1,25 +1,13 @@
-import math
 import sys
-import time
-from queue import Queue
 
-import numpy as np
 import pygame
-import Draw
-import Spriteables
-import Projectile
-import CollisionManager
+
 import InputHandler
-import Player
-import Wave
-import EnemyType
-import MovementPatterns
+from AI.AStar import a_star_player, a_star_search_times
 from AI.QLearner import QLearner
 from CheapWave import CheapWave
 from CollisionTestingWave import CollisionTestingWave
-from DataStructures import DataStructures
 from Game import Game
-from AI.metaclass import a_star_player, a_star_search_times
 
 # this file is currently empty it is a detailed explanation of how the game will
 # be built code wise, then we will use the code elements to build a graphic gui
@@ -48,8 +36,7 @@ game = Game()
 if TESTWAVE:
     game.wave = CollisionTestingWave(pygame.display.get_window_size(), game.data)
 else:
-    # game.wave = CheapWave(pygame.display.get_window_size(), game.data)
-    game.wave = Wave.Wave(pygame.display.get_window_size(), game.data)
+    game.wave = CheapWave(pygame.display.get_window_size(), game.data)
 pygame.display.init()
 q = QLearner((100, 100), future_steps=100, itercount=5000, epsilon=0.8)  # calc board size based on player movespeed
 
@@ -62,7 +49,7 @@ def game_loop(alg: str):
         for i in range(120):
             game.update()
     while running:
-        if InputHandler.Quit() or game.player.lives == 0:
+        if InputHandler.quit() or game.player.lives == 0:
             running = False
         if alg == "aStar":
             if len(moves) < NODECOUNT * 0.25:
@@ -73,17 +60,13 @@ def game_loop(alg: str):
                 search = a_star_search_times(game, 0.25)
             move = search()
             game.update(move, save_to_file=SAVETOFILE)
-        elif alg == "qLearn":
+        elif alg == "qLearn" or alg == "qLearnFast":
             q.update_values(game)
             move = q.get_next_turn(game)
-            print(move)
-            print(f"HP count: {game.player.lives}")
             game.update(move, save_to_file=SAVETOFILE)
         elif alg == "qLearnTest":
             q.update_values(game)
             move = q.get_next_turn(game)
-            print(move)
-            print(f"HP count: {game.player.lives}")
             game.update(move, save_to_file=SAVETOFILE)
         else:
             game.update(save_to_file=SAVETOFILE)
@@ -96,13 +79,13 @@ if __name__ == '__main__':
     try:
         algorithm = sys.argv[1]
         if algorithm in algs:
-            print  (algorithm)
+            print(algorithm)
     except Exception:
         algorithm = None
 
     if type(algorithm) is str:
         if "qLearnTest" in algorithm:
-            heuristics = [1,1,1,1]
+            heuristics = [1, 1, 1, 1]
             print(len(sys.argv))
             if len(sys.argv) > 2:
                 heuristics[0] = float(sys.argv[2])
@@ -113,5 +96,8 @@ if __name__ == '__main__':
             if len(sys.argv) > 5:
                 heuristics[3] = float(sys.argv[5])
             q = QLearner((100, 100), future_steps=100, itercount=5000, epsilon=0.8, heuristics=heuristics)
-    game_loop(algorithm)
-    pygame.quit()
+        elif algorithm == "qLearnFast":
+            q = QLearner((100, 100), future_steps=5, itercount=200, epsilon=0.8)  # calc board size based on player movespeed
+        else:
+            game_loop(algorithm)
+            pygame.quit()

@@ -1,8 +1,5 @@
 from abc import abstractmethod
-from enum import Enum
-from typing import List, Tuple
-
-import numpy as np
+from typing import Tuple
 
 import Draw
 import InputHandler
@@ -44,6 +41,8 @@ class CurvedPattern(MovePattern):
 
 
 class WavyPattern(MovePattern):
+    """ WIP """
+
     def __init__(self, velocity: Velocity):
         super().__init__(velocity)
         self.counter = 0
