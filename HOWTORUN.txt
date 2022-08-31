@@ -5,7 +5,7 @@ the appropriate algorithm ending
 "aStarT" runs timed aStar
 "qLearn" runs Q-Learning algorithm
 "qLearnFast" runs Q-Learning fast algorithm 
-gentic runs on genetic.py file and has further directions on file
+gentic runs on genetic.py file, main has further instructions
 any other argument-runs the game as a human controlled player
 advanced:
 change arguments in GameManager for diffrent effects
