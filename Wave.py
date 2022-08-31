@@ -62,7 +62,7 @@ class Wave:
 
     def enemy_collision_formation(self, c):
         for i in range(c):
-            self.write_to_file([(i * self.board_size[0] / c + 20), (self.board_size[1] / 3), False])
+            self.write_to_file([(i * self.board_size[0] / c + 20), 5, False])
             # EnemyType.EnemyShooter(pos, r"resources\en.png", self.data, MovementPatterns.StraightPattern((0, 0)),[MovementPatterns.TargetPosPattern(2, self.data.PlayerSpriteGroup.sprites()[0].location)])
 
     def start_new_wave(self):

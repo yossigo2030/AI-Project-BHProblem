@@ -81,16 +81,16 @@ class MarkovDecisionProcess:
         # not as intended
         return state.__copy__().update(action)
 
-    def getReward(self, state: Game, action, nextState: Game):
+    def getReward(self, state: Game, action, nextState: Game, h=[1,1,1,1]):
         """
         Get the reward for the state, action, nextState transition.
 
         Not available in reinforcement learning.
         """  # TODO consider adding projectile hit detection..?
-        return nextState.player.score - state.player.score + \
-               (10 if action[1] else 0) + \
-               (- 10000 if nextState.player.lives < state.player.lives else 0) + \
-               (metaclass.distance(nextState.player.location, (Draw.WIDTH // 2, Draw.LENGTH // 2)) // 100)  # + 100 * metaclass.hunt_close(state, action)
+        return h[0] * (nextState.player.score - state.player.score) + \
+               h[1] * (10 if action[1] else 0) + \
+               h[2] * (- 10000 if nextState.player.lives < state.player.lives else 0) + \
+               h[3] * (metaclass.distance(nextState.player.location, (Draw.WIDTH // 2, Draw.LENGTH // 2)) // 100)  # + 100 * metaclass.hunt_close(state, action)
 
 
     def isTerminal(self, state: Game):
