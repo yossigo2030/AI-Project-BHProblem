@@ -24,10 +24,10 @@ if __name__ == '__main__':
             for c in range(1, max_weight):
                 for d in range(1, max_weight):
                     f = open("current_weight.txt", "a")
-                    vector = '0 ' + str(a) + ' ' + str(b) + ' ' + str(c) + ' ' + str(d) + '\n'
+                    vector = str(a) + ' ' + str(b) + ' ' + str(c) + ' ' + str(d) + '\n'
                     f.write(vector)
                     f.close()
 
                     execute(
-                        "python C:\UnityProjects\Planetly\AiFinalProject2022\GameManager.py ",
-                        '0 ' + str(a) + ' ' + str(b) + ' ' + str(c) + ' ' + str(d) + '\n')
+                        "python GameManager.py qLearnTest " +
+                        str(a) + ' ' + str(b) + ' ' + str(c) + ' ' + str(d) + '\n')
