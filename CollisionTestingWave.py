@@ -7,8 +7,6 @@ import MovementPatterns
 
 
 class CollisionTestingWave:
-    """ Username checks out """
-
     def __init__(self, board_size: Tuple[int, int], data: DataStructures.DataStructures, is_fresh=True):
         self.board_size = board_size
         self.data = data

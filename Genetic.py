@@ -19,7 +19,7 @@ from AI.QLearner import QLearner
 from CollisionTestingWave import CollisionTestingWave
 from DataStructures import DataStructures
 from Game import Game
-from AI.metaclass import a_star_player
+from AI.AStar import a_star_player
 
 
 import random

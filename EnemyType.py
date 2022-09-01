@@ -1,10 +1,8 @@
-from typing import List
+from Cooldown import Cooldown
 from DataStructures import DataStructures
 from MovementPatterns import MovePattern
-from Spriteables import BulletHellSprite
 from Projectile import Projectile
-from cooldown import Cooldown
-import copy
+from Spriteables import BulletHellSprite
 
 
 class EnemyType(BulletHellSprite):

@@ -1,6 +1,7 @@
-import numpy as np
 import random
 from random import randrange
+
+import numpy as np
 
 
 class NeuralNetwork:
@@ -72,12 +73,12 @@ class NeuralNetwork:
             for j in range(len(metrix[0])):
                 num = random.random()
                 if num < mutation_rate:
-                    metrix[i][j] += np.random.normal()/5
+                    metrix[i][j] += np.random.normal() / 5
                     if metrix[i][j] > 1:
                         metrix[i][j] = 1
                     if metrix[i][j] < -1:
                         metrix[i][j] = -1
         return metrix
-    
+
     def get_new_neural_network(self):
         return self.new_neural_network

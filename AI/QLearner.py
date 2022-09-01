@@ -2,30 +2,18 @@ import random
 import sys
 
 import numpy as np
-import heatmap
 
 from AI.mdp import MarkovDecisionProcess
 from Game import Game
 
 
 class QLearner:
-    """
-    # TODO - double check the logic, i think it's not right. especially regarding the shoot / no shoot split.
-        There is the issue of whether or not i need to sample the current time or the next time in the Q matrix
-        The updates might be wrong in some fashion.
-        Discount factor... might want it to be higher?
-        Maybe modify max_of_future to be a weighted average instead, which would backprop danger more effectively.
-        Modify the heuristics to include extra motivation to remain in the center of the map
-        Also consider either accounting for future hits
-        Idea: instead of two Q matrices per time stamp, calculate the shooting rewards separately..?
-    """
-
-    def __init__(self, board_size, future_steps=10, itercount=1000, epsilon=0.8, negeps=0.5, heuristics = [1,1,1,1]):
+    def __init__(self, board_size, future_steps=10, itercount=1000, epsilon=0.8, negeps=0.5, heuristics=[1, 1, 1, 1], lr=0.8, gamma=0.9):
         # Q is a [board_size] matrix, by [shoot/notshoot], over [future_steps] turns
-        self.Q = np.zeros((board_size[0], board_size[1], future_steps))  # index order is retardium. should be reversed.
+        self.Q = np.zeros((board_size[0], board_size[1], future_steps))
         self.bs = board_size
-        self.lr = 0.8  # TODO discount the LR into the future
-        self.gamma = 0.9
+        self.lr = lr
+        self.gamma = gamma
         self.steps = future_steps
         self.itercount = itercount
         self.eps = epsilon
@@ -44,8 +32,7 @@ class QLearner:
             for j in range(self.steps):
                 pa = self.mdp.getPossibleActions(cs)
                 xc, yc = cs.get_player_loc(self.bs)
-                # TODO by removing the action matrix, i need a better way to determine when to shoot or not. probably a future hit based approach, in the meantime just perma shoot.
-                if random.uniform(0, 1) < self.eps:  # TODO so, just more backprop..? take the average reward of future instead of best? who knows.
+                if random.uniform(0, 1) < self.eps:
                     """ Explore: select a random action """
                     action = pa[round(random.uniform(0, max(len(pa) - 1, 0)))]
                 elif random.uniform(0, 1) < self.negeps:
@@ -60,12 +47,8 @@ class QLearner:
                 xn, yn = ns.get_player_loc(self.bs)
                 cs = ns
 
-                # xlocs = [int(xn + x - 1) for x in range(3) if 0 <= xn + x - 1 < self.bs[0]]
-                # ylocs = [int(yn + y - 1) for y in range(3) if 0 <= yn + y - 1 < self.bs[1]]
                 if j <= self.steps:
-                    # max_of_future = np.max([self.Q[x][y][j + 1] for x in xlocs for y in ylocs])  # TODO change this to the other thing
                     max_of_future = self.get_best_action(xn, yn, pa, c_j=j)[1]
-                    # TODO reward should be calculated relative to the start, not relative to the next turn.
                     average_of_future = self.get_action_average(xn, yn, pa, c_j=j)
                 else:
                     max_of_future = 0
@@ -73,8 +56,8 @@ class QLearner:
 
                 # self.Q[xc][yc][j] += self.lr * (reward + self.gamma * max_of_future - self.Q[xc][yc][j])
                 self.Q[xc][yc][j] += self.lr * (reward + self.gamma * average_of_future - self.Q[xc][yc][j])
-        heatmap.show_map([self.Q[::, ::, i].T for i in range(min(self.steps, 10))], True, f"mdp/{state.frame:04}.png")
-        heatmap.show_map([self.Q[::, ::, i].T for i in range(min(self.steps, 10))], True)
+        # heatmap.show_map([self.Q[::, ::, i].T for i in range(min(self.steps, 10))], True, f"mdp/{state.frame:04}.png")
+        # heatmap.show_map([self.Q[::, ::, i].T for i in range(min(self.steps, 10))], True)
 
     def get_next_turn(self, state: Game):
         pa = self.mdp.getPossibleActions(state)
@@ -111,10 +94,7 @@ class QLearner:
         return min(max(val, min_), max_)
 
     def print_at_depth(self, game, d=0):
-        # np.unravel_index(self.Q.argmax(), self.Q.shape)
-        # self.Q[0][99][1][0]
         x, y = game.get_player_loc(self.bs)
-
         mat_ya = self.Q[::, ::, d].T
         print(f"depth {d}\n:")
         print(np.array_str(mat_ya[y - 8:y + 9, x - 8:x + 9], precision=1, suppress_small=True))

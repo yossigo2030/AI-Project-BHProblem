@@ -1,20 +1,17 @@
-import random
 from typing import Tuple
 
 import pygame
 
+import AI
+import Bonus
 import CheapWave
-import CollisionTestingWave
+import CollisionManager
 import Draw
 import EnemyType
 import Player
 import Projectile
 import Spriteables
-import Wave
-import CollisionManager
 from DataStructures import DataStructures
-import Bonus
-import AI
 from metrix import *
 
 
@@ -36,15 +33,9 @@ class Game:
             player = Player.Player((self.board_ratio[0] / 2, self.board_ratio[1] / 2), r"resources\ship.png", self.data)
         self.player = player
         if wave is None:
-            wave = Wave.Wave(self.board_ratio, self.data)
-            # wave = CheapWave.CheapWave(self.board_ratio, self.data)
+            wave = CheapWave.CheapWave(self.board_ratio, self.data)
         self.wave = wave
         self.is_genetic = bool(brain)
-
-    #     self._hash = int(random.uniform(-10000000000, 10000000000))
-    #
-    # def __hash__(self):
-    #     return self._hash
 
     def __copy__(self, visuals=False):
         data = self.data.__copy__()
@@ -52,9 +43,9 @@ class Game:
 
     def update(self, move=None, save_to_file=False):
         self.frame += 1
-        # self.player.increment_score(1)
+
         # player input and actions
-        self.player.updateWrapper(move)
+        self.player.update_wrapper(move)
         # enemy moves and actions
         Projectile.update_all(self.data)
         EnemyType.update_all(self.data)
@@ -92,7 +83,7 @@ class Game:
             pygame.image.save(pygame.display.get_surface(), f"results/{self.frame:05}.png")
 
     def visual_update(self):
-        Draw.redrawGameWindow()
+        Draw.redraw_game_window()
         Projectile.draw_all(self.data)
         EnemyType.draw_all(self.data)
         for i in self.data.EnemyBossSpriteGroup: i.draw()
@@ -116,14 +107,6 @@ class Game:
     def location_convert(self, coords, dims) -> Tuple[int, int]:
         return min(int(coords[0] / self.board_ratio[0] * dims[0]), dims[0] - 1), \
                min(int(coords[1] / self.board_ratio[1] * dims[1]), dims[1] - 1)
-
-    def get_next_start_state(self):
-        """
-        :return: returns the current starting state.
-        On the first call, it's the default starting state. any successive calls are expected to be done with
-        a new position set.
-        """
-        return self
 
     def get_successors(self):
         """

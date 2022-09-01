@@ -1,5 +1,5 @@
 import Draw
-from AI import metaclass
+from AI import AStar
 from Game import Game
 
 actions_no_shoot = [([0, 0], False),
@@ -32,12 +32,6 @@ actions_shoot = [([0, 0], False),
 
 
 class MarkovDecisionProcess:
-    def getStartState(self):
-        """
-        Return the start state of the MDP.
-        """
-        return Game()
-
     @staticmethod
     def getPossibleActions(state: Game):
         """
@@ -67,38 +61,13 @@ class MarkovDecisionProcess:
                 dirs.remove(dir1)
         return dirs
 
-    def getTransitionStatesAndProbs(self, state: Game, action):
-        """
-        Returns list of (nextState, prob) pairs
-        representing the states reachable
-        from 'state' by taking 'action' along
-        with their transition probabilities.
-
-        Note that in Q-Learning and reinforcment
-        learning in general, we do not know these
-        probabilities nor do we directly model them.
-        """
-        # not as intended
-        return state.__copy__().update(action)
-
-    def getReward(self, state: Game, action, nextState: Game, h=[1,1,1,1]):
+    def getReward(self, state: Game, action, next_state: Game, h=[1, 1, 1, 1]):
         """
         Get the reward for the state, action, nextState transition.
 
         Not available in reinforcement learning.
-        """  # TODO consider adding projectile hit detection..?
-        return h[0] * (nextState.player.score - state.player.score) + \
+        """
+        return h[0] * (next_state.player.score - state.player.score) + \
                h[1] * (10 if action[1] else 0) + \
-               h[2] * (- 10000 if nextState.player.lives < state.player.lives else 0) + \
-               h[3] * (metaclass.distance(nextState.player.location, (Draw.WIDTH // 2, Draw.LENGTH // 2)) // 100)  # + 100 * metaclass.hunt_close(state, action)
-
-
-    def isTerminal(self, state: Game):
-        """
-        Returns true if the current state is a terminal state.  By convention,
-        a terminal state has zero future rewards.  Sometimes the terminal state(s)
-        may have no possible actions.  It is also common to think of the terminal
-        state as having a self-loop action 'pass' with zero reward; the formulations
-        are equivalent.
-        """
-        return state.player.lives == 0
+               h[2] * (- 10000 if next_state.player.lives < state.player.lives else 0) + \
+               h[3] * (AStar.distance(next_state.player.location, (Draw.WIDTH // 2, Draw.LENGTH // 2)) // 100)  # + 100 * AStar.hunt_close(state, action)

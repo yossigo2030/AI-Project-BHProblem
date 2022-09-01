@@ -1,5 +1,5 @@
-import pygame
 import numpy as np
+import pygame
 
 dct = {pygame.K_LEFT: False,
        pygame.K_RIGHT: False,
@@ -10,7 +10,7 @@ dct = {pygame.K_LEFT: False,
 
 
 def get_input():
-    dir = np.array([0, 0])
+    direction = np.array([0, 0])
     events = pygame.event.get()
     for event in events:
         if event.type != pygame.KEYDOWN:
@@ -30,13 +30,13 @@ def get_input():
             print('QUIT')
 
     if dct[pygame.K_LEFT]:
-        dir -= [1, 0]
+        direction -= [1, 0]
     if dct[pygame.K_RIGHT]:
-        dir += [1, 0]
+        direction += [1, 0]
     if dct[pygame.K_UP]:
-        dir -= [0, 1]
+        direction -= [0, 1]
     if dct[pygame.K_DOWN]:
-        dir += [0, 1]
+        direction += [0, 1]
     for event in events:
         if event.type != pygame.KEYUP:
             continue
@@ -50,19 +50,18 @@ def get_input():
             dct[pygame.K_DOWN] = False
         if event.key == pygame.K_SPACE:
             dct[pygame.K_SPACE] = False
-    return dir
+    return direction
 
 
 def get_shot():
     return dct[pygame.K_SPACE]
 
 
-def Quit():
+def quit():
     if dct[pygame.K_ESCAPE]:
         return True
     return False
 
 
 def clear():
-    events = pygame.event.get()
-    return
+    pygame.event.get()

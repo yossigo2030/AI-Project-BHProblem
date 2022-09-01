@@ -1,0 +1,14 @@
+step 1: install via pip all the packages in requirments.txt
+step 2: once the packages are installed, run GameManager with 
+the appropriate algorithm ending
+"aStar" runs regular aStar
+"aStarT" runs timed aStar
+"qLearn" runs Q-Learning algorithm
+"qLearnFast" runs Q-Learning fast algorithm 
+gentic runs on genetic.py file, main has further instructions
+any other argument-runs the game as a human controlled player
+advanced:
+change arguments in GameManager for diffrent effects
+NODECOUNT how many nodes in A*
+SAVETOFILE saves the frames to requirement folder
+TESTWAVE changes wave configuration

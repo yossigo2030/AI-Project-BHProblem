@@ -6,10 +6,6 @@ import Draw
 from timeit import default_timer as timer
 
 
-class AIBase:
-    pass
-
-
 def null_heuristic(state: Game, action: Tuple[Tuple[int, int], bool]):
     """
     A heuristic function estimates the cost from the current state to the nearest
@@ -118,7 +114,7 @@ def find_loc(func, arr, element):
     element_val = func(element)
     while h > l:
         m = (h + l) // 2
-        mval = func(arr[m])  # TODO store the heuristic return value -_-
+        mval = func(arr[m])
         if mval > element_val:
             l = m + 1
         else:
@@ -189,7 +185,7 @@ def a_star_search_times(problem: Game, time_per_frame,
                     queue.insert(find_local(g, queue, queue_elem), queue_elem)
                     visited.add(bstate)
                     path[bstate] = path[curr_state] + [queue_elem]
-        return ([0, 0], False)
+        return [0, 0], False
 
     return search
 
@@ -207,7 +203,6 @@ def a_star_search(problem: Game, node_search_quota=10000,
     i = 0
     while len(queue):
         curr_state, curr_move, score = queue.pop(0)  # reversed from min to max (score)
-        # print(len(queue), [i for i in range(len(queue)) if queue[i][1][0] == [0, 0]])
         if node_search_quota == i:
             path = []
             key = get_key(curr_state, curr_move)

@@ -1,9 +1,8 @@
 import pygame.sprite
-from pygame import Surface
 
 import Draw
 from DataStructures import DataStructures
-from MovementPatterns import *
+from MovementPatterns import StraightPattern, MovePattern
 
 imagedict = {}
 

@@ -1,7 +1,4 @@
 import numpy as np
-import random
-from DataStructures import DataStructures
-
 
 LARGE = 19
 
@@ -27,8 +24,8 @@ class metrix:
             self.update_helper(x, y)
         for enemy in self.data.EnemySpriteGroup:
             location = enemy.location
-            x = int(location[0]/25)
-            y = int(location[1]/25)
+            x = int(location[0] / 25)
+            y = int(location[1] / 25)
             self.update_helper(x, y)
 
     def update_helper(self, x, y):

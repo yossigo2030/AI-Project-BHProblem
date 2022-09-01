@@ -1,13 +1,12 @@
 import copy
 import math
 import random
+from copy import copy
+
+import pygame
 
 import EnemyType
 import MovementPatterns
-import pygame
-import cooldown
-from copy import copy
-import linecache
 
 COOLDOWN = 100
 FILE_NAME = 'EnemySpawnQueue.txt'
@@ -25,7 +24,7 @@ class Wave:
         self.cooldownCounter = COOLDOWN
         if not is_copy:
             open(FILE_NAME, 'w').close()
-        self.start_new_wave()
+            self.start_new_wave()
 
     def __copy__(self, data):
         wave = Wave(self.board_size, data, True, self.__current_item,

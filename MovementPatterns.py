@@ -1,12 +1,8 @@
 from abc import abstractmethod
-from enum import Enum
-from typing import List, Tuple
-
-import numpy as np
+from typing import Tuple
 
 import Draw
 import InputHandler
-import Spriteables
 from metrix import *
 
 Position = Tuple[int or float]
@@ -44,6 +40,8 @@ class CurvedPattern(MovePattern):
 
 
 class WavyPattern(MovePattern):
+    """ WIP """
+
     def __init__(self, velocity: Velocity):
         super().__init__(velocity)
         self.counter = 0
@@ -53,7 +51,7 @@ class WavyPattern(MovePattern):
 
 
 class TargetComplexPosPattern(MovePattern):
-    def __init__(self, speed, target_obj: Spriteables):
+    def __init__(self, speed, target_obj): # target obj is a Spriteables
         super().__init__(speed)
         self.counter = 0
         self.target = target_obj
